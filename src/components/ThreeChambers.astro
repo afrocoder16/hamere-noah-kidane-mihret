@@ -1,0 +1,175 @@
+---
+import { CHAMBERS } from '../lib/parish';
+
+/**
+ * The plan of an Ethiopian church, drawn from above: three concentric rings,
+ * modelled on the Temple in Jerusalem, and read as an image of the Trinity.
+ * Hover or select a ring to read what happens there.
+ */
+---
+
+<div class="grid items-center gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)] lg:gap-16">
+  <!-- ───────────────── the plan ───────────────── -->
+  <div class="relative mx-auto w-full max-w-[440px]">
+    <svg viewBox="0 0 400 400" class="w-full" role="img" aria-label="Plan of an Ethiopian Orthodox church: three concentric chambers">
+      <defs>
+        <radialGradient id="ch-glow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="var(--color-gold-300)" stop-opacity=".5" />
+          <stop offset="70%" stop-color="var(--color-gold-500)" stop-opacity=".08" />
+          <stop offset="100%" stop-color="var(--color-gold-500)" stop-opacity="0" />
+        </radialGradient>
+      </defs>
+
+      <!-- lamplight from the sanctuary -->
+      <circle cx="200" cy="200" r="160" fill="url(#ch-glow)" />
+
+      <!-- ── outer ring: qene mahlet ── -->
+      <g data-ring="0" class="ring cursor-pointer">
+        <circle cx="200" cy="200" r="186" fill="var(--color-vellum-100)" stroke="var(--color-ink-800)" stroke-width="2.5" />
+        <circle cx="200" cy="200" r="178" fill="none" stroke="var(--color-gold-600)" stroke-width="1" stroke-dasharray="2 6" opacity=".8" />
+
+        <!-- the roof timbers, radiating from the sanctuary to the wall -->
+        {Array.from({ length: 32 }, (_, i) => {
+          const a = (i / 32) * Math.PI * 2;
+          return (
+            <line
+              x1={200 + Math.cos(a) * 138} y1={200 + Math.sin(a) * 138}
+              x2={200 + Math.cos(a) * 184} y2={200 + Math.sin(a) * 184}
+              stroke="var(--color-ink-600)" stroke-width=".7" opacity=".28"
+            />
+          );
+        })}
+
+        <!-- the ring of pillars that carries the roof over the ambulatory -->
+        {Array.from({ length: 16 }, (_, i) => {
+          const a = (i / 16) * Math.PI * 2 - Math.PI / 2;
+          return (
+            <circle
+              cx={200 + Math.cos(a) * 160} cy={200 + Math.sin(a) * 160}
+              r="5" fill="var(--color-vellum-300)" stroke="var(--color-ink-700)" stroke-width="1.4"
+            />
+          );
+        })}
+
+        <!-- the four doors, and the threshold where shoes are left -->
+        {[0, 90, 180, 270].map((deg) => (
+          <g transform={`rotate(${deg} 200 200)`}>
+            <rect x="186" y="9" width="28" height="9" rx="1" fill="var(--color-vellum)" stroke="var(--color-ink-800)" stroke-width="1.6" />
+            <path d="M186 13.5 H214" stroke="var(--color-madder-700)" stroke-width="2.4" />
+          </g>
+        ))}
+      </g>
+
+      <!-- ── middle ring: qeddest ── -->
+      <g data-ring="1" class="ring cursor-pointer">
+        <circle cx="200" cy="200" r="130" fill="var(--color-vellum-200)" stroke="var(--color-ink-800)" stroke-width="2.5" />
+        <circle cx="200" cy="200" r="121" fill="none" stroke="var(--color-madder-700)" stroke-width="1.1" opacity=".5" />
+        <!-- where the faithful stand to receive: men one side, women the other -->
+        <path d="M200 70 V130 M200 270 V330" stroke="var(--color-ink-600)" stroke-width=".8" stroke-dasharray="3 4" opacity=".45" />
+        {[0, 90, 180, 270].map((deg) => (
+          <rect x="192" y="124" width="16" height="11" rx="1"
+                fill="var(--color-vellum-100)" stroke="var(--color-madder-700)" stroke-width="1.5"
+                transform={`rotate(${deg} 200 200)`} />
+        ))}
+      </g>
+
+      <!-- ── the sanctuary: meqdes ── -->
+      <g data-ring="2" class="ring cursor-pointer">
+        <rect x="134" y="134" width="132" height="132" rx="2"
+              fill="var(--color-madder-900)" stroke="var(--color-gold-600)" stroke-width="2.2" />
+        <rect x="143" y="143" width="114" height="114" rx="1"
+              fill="none" stroke="var(--color-gold-500)" stroke-width=".9" opacity=".5" />
+
+        <!-- the veil, drawn across the door on the east -->
+        {[0, 90, 180, 270].map((deg) => (
+          <path d="M186 134 H214" stroke="var(--color-gold-400)" stroke-width="3.5" stroke-linecap="round"
+                transform={`rotate(${deg} 200 200)`} opacity=".8" />
+        ))}
+
+        <!-- the tabot on its throne, under its canopy -->
+        <rect x="176" y="172" width="48" height="56" rx="2"
+              fill="var(--color-gold-500)" stroke="var(--color-gold-800)" stroke-width="1.6" />
+        <rect x="182" y="178" width="36" height="44" rx="1"
+              fill="none" stroke="var(--color-gold-800)" stroke-width=".8" opacity=".6" />
+        <g stroke="var(--color-madder-900)" stroke-width="3.4" stroke-linecap="round">
+          <path d="M200 184 V216 M187 195 H213" />
+        </g>
+        <text x="200" y="248" text-anchor="middle" class="geez" font-size="14" fill="var(--color-gold-300)">ታቦት</text>
+      </g>
+
+      <!-- labels drawn on the plan itself -->
+      <text x="200" y="42" text-anchor="middle" class="geez" font-size="13.5" fill="var(--color-ink-700)">ቅኔ ማሕሌት</text>
+      <text x="200" y="153" text-anchor="middle" class="geez" font-size="12.5" fill="var(--color-ink-700)">ቅድስት</text>
+    </svg>
+
+    <p class="mt-4 text-center font-ui text-[.7rem] tracking-[.14em] text-ink-500 uppercase">
+      Plan of a round church · ክብ ቤተ ክርስቲያን
+    </p>
+  </div>
+
+  <style>
+    .ring {
+      opacity: 0.82;
+      transition: opacity 0.45s ease, filter 0.45s ease;
+    }
+    .ring.is-lit {
+      opacity: 1;
+      filter: drop-shadow(0 0 14px color-mix(in oklab, var(--color-gold-500) 45%, transparent));
+    }
+  </style>
+
+  <!-- ───────────────── the reading ───────────────── -->
+  <div>
+    <div class="flex flex-wrap gap-2" role="tablist" aria-label="The three chambers">
+      {CHAMBERS.map((c, i) => (
+        <button
+          type="button"
+          role="tab"
+          data-tab={i}
+          aria-selected={i === 0 ? 'true' : 'false'}
+          class="group border border-[var(--rule)] px-4 py-2.5 text-left transition-all duration-300 aria-selected:border-madder-800 aria-selected:bg-madder-800 aria-selected:text-vellum-50 hover:border-madder-700"
+        >
+          <span class="geez block text-[.9rem] leading-tight">{c.geez}</span>
+          <span class="block font-ui text-[.66rem] tracking-[.12em] text-ink-500 uppercase group-aria-selected:text-vellum-200/70">
+            {c.role}
+          </span>
+        </button>
+      ))}
+    </div>
+
+    {CHAMBERS.map((c, i) => (
+      <div data-panel={i} hidden={i !== 0} class="mt-8">
+        <p class="rubric">{c.role}</p>
+        <h3 class="geez mt-3 text-[2rem] leading-tight text-madder-900">{c.geez}</h3>
+        <p class="mt-1 font-display text-[1.25rem] tracking-wide text-gold-700">
+          {c.tr} — {c.en}
+        </p>
+        <p class="mt-5 text-[1.05rem] leading-relaxed text-ink-700">{c.body}</p>
+        <p class="mt-4 border-l-2 border-gold-600/50 pl-4 font-serif text-[.95rem] italic text-ink-600">
+          {c.temple}
+        </p>
+      </div>
+    ))}
+  </div>
+</div>
+
+<script>
+  const tabs = [...document.querySelectorAll<HTMLButtonElement>('[data-tab]')];
+  const panels = [...document.querySelectorAll<HTMLElement>('[data-panel]')];
+  const rings = [...document.querySelectorAll<SVGGElement>('[data-ring]')];
+
+  function show(i: number) {
+    tabs.forEach((t, j) => t.setAttribute('aria-selected', String(i === j)));
+    panels.forEach((p, j) => (p.hidden = i !== j));
+    // the chosen ring is brought forward; the others only step back a little,
+    // so the plan still reads as one building
+    rings.forEach((r, j) => r.classList.toggle('is-lit', i === j));
+  }
+
+  tabs.forEach((t, i) => t.addEventListener('click', () => show(i)));
+  rings.forEach((r, i) => {
+    r.addEventListener('click', () => show(i));
+    r.addEventListener('mouseenter', () => show(i));
+  });
+  if (tabs.length) show(0);
+</script>

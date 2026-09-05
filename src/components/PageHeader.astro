@@ -1,0 +1,52 @@
+---
+import Harag from './ornament/Harag.astro';
+import MeskelCross from './ornament/MeskelCross.astro';
+
+interface Props {
+  eyebrow: string;
+  geez: string;
+  title: string;
+  lede?: string;
+  image?: string;
+  imageAlt?: string;
+  position?: string;
+}
+const { eyebrow, geez, title, lede, image, imageAlt = '', position = 'center' } = Astro.props;
+---
+
+<header class="relative overflow-hidden bg-ink-950 text-vellum-200">
+  {image && (
+    <>
+      <img src={image} alt={imageAlt} class="absolute inset-0 h-full w-full object-cover opacity-[.3]"
+           style={`object-position:${position}`} fetchpriority="high" />
+      <div class="absolute inset-0 bg-[radial-gradient(ellipse_65%_60%_at_50%_50%,transparent,rgba(20,16,12,.8)_82%)]"></div>
+    </>
+  )}
+  <div class="absolute inset-0 bg-gradient-to-b from-ink-950/92 via-ink-950/55 to-ink-950"></div>
+  <div class="pointer-events-none absolute inset-4 border border-gold-600/18 sm:inset-7"></div>
+
+  <div class="relative mx-auto max-w-3xl px-6 pt-32 pb-20 text-center sm:pt-40 sm:pb-24">
+    <div class="flex justify-center" data-reveal>
+      <MeskelCross size={54} stroke="var(--color-gold-400)" accent="var(--color-madder-500)" />
+    </div>
+    <p class="rubric mt-6 !text-gold-400/85" data-reveal style="--reveal-delay:100ms">{eyebrow}</p>
+    <h1 class="geez mt-4 text-[clamp(1.7rem,5.5vw,3rem)] leading-tight gilt" data-reveal style="--reveal-delay:180ms">
+      {geez}
+    </h1>
+    <p class="mt-3 font-display text-[clamp(1.3rem,3.4vw,2.1rem)] leading-tight text-vellum-100"
+       data-reveal style="--reveal-delay:260ms">
+      {title}
+    </p>
+    {lede && (
+      <p class="mx-auto mt-6 max-w-xl text-[1.05rem] leading-relaxed text-vellum-200/70"
+         data-reveal style="--reveal-delay:340ms">{lede}</p>
+    )}
+  </div>
+
+  <div class="pointer-events-none absolute inset-x-0 bottom-0">
+    <div class="h-px bg-gradient-to-r from-transparent via-gold-500/50 to-transparent"></div>
+    <div class="opacity-50">
+      <Harag variant="vine" repeat={24} height={26} mono color="var(--color-gold-500)" />
+    </div>
+  </div>
+</header>

@@ -1,0 +1,116 @@
+---
+/**
+ * ሐረግ — harag. In Ge'ez the word means the tendril of a climbing plant, and
+ * it is what Ethiopian scribes call the interlaced band drawn across the head
+ * of a gospel page: bands of coloured line plaited in a geometric repeat,
+ * filled with the four pigments and outlined in black.
+ *
+ * Drawn as a real SVG <pattern> so the band tiles at its natural proportion
+ * at any width — a stretched viewBox would squash the knot on a phone.
+ * One tile carries four repeats, so the pigment cycle runs true across it.
+ *
+ *   plait — the running knot, two ribbons crossing over and under
+ *   chain — linked lozenges with a rosette at each junction
+ *   vine  — the tendril proper, leaves alternating above and below the stem
+ */
+interface Props {
+  variant?: 'plait' | 'chain' | 'vine';
+  height?: number;
+  /** monochrome ink instead of the four pigments */
+  mono?: boolean;
+  color?: string;
+  class?: string;
+  flip?: boolean;
+  /** kept for call-site compatibility; the band now tiles to fill its width */
+  repeat?: number;
+  width?: number | string;
+}
+const {
+  variant = 'plait',
+  height = 34,
+  mono = false,
+  color = 'var(--color-gold-700)',
+  class: cls = '',
+  flip = false,
+} = Astro.props;
+
+const uid = 'hg' + Math.random().toString(36).slice(2, 8);
+
+const UNIT = 40;                 // one repeat, in design units
+const PER_TILE = 4;              // four repeats per tile, so the colours cycle
+const s = height / UNIT;         // scale design units to the requested height
+const tileW = UNIT * PER_TILE * s;
+
+// the pigments of the scriptorium
+const PIGMENT = [
+  'var(--color-madder-700)',
+  'var(--color-gold-600)',
+  'var(--color-malachite-700)',
+  'var(--color-lapis-700)',
+];
+const ink = (i: number) => (mono ? color : PIGMENT[i % 4]);
+const OUTLINE = mono ? 'transparent' : 'var(--color-ink-950)';
+
+/** The strokes of one repeat: [path, pigment offset, stroke width]. */
+function strokesFor(v: string): Array<[string, number, number]> {
+  if (v === 'plait') {
+    return [
+      ['M0 20 C 6 4, 14 4, 20 20 C 26 36, 34 36, 40 20', 0, 4.5],
+      ['M0 20 C 6 36, 11 33, 14 26', 2, 4.5],
+      ['M26 14 C 29 7, 34 4, 40 20', 2, 4.5],
+    ];
+  }
+  if (v === 'chain') {
+    return [
+      ['M2 20 L20 6 L38 20 L20 34 Z', 0, 3.4],
+      ['M9 20 L20 12 L31 20 L20 28 Z', 2, 2.2],
+      ['M38 20 L44 20', 0, 3.4],
+    ];
+  }
+  return [
+    ['M0 20 Q10 20 20 20 T40 20', 0, 2.6],
+    ['M10 20 Q10 8 20 7 Q26 7 24 14 Q22 19 14 19', 1, 2.4],
+    ['M30 20 Q30 32 20 33 Q14 33 16 26 Q18 21 26 21', 2, 2.4],
+  ];
+}
+
+/** The filled dots of one repeat: [cx, cy, r, pigment offset]. */
+function dotsFor(v: string): Array<[number, number, number, number]> {
+  if (v === 'plait') return [[20, 20, 2.1, 1]];
+  if (v === 'chain') return [[20, 20, 2.6, 1]];
+  return [[20, 7, 1.9, 3], [20, 33, 1.9, 3]];
+}
+
+const strokes = strokesFor(variant);
+const dots = dotsFor(variant);
+---
+
+<svg
+  width="100%"
+  height={height}
+  class={cls}
+  aria-hidden="true"
+  style={flip ? 'display:block;transform:scaleY(-1)' : 'display:block'}
+>
+  <defs>
+    <pattern id={uid} width={tileW} height={height} patternUnits="userSpaceOnUse">
+      <g transform={`scale(${s})`} stroke-linecap="round" stroke-linejoin="round" fill="none">
+        {Array.from({ length: PER_TILE }, (_, i) => (
+          <g transform={`translate(${i * UNIT} 0)`}>
+            {/* the scribe lays a black outline first, and the colour over it */}
+            {!mono && strokes.map(([d, , w]) => (
+              <path d={d} stroke={OUTLINE} stroke-width={w + 1.9} stroke-opacity=".5" />
+            ))}
+            {strokes.map(([d, off, w]) => (
+              <path d={d} stroke={ink(i + off)} stroke-width={w} />
+            ))}
+            {dots.map(([cx, cy, r, off]) => (
+              <circle cx={cx} cy={cy} r={r} fill={ink(i + off)} stroke="none" />
+            ))}
+          </g>
+        ))}
+      </g>
+    </pattern>
+  </defs>
+  <rect width="100%" height="100%" fill={`url(#${uid})`} />
+</svg>

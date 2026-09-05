@@ -1,0 +1,233 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+import ArchFrame from '../components/ornament/ArchFrame.astro';
+import Divider from '../components/ornament/Divider.astro';
+import Harag from '../components/ornament/Harag.astro';
+import { PARISH, NAME_MEANING } from '../lib/parish';
+import { toGeez } from '../lib/ethiopic';
+import { u } from '../lib/url';
+
+const TIMELINE = [
+  {
+    when: 'AD 34',
+    geez: 'ጃንደረባው',
+    head: 'The eunuch of Queen Candace',
+    body:
+      'The Acts of the Apostles records an Ethiopian official reading Isaiah in his ' +
+      'chariot, and Philip baptising him on the road to Gaza. The Church counts this ' +
+      'as her beginning — before Rome, before Constantinople.',
+  },
+  {
+    when: 'AD 330',
+    geez: 'ፍሬምናጦስ',
+    head: 'Frumentius and King Ezana',
+    body:
+      'Frumentius, a shipwrecked Syrian boy raised in the Aksumite court, is consecrated ' +
+      'first bishop by Athanasius of Alexandria. Ezana strikes coins bearing the cross — ' +
+      'among the earliest Christian coinage anywhere.',
+  },
+  {
+    when: 'c. 500',
+    geez: 'ተስዓቱ ቅዱሳን',
+    head: 'The Nine Saints',
+    body:
+      'Monks from the Roman world settle in Tigray, found monasteries, and translate the ' +
+      'Scriptures into Ge’ez. The Ethiopic Bible they leave behind still holds books no ' +
+      'other canon keeps — Enoch, Jubilees, the Shepherd.',
+  },
+  {
+    when: 'c. 520',
+    geez: 'ቅዱስ ያሬድ',
+    head: 'St Yared composes the zema',
+    body:
+      'The whole musical system of the Church — three modes, ten signs, the antiphonaries ' +
+      'sung to this day — is set down by a single deacon of Aksum, who is said to have ' +
+      'learned it from three birds sent from paradise.',
+  },
+  {
+    when: 'c. 1200',
+    geez: 'ላሊበላ',
+    head: 'The churches hewn at Lalibela',
+    body:
+      'Eleven churches cut downward out of living rock, roof first, to stand as a new ' +
+      'Jerusalem when the old one had become unreachable.',
+  },
+  {
+    when: '1959',
+    geez: 'ራስ ገዝ',
+    head: 'Autocephaly',
+    body:
+      'After sixteen centuries under the Patriarch of Alexandria, the Ethiopian Church ' +
+      'receives her own Patriarch and becomes self-governing.',
+  },
+  {
+    when: 'Today',
+    geez: 'ሲዩክስ ፎልስ',
+    head: 'And so, Sioux Falls',
+    body:
+      'Ethiopians came to South Dakota for work, for safety, for family. What they brought ' +
+      'with them needed somewhere to be offered. This parish is that somewhere.',
+  },
+];
+---
+
+<Base
+  title="About"
+  description="The story of Hamere Noah Kidane Mihret and of the Ethiopian Orthodox Tewahedo Church, from the eunuch of Queen Candace to a parish in Sioux Falls."
+>
+  <PageHeader
+    eyebrow="About us · ስለ እኛ"
+    geez="ስለ ቤተ ክርስቲያናችን"
+    title="An old faith, newly planted"
+    lede="One of the oldest Christian churches on earth, keeping house on West 11th Street."
+    image={u('/art/bete-giyorgis.jpg')}
+    imageAlt=""
+  />
+
+  <!-- ══════════ opening ══════════ -->
+  <section class="mx-auto max-w-[1240px] px-5 py-20 lg:px-8 lg:py-28">
+    <div class="grid gap-14 lg:grid-cols-[1.1fr_0.9fr] lg:gap-20">
+      <div data-reveal>
+        <p class="rubric">The parish · ደብሩ</p>
+        <h2 class="mt-4 text-[clamp(1.75rem,3.6vw,2.5rem)]">A congregation, not a building</h2>
+        <div class="reading mt-7 text-[1.06rem] leading-[1.75] text-ink-700">
+          <p class="dropcap">
+            Ethiopian parishes in America almost never begin with a church. They begin with
+            a handful of families, a priest who has come a long way, and a room borrowed
+            from somebody else — a Lutheran fellowship hall, a school gym, a rented storefront.
+            The tabot is set up on a Saturday night and taken down on Sunday afternoon, and
+            that is enough: a consecrated tabot makes a church, and nothing else does.
+          </p>
+          <p>
+            That is how Hamere Noah Kidane Mihret came to be in {PARISH.city}. The people
+            arrived first. The liturgy followed. Everything you can see — the address on{' '}
+            {PARISH.address.street.replace(/^\d+\s/, '')}, the schedule, the Sunday school
+            classes — grew out of that order, not the other way round.
+          </p>
+          <p>
+            The congregation is Ethiopian and Eritrean, first-generation and second, some
+            fluent in Amharic and some who understand it only when their grandmother is
+            speaking. The liturgy is in Ge’ez, the preaching in Amharic, and a growing part
+            of the teaching in English — because the children being baptised here now will
+            pray in English, and the Church intends to be there when they do.
+          </p>
+        </div>
+      </div>
+
+      <div class="space-y-8" data-reveal style="--reveal-delay:140ms">
+        <ArchFrame
+          src={u('/art/procession.jpg')}
+          alt="An Ethiopian Orthodox procession with ceremonial umbrellas"
+          ratio="4 / 5"
+          caption="A procession at Gondar. The fringed umbrellas are carried over the tabot whenever it leaves the sanctuary."
+          credit="Brian Dell · CC0 · Wikimedia Commons"
+          loading="eager"
+        />
+        <div class="panel p-7">
+          <p class="rubric">In brief</p>
+          <dl class="mt-5 space-y-4 text-[.95rem]">
+            {[
+              ['Tradition', 'Ethiopian Orthodox Tewahedo — Oriental Orthodox'],
+              ['Patron', `${PARISH.patron.tr} · ${PARISH.patron.en}`],
+              ['Patronal feast', `${PARISH.patron.feastEth} (${PARISH.patron.feastGreg})`],
+              ['Liturgical language', 'Ge’ez, with Amharic and English'],
+              ['Where', `${PARISH.address.city}, ${PARISH.address.state}`],
+            ].map(([k, v]) => (
+              <div class="grid grid-cols-[7.5rem_1fr] gap-3 border-b border-[var(--rule)] pb-3 last:border-0 last:pb-0">
+                <dt class="font-ui text-[.7rem] tracking-[.12em] text-ink-500 uppercase">{k}</dt>
+                <dd class="text-ink-700">{v}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ the name ══════════ -->
+  <section id="name" class="relative overflow-hidden border-y border-[var(--rule)] bg-vellum-100/70">
+    <div class="absolute inset-x-0 top-0 opacity-40"><Harag variant="chain" repeat={22} height={24} /></div>
+    <div class="mx-auto max-w-[1240px] px-5 py-24 lg:px-8">
+      <div class="mx-auto max-w-2xl text-center" data-reveal>
+        <p class="rubric">The name · ስያሜው</p>
+        <h2 class="mt-4 text-[clamp(1.75rem,3.6vw,2.5rem)]">Why we are called this</h2>
+      </div>
+      <div class="mt-14 grid gap-10 md:grid-cols-2 lg:gap-16">
+        {NAME_MEANING.map((n, i) => (
+          <article class="relative" data-reveal style={`--reveal-delay:${i * 140}ms`}>
+            <div class="panel h-full p-8 lg:p-10">
+              <span class="geez block text-[clamp(2rem,5vw,2.9rem)] leading-tight text-madder-800">{n.geez}</span>
+              <p class="mt-3 font-display text-[1.28rem] tracking-[.05em] text-gold-700">{n.tr}</p>
+              <p class="mt-1 font-serif text-[1.02rem] italic text-ink-600">“{n.en}”</p>
+              <div class="my-6 h-px bg-[var(--rule-gold)]"></div>
+              <p class="text-[1.02rem] leading-[1.75] text-ink-700">{n.body}</p>
+            </div>
+            <span class="geez absolute -top-4 right-5 text-[2.4rem] leading-none text-gold-600/30 select-none">
+              {toGeez(i + 1)}
+            </span>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ timeline ══════════ -->
+  <section class="mx-auto max-w-[1240px] px-5 py-24 lg:px-8 lg:py-32">
+    <div class="mx-auto mb-16 max-w-2xl text-center" data-reveal>
+      <p class="rubric">How we got here · ታሪክ</p>
+      <h2 class="mt-4 text-[clamp(1.75rem,3.6vw,2.5rem)]">Nineteen centuries, briefly</h2>
+      <p class="mt-5 text-[1.05rem] leading-relaxed text-ink-600">
+        The line from a chariot on the Gaza road to a Sunday morning in South Dakota is
+        long, but it has never been broken.
+      </p>
+    </div>
+
+    <ol class="relative mx-auto max-w-3xl">
+      <!-- the rule the whole story hangs from -->
+      <div class="absolute top-2 bottom-2 left-[calc(6rem+1px)] hidden w-px bg-[var(--rule-gold)] sm:block"></div>
+
+      {TIMELINE.map((t, i) => (
+        <li class="relative grid gap-x-8 gap-y-2 pb-11 last:pb-0 sm:grid-cols-[6rem_1fr]"
+            data-reveal style={`--reveal-delay:${i * 70}ms`}>
+          <div class="sm:text-right">
+            <span class="font-display text-[1.05rem] whitespace-nowrap text-madder-800">{t.when}</span>
+          </div>
+          <div class="relative sm:pl-8">
+            <span class="absolute top-2 -left-[5px] hidden h-[9px] w-[9px] rotate-45 border border-gold-700 bg-vellum sm:block"></span>
+            <p class="geez text-[1.05rem] leading-tight text-gold-700">{t.geez}</p>
+            <h3 class="mt-1 font-display text-[1.2rem] text-madder-900">{t.head}</h3>
+            <p class="mt-2 text-[1rem] leading-relaxed text-ink-700">{t.body}</p>
+          </div>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <Divider />
+
+  <!-- ══════════ tewahedo ══════════ -->
+  <section class="relative overflow-hidden bg-ink-950 text-vellum-200">
+    <img src={u('/art/ura-interior.jpg')} alt="" aria-hidden="true"
+         class="absolute inset-0 h-full w-full object-cover opacity-[.16]" loading="lazy" />
+    <div class="absolute inset-0 bg-gradient-to-b from-ink-950 via-ink-950/85 to-ink-950"></div>
+
+    <div class="relative mx-auto max-w-3xl px-6 py-24 text-center lg:py-32">
+      <p class="rubric !text-gold-400/85" data-reveal>The word itself · ተዋሕዶ</p>
+      <h2 class="geez mt-5 text-[clamp(2.2rem,7vw,4rem)] leading-none gilt" data-reveal>ተዋሕዶ</h2>
+      <p class="mt-4 font-display text-[1.4rem] tracking-wide text-vellum-100" data-reveal>Tewahedo — “made one”</p>
+      <p class="mx-auto mt-7 max-w-xl text-[1.06rem] leading-relaxed text-vellum-200/72" data-reveal>
+        The name of this Church is a single Ge’ez word, and it is a doctrine. It says that
+        in Christ the divine and the human are not two natures set side by side but one,
+        united without mixture, without confusion, without separation — as fire is one with
+        heated iron. Everything else the Church holds follows from that word.
+      </p>
+      <a href={u('/faith')}
+         class="group mt-9 inline-flex items-center gap-3 font-ui text-[.82rem] tracking-[.12em] text-gold-400 uppercase"
+         data-reveal>
+        What we believe
+        <span class="inline-block transition-transform duration-300 group-hover:translate-x-1.5">→</span>
+      </a>
+    </div>
+  </section>
+</Base>

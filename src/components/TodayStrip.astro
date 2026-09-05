@@ -1,0 +1,133 @@
+---
+import { dayReport, upcomingObservances, toGeez } from '../lib/ethiopic';
+
+/**
+ * The day, as the Church reckons it. Rendered at build time and then corrected
+ * in the browser to the visitor's own date — so it is right at midnight
+ * wherever they are, without a server.
+ */
+interface Props { class?: string; tone?: 'dark' | 'light' }
+const { class: cls = '', tone = 'dark' } = Astro.props;
+
+const d = dayReport();
+const next = upcomingObservances(new Date(), 1)[0];
+const dark = tone === 'dark';
+---
+
+<section
+  data-today
+  class:list={[
+    'relative overflow-hidden border-y',
+    dark ? 'border-gold-700/25 bg-ink-950 text-vellum-200' : 'border-[var(--rule)] bg-vellum-100/60',
+    cls,
+  ]}
+  aria-label="Today in the Ethiopian Orthodox calendar"
+>
+  <div class="mx-auto grid max-w-[1240px] gap-px px-5 sm:grid-cols-2 lg:grid-cols-4 lg:px-8">
+    <!-- ── the date ── -->
+    <div class="flex items-center gap-4 py-6 lg:py-7">
+      <div
+        class:list={[
+          'grid h-14 w-14 shrink-0 place-items-center border',
+          dark ? 'border-gold-600/45 text-gold-300' : 'border-gold-700/45 text-madder-800',
+        ]}
+      >
+        <span class="geez text-[1.5rem] leading-none" data-t-geezday>{d.geezDay}</span>
+      </div>
+      <div class="min-w-0">
+        <p class:list={['font-ui text-[.62rem] font-600 tracking-[.24em] uppercase', dark ? 'text-gold-400/80' : 'text-madder-700']}>
+          Today
+        </p>
+        <p class="geez mt-1 truncate text-[1.02rem] leading-tight" data-t-geez>
+          {d.month.geez} {d.geezDay} ቀን
+        </p>
+        <p class:list={['mt-0.5 text-[.82rem]', dark ? 'text-vellum-200/60' : 'text-ink-600']} data-t-tr>
+          {d.month.tr} {d.eth.day}, {d.eth.year} E.C. · {d.weekday.tr}
+        </p>
+      </div>
+    </div>
+
+    <!-- ── the commemoration ── -->
+    <div class:list={['flex items-center py-6 lg:py-7 lg:border-l lg:pl-8', dark ? 'lg:border-vellum-200/12' : 'lg:border-[var(--rule)]']}>
+      <div class="min-w-0">
+        <p class:list={['font-ui text-[.62rem] font-600 tracking-[.24em] uppercase', dark ? 'text-gold-400/80' : 'text-madder-700']}>
+          Commemoration
+        </p>
+        <p class="geez mt-1 text-[1.02rem] leading-tight" data-t-comm-geez>{d.commemoration?.geez}</p>
+        <p class:list={['mt-0.5 text-[.82rem]', dark ? 'text-vellum-200/60' : 'text-ink-600']} data-t-comm-en>
+          {d.commemoration?.en}
+        </p>
+      </div>
+    </div>
+
+    <!-- ── the fast ── -->
+    <div class:list={['flex items-center py-6 lg:py-7 lg:border-l lg:pl-8', dark ? 'lg:border-vellum-200/12' : 'lg:border-[var(--rule)]']}>
+      <div class="min-w-0">
+        <p class:list={['font-ui text-[.62rem] font-600 tracking-[.24em] uppercase', dark ? 'text-gold-400/80' : 'text-madder-700']}>
+          The fast
+        </p>
+        <p class="mt-1 flex items-center gap-2">
+          <span
+            data-t-dot
+            class:list={['inline-block h-2 w-2 shrink-0 rounded-full', d.fast.fasting ? 'bg-malachite-400' : 'bg-gold-400']}
+          ></span>
+          <span class="geez text-[1.02rem] leading-tight" data-t-fast-geez>{d.fast.geez}</span>
+        </p>
+        <p class:list={['mt-0.5 text-[.82rem]', dark ? 'text-vellum-200/60' : 'text-ink-600']} data-t-fast-tr>
+          {d.fast.tr}
+        </p>
+      </div>
+    </div>
+
+    <!-- ── what comes next ── -->
+    <div class:list={['flex items-center py-6 lg:py-7 lg:border-l lg:pl-8', dark ? 'lg:border-vellum-200/12' : 'lg:border-[var(--rule)]']}>
+      <div class="min-w-0">
+        <p class:list={['font-ui text-[.62rem] font-600 tracking-[.24em] uppercase', dark ? 'text-gold-400/80' : 'text-madder-700']}>
+          Next feast
+        </p>
+        <p class="geez mt-1 truncate text-[1.02rem] leading-tight" data-t-next-geez>{next?.geez}</p>
+        <p class:list={['mt-0.5 text-[.82rem]', dark ? 'text-vellum-200/60' : 'text-ink-600']} data-t-next-en>
+          {next?.tr} · <span data-t-next-in>in {Math.max(0, Math.round((+next.date - Date.now()) / 864e5))} days</span>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { dayReport, upcomingObservances } from '../lib/ethiopic';
+
+  // Recompute for the visitor's own local date — the build may be days old.
+  const root = document.querySelector('[data-today]');
+  if (root) {
+    const set = (sel: string, text: string | undefined) => {
+      const el = root.querySelector(sel);
+      if (el && text) el.textContent = text;
+    };
+    const d = dayReport(new Date());
+    const next = upcomingObservances(new Date(), 1)[0];
+
+    set('[data-t-geezday]', d.geezDay);
+    set('[data-t-geez]', `${d.month.geez} ${d.geezDay} ቀን`);
+    set('[data-t-tr]', `${d.month.tr} ${d.eth.day}, ${d.eth.year} E.C. · ${d.weekday.tr}`);
+    set('[data-t-comm-geez]', d.commemoration?.geez);
+    set('[data-t-comm-en]', d.commemoration?.en);
+    set('[data-t-fast-geez]', d.fast.geez);
+    set('[data-t-fast-tr]', d.fast.tr);
+
+    const dot = root.querySelector('[data-t-dot]');
+    dot?.classList.toggle('bg-malachite-400', d.fast.fasting);
+    dot?.classList.toggle('bg-gold-400', !d.fast.fasting);
+
+    if (next) {
+      const days = Math.max(0, Math.round((+next.date - Date.now()) / 864e5));
+      set('[data-t-next-geez]', next.geez);
+      set('[data-t-next-en]', `${next.tr} · `);
+      const inEl = root.querySelector('[data-t-next-in]');
+      if (inEl) {
+        inEl.textContent = days === 0 ? 'today' : days === 1 ? 'tomorrow' : `in ${days} days`;
+        root.querySelector('[data-t-next-en]')?.append(inEl);
+      }
+    }
+  }
+</script>

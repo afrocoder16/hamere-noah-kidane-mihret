@@ -1,0 +1,191 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+import Divider from '../components/ornament/Divider.astro';
+import Harag from '../components/ornament/Harag.astro';
+import { PARISH } from '../lib/parish';
+import { toGeez } from '../lib/ethiopic';
+import { u } from '../lib/url';
+
+const STEPS = [
+  { geez: 'ኑ', tr: 'Come', body: 'Come to the Liturgy a few times first. Membership follows belonging; it does not create it.' },
+  { geez: 'ተዋወቁ', tr: 'Meet the priest', body: 'Speak with the priest after the service. If you are transferring from another parish, bring or name your father-confessor.' },
+  { geez: 'መዝገብ', tr: 'Be recorded', body: 'The household is entered in the parish register: names, baptismal names, sacraments already received.' },
+  { geez: 'አገልግሉ', tr: 'Take something on', body: 'Sunday school, the choir, the kitchen, the council. A parish this size has no passengers.' },
+];
+
+const RECORDS = [
+  ['Baptism', 'ጥምቀት', 'Name, baptismal name, godparent, and date. Needed later for marriage and for schools.'],
+  ['Marriage', 'ተክሊል', 'The crowning, and the counsel that precedes it.'],
+  ['Confession', 'ንስሓ', 'Your father-confessor, so the parish knows who to call on your behalf.'],
+  ['Household', 'ቤተሰብ', 'Who belongs to the household, so that when something happens the parish knows whom to reach.'],
+  ['Burial', 'ቀብር', 'Wishes for the funeral, the fortieth day, and the annual tezkar.'],
+];
+---
+
+<Base
+  title="Membership"
+  description="How to become a member of Hamere Noah Kidane Mihret Ethiopian Orthodox Tewahedo Church in Sioux Falls."
+>
+  <PageHeader
+    eyebrow="Belonging · አባልነት"
+    geez="ማኅበረ ምእመናን"
+    title="Become a member"
+    lede="Not a subscription. A household written into the register of a church."
+    image={u('/art/icon-2.jpg')}
+    imageAlt=""
+    position="center 25%"
+  />
+
+  <!-- ══════════ what it means ══════════ -->
+  <section class="mx-auto max-w-[1240px] px-5 py-20 lg:px-8 lg:py-28">
+    <div class="grid gap-14 lg:grid-cols-[1.05fr_0.95fr] lg:gap-20">
+      <div data-reveal>
+        <p class="rubric">What it means · ምንነቱ</p>
+        <h2 class="mt-4 text-[clamp(1.75rem,3.6vw,2.5rem)]">Written into the book</h2>
+        <div class="reading mt-7 text-[1.05rem] leading-[1.75] text-ink-700">
+          <p class="dropcap">
+            In the Ethiopian Church, being a member of a parish is not a status you buy. It
+            means your household is written into the register of a particular church, under
+            a particular priest, who is now responsible for you — and you for the parish.
+          </p>
+          <p>
+            Practically, it means the priest knows your name and your children’s baptismal
+            names. It means that when there is a death in your family, the parish arrives
+            before you have asked. It means your sacraments are recorded somewhere they can
+            be found again in thirty years, which matters more than anyone expects it to.
+          </p>
+          <p>
+            And it means the parish can count on you: for the tithe, for a Sunday morning
+            in the kitchen, for a hand when the building needs one.
+          </p>
+        </div>
+      </div>
+
+      <div data-reveal style="--reveal-delay:140ms">
+        <div class="panel p-8 lg:p-9">
+          <p class="rubric">What is kept in the register</p>
+          <dl class="mt-6 space-y-4">
+            {RECORDS.map(([en, geez, body]) => (
+              <div class="border-b border-[var(--rule)] pb-4 last:border-0 last:pb-0">
+                <dt class="flex items-baseline gap-3">
+                  <span class="font-display text-[1.08rem] text-madder-900">{en}</span>
+                  <span class="geez text-[.95rem] text-gold-700">{geez}</span>
+                </dt>
+                <dd class="mt-1 text-[.95rem] leading-relaxed text-ink-600">{body}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ how ══════════ -->
+  <section class="relative overflow-hidden border-y border-[var(--rule)] bg-vellum-100/70">
+    <div class="absolute inset-x-0 top-0 opacity-40"><Harag variant="plait" repeat={22} height={24} /></div>
+    <div class="absolute inset-x-0 bottom-0 opacity-40"><Harag variant="plait" repeat={22} height={24} flip /></div>
+
+    <div class="mx-auto max-w-[1240px] px-5 py-20 lg:px-8 lg:py-24">
+      <div class="mx-auto mb-14 max-w-2xl text-center" data-reveal>
+        <p class="rubric">How · እንዴት</p>
+        <h2 class="mt-4 text-[clamp(1.7rem,3.4vw,2.3rem)]">Four steps, in order</h2>
+      </div>
+
+      <ol class="mx-auto grid max-w-4xl gap-px border border-[var(--rule)] bg-[var(--rule)] sm:grid-cols-2 lg:grid-cols-4">
+        {STEPS.map((s, i) => (
+          <li class="bg-vellum-50/80 p-7" data-reveal style={`--reveal-delay:${i * 80}ms`}>
+            <span class="geez block text-[1.4rem] leading-none text-gold-600/45">{toGeez(i + 1)}</span>
+            <p class="geez mt-4 text-[1.35rem] leading-tight text-madder-800">{s.geez}</p>
+            <p class="mt-1 font-display text-[1.06rem] text-ink-800">{s.tr}</p>
+            <p class="mt-3 text-[.95rem] leading-relaxed text-ink-600">{s.body}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- ══════════ enquiry ══════════ -->
+  <section class="mx-auto max-w-[1240px] px-5 py-20 lg:px-8 lg:py-24">
+    <div class="mx-auto max-w-2xl">
+      <div class="mb-10 text-center" data-reveal>
+        <p class="rubric">Get in touch · ያግኙን</p>
+        <h2 class="mt-4 text-[clamp(1.7rem,3.4vw,2.3rem)]">Tell the office you are coming</h2>
+        <p class="mt-5 text-[1.02rem] leading-relaxed text-ink-600">
+          Or simply come on a Sunday and find the priest afterwards — that works just as well.
+        </p>
+      </div>
+
+      <form class="panel p-7 lg:p-9" data-membership-form novalidate data-reveal>
+        <div class="grid gap-5 sm:grid-cols-2">
+          <div>
+            <label for="m-name" class="block font-ui text-[.68rem] font-600 tracking-[.18em] text-madder-700 uppercase">
+              Name <span class="text-ink-400">·</span> <span class="geez normal-case">ስም</span>
+            </label>
+            <input id="m-name" name="name" type="text" required autocomplete="name"
+                   class="mt-2 w-full border border-[var(--rule)] bg-vellum-50/70 px-3.5 py-2.5 font-serif text-[1rem] text-ink-800 transition-colors focus:border-gold-600" />
+          </div>
+          <div>
+            <label for="m-household" class="block font-ui text-[.68rem] font-600 tracking-[.18em] text-madder-700 uppercase">
+              Household <span class="text-ink-400">·</span> <span class="geez normal-case">ቤተሰብ</span>
+            </label>
+            <input id="m-household" name="household" type="text"
+                   class="mt-2 w-full border border-[var(--rule)] bg-vellum-50/70 px-3.5 py-2.5 font-serif text-[1rem] text-ink-800 transition-colors focus:border-gold-600" />
+          </div>
+          <div>
+            <label for="m-email" class="block font-ui text-[.68rem] font-600 tracking-[.18em] text-madder-700 uppercase">
+              Email
+            </label>
+            <input id="m-email" name="email" type="email" required autocomplete="email"
+                   class="mt-2 w-full border border-[var(--rule)] bg-vellum-50/70 px-3.5 py-2.5 font-serif text-[1rem] text-ink-800 transition-colors focus:border-gold-600" />
+          </div>
+          <div>
+            <label for="m-phone" class="block font-ui text-[.68rem] font-600 tracking-[.18em] text-madder-700 uppercase">
+              Telephone
+            </label>
+            <input id="m-phone" name="phone" type="tel" autocomplete="tel"
+                   class="mt-2 w-full border border-[var(--rule)] bg-vellum-50/70 px-3.5 py-2.5 font-serif text-[1rem] text-ink-800 transition-colors focus:border-gold-600" />
+          </div>
+        </div>
+
+        <div class="mt-5">
+          <label for="m-note" class="block font-ui text-[.68rem] font-600 tracking-[.18em] text-madder-700 uppercase">
+            Anything the office should know
+          </label>
+          <textarea id="m-note" name="note" rows="4"
+                    placeholder="Transferring from another parish, a baptism to arrange, a question about the Sunday school…"
+                    class="mt-2 w-full border border-[var(--rule)] bg-vellum-50/70 px-3.5 py-2.5 font-serif text-[1rem] text-ink-800 transition-colors placeholder:text-ink-500/60 focus:border-gold-600"></textarea>
+        </div>
+
+        <button type="submit"
+                class="mt-7 w-full border border-madder-800 bg-madder-800 px-8 py-3.5 font-ui text-[.8rem] tracking-[.14em] text-vellum-50 uppercase transition-colors duration-300 hover:bg-madder-900 sm:w-auto">
+          Send to the office
+        </button>
+
+        <p data-form-msg role="status" class="mt-5 border border-gold-600/40 bg-gold-200/30 px-4 py-3 text-[.9rem] leading-relaxed text-ink-600">
+          <strong class="font-600 text-madder-800">This form is not connected yet.</strong>
+          It is part of a design sample — nothing is sent or stored. Until the parish
+          office wires it up, ring{' '}
+          <a href={PARISH.phoneHref} class="text-madder-700 underline underline-offset-2">{PARISH.phone}</a>.
+        </p>
+      </form>
+    </div>
+  </section>
+
+  <Divider />
+</Base>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>('[data-membership-form]');
+  const msg = document.querySelector<HTMLElement>('[data-form-msg]');
+  form?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    if (!msg) return;
+    // Nothing is sent anywhere — say so plainly rather than pretending to succeed.
+    msg.innerHTML =
+      '<strong class="font-600 text-madder-800">Not sent.</strong> This form has no ' +
+      'destination yet — it is part of a design sample, so nothing was transmitted or ' +
+      'stored. Please ring the parish office instead.';
+    msg.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  });
+</script>

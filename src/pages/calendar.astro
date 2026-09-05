@@ -1,0 +1,306 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+import TodayStrip from '../components/TodayStrip.astro';
+import Divider from '../components/ornament/Divider.astro';
+import Harag from '../components/ornament/Harag.astro';
+import {
+  MONTHS, MONTHLY, toGeez, dayReport, fasika,
+  movableFeasts, fixedFeasts, toEthiopic, type Observance,
+} from '../lib/ethiopic';
+import { u } from '../lib/url';
+
+const now = new Date();
+const eth = toEthiopic(now);
+// The Ethiopian liturgical year runs Meskerem 1 → Pagume. Show the current one.
+const ethYear = eth.year;
+const gY = now.getFullYear();
+
+const all: Observance[] = [
+  ...fixedFeasts(ethYear), ...fixedFeasts(ethYear + 1),
+  ...movableFeasts(gY), ...movableFeasts(gY + 1),
+];
+
+// window: from Meskerem 1 of the current Ethiopian year, twelve months on
+const yearStart = new Date(now); yearStart.setHours(0, 0, 0, 0);
+const yearEnd = new Date(yearStart); yearEnd.setFullYear(yearEnd.getFullYear() + 1);
+
+const inYear = all
+  .filter((o) => o.date >= yearStart && o.date < yearEnd)
+  .sort((a, b) => +a.date - +b.date);
+
+// group by Gregorian month for the listing
+const byMonth = new Map<string, Observance[]>();
+for (const o of inYear) {
+  const k = o.date.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+  (byMonth.get(k) ?? byMonth.set(k, []).get(k)!).push(o);
+}
+
+// the next Fasika: this year's if it has not passed, otherwise next year's
+const pascha = fasika(gY) >= yearStart ? fasika(gY) : fasika(gY + 1);
+const today = dayReport(now);
+
+const FASTS = [
+  { geez: 'ጾመ ድኅነት', tr: 'Tsome Dihnet', en: 'Wednesdays & Fridays',
+    len: 'All year', body: 'Kept every week outside the fifty days of Pascha — Wednesday for the counsel taken against Our Lord, Friday for the Cross.' },
+  { geez: 'ጾመ ነቢያት', tr: 'Tsome Nebiyat', en: 'Fast of the Prophets',
+    len: '43 days', body: 'Hidar 15 to the Nativity. Called Advent elsewhere; here it is the fast the prophets kept waiting for Him.' },
+  { geez: 'ጾመ ነነዌ', tr: 'Tsome Nenewe', en: 'Fast of Nineveh',
+    len: '3 days', body: 'Two weeks before Great Lent, in memory of Jonah and the city that repented.' },
+  { geez: 'ዓቢይ ጾም', tr: 'Abiy Tsom · Hudadi', en: 'Great Lent',
+    len: '55 days', body: 'The longest and strictest: eight weeks, no animal products, and on the hardest days nothing at all until the ninth hour.' },
+  { geez: 'ጾመ ሐዋርያት', tr: 'Tsome Hawaryat', en: 'Fast of the Apostles',
+    len: 'to Hamle 5', body: 'From the day after Pentecost, in memory of the Apostles who fasted before they were sent out.' },
+  { geez: 'ጾመ ፍልሰታ', tr: 'Tsome Filseta', en: 'Fast of the Assumption',
+    len: '16 days', body: 'Nehase 1–16. Kept with great love, and by many kept more strictly than Lent itself.' },
+  { geez: 'ጾመ ገሃድ', tr: 'Tsome Gahad', en: 'The eves',
+    len: '2 days', body: 'The eves of the Nativity and of Timket, kept without food until the service is done.' },
+];
+---
+
+<Base
+  title="Calendar"
+  description="The Ethiopian Orthodox liturgical year — feasts, fasts, and the Bahire Hasab reckoning that fixes them."
+>
+  <PageHeader
+    eyebrow="The reckoning · ባሕረ ሐሳብ"
+    geez="በዓላት ወአጽዋማት"
+    title="Feasts and fasts"
+    lede="Thirteen months of sunshine, and a year measured out from the Resurrection."
+    image={u('/art/manuscript-18c.jpg')}
+    imageAlt=""
+    position="center 30%"
+  />
+
+  <TodayStrip tone="light" />
+
+  <!-- ══════════ how the calendar works ══════════ -->
+  <section class="mx-auto max-w-[1240px] px-5 py-20 lg:px-8 lg:py-28">
+    <div class="grid gap-14 lg:grid-cols-[1.05fr_0.95fr] lg:gap-20">
+      <div data-reveal>
+        <p class="rubric">Bahire Hasab · ባሕረ ሐሳብ</p>
+        <h2 class="mt-4 text-[clamp(1.75rem,3.6vw,2.5rem)]">“The sea of computation”</h2>
+        <div class="reading mt-7 text-[1.05rem] leading-[1.75] text-ink-700">
+          <p class="dropcap">
+            The Ethiopian year has thirteen months: twelve of exactly thirty days, and a
+            thirteenth — Pagume — of five, or six when the year is leap. It begins on
+            Meskerem 1, which falls on the 11th of September, when the long rains end and
+            the yellow meskel daisies come out all over the highlands. It runs seven or
+            eight years behind the Gregorian count, because the Ethiopian Church never
+            adopted the Western correction to the date of the Annunciation.
+          </p>
+          <p>
+            Every movable feast hangs off one computation. Fasika is fixed by the ancient
+            Paschalion, and from that single date the whole year is measured out in days —
+            the tewsak, the appointed increment. Nineveh is sixty-nine days before it.
+            Great Lent, fifty-five. Pentecost, forty-nine after.
+          </p>
+          <p>
+            The dates on this page are not copied from a list. They are computed, here,
+            the way a church calendar has always been computed.
+          </p>
+        </div>
+      </div>
+
+      <div class="space-y-5" data-reveal style="--reveal-delay:140ms">
+        <div class="panel p-7 lg:p-8">
+          <p class="rubric">Today</p>
+          <p class="geez mt-4 text-[1.8rem] leading-tight text-madder-900">
+            {today.month.geez} {today.geezDay} ቀን {today.geezYear} ዓ.ም.
+          </p>
+          <p class="mt-2 font-display text-[1.05rem] text-ink-700">
+            {today.month.tr} {today.eth.day}, {today.eth.year} E.C. · {today.weekday.en}
+          </p>
+          <div class="my-6 h-px bg-[var(--rule-gold)]"></div>
+          <dl class="space-y-3 text-[.96rem]">
+            <div class="flex gap-3">
+              <dt class="w-32 shrink-0 font-ui text-[.7rem] tracking-[.12em] text-ink-500 uppercase">Commemoration</dt>
+              <dd><span class="geez text-madder-800">{today.commemoration?.geez}</span>
+                  <span class="text-ink-600"> · {today.commemoration?.en}</span></dd>
+            </div>
+            <div class="flex gap-3">
+              <dt class="w-32 shrink-0 font-ui text-[.7rem] tracking-[.12em] text-ink-500 uppercase">The fast</dt>
+              <dd><span class="geez text-madder-800">{today.fast.geez}</span>
+                  <span class="text-ink-600"> · {today.fast.reason}</span></dd>
+            </div>
+          </dl>
+        </div>
+
+        <div class="panel p-7 lg:p-8">
+          <p class="rubric">This year’s Fasika</p>
+          <p class="mt-3 font-display text-[1.7rem] text-madder-900">
+            {pascha.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}
+          </p>
+          <p class="mt-3 text-[.95rem] leading-relaxed text-ink-600">
+            Everything movable in the year below is measured from this one date.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ the thirteen months ══════════ -->
+  <section class="relative overflow-hidden border-y border-[var(--rule)] bg-vellum-100/70">
+    <div class="absolute inset-x-0 top-0 opacity-40"><Harag variant="chain" repeat={22} height={24} /></div>
+    <div class="mx-auto max-w-[1240px] px-5 py-24 lg:px-8">
+      <div class="mx-auto mb-14 max-w-2xl text-center" data-reveal>
+        <p class="rubric">The thirteen months · አሥራ ሦስቱ ወራት</p>
+        <h2 class="mt-4 text-[clamp(1.75rem,3.6vw,2.5rem)]">Thirteen months of sunshine</h2>
+      </div>
+
+      <ol class="grid gap-px border border-[var(--rule)] bg-[var(--rule)] sm:grid-cols-2 lg:grid-cols-4">
+        {MONTHS.map((m, i) => (
+          <li class:list={[
+                'bg-vellum-50/80 p-6 transition-colors duration-500 hover:bg-gold-200/40',
+                m.n === eth.month && 'ring-2 ring-madder-700 ring-inset',
+              ]}
+              data-reveal style={`--reveal-delay:${i * 40}ms`}>
+            <div class="flex items-baseline justify-between">
+              <span class="geez text-[1.45rem] leading-tight text-madder-800">{m.geez}</span>
+              <span class="geez text-[1.05rem] text-gold-600/60">{toGeez(m.n)}</span>
+            </div>
+            <p class="mt-1 font-display text-[1.02rem] text-ink-700">{m.tr}</p>
+            <p class="mt-2 font-ui text-[.7rem] tracking-[.12em] text-ink-500 uppercase">
+              {m.days} days{m.n === 13 && ' (6 in leap year)'}
+            </p>
+            {m.n === eth.month && (
+              <p class="mt-2 font-ui text-[.66rem] tracking-[.16em] text-madder-700 uppercase">Current month</p>
+            )}
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- ══════════ the year ahead ══════════ -->
+  <section class="mx-auto max-w-[1240px] px-5 py-24 lg:px-8 lg:py-32">
+    <div class="mx-auto mb-14 max-w-2xl text-center" data-reveal>
+      <p class="rubric">The year ahead · ዓመቱ</p>
+      <h2 class="mt-4 text-[clamp(1.75rem,3.6vw,2.5rem)]">Twelve months of feasts and fasts</h2>
+      <p class="mt-5 text-[1.05rem] leading-relaxed text-ink-600">
+        Computed from today. The patronal feast of this parish is marked in red.
+      </p>
+    </div>
+
+    <div class="mx-auto max-w-3xl">
+      {[...byMonth.entries()].map(([month, items], gi) => (
+        <div class="mb-10" data-reveal style={`--reveal-delay:${Math.min(gi * 50, 300)}ms`}>
+          <h3 class="sticky top-[74px] z-10 -mx-2 bg-vellum/92 px-2 py-2 font-ui text-[.72rem] font-600 tracking-[.24em] text-madder-700 uppercase backdrop-blur-sm">
+            {month}
+          </h3>
+          <ul class="mt-2 border-t border-[var(--rule)]">
+            {items.map((o) => (
+              <li class:list={[
+                    'group flex items-baseline gap-5 border-b border-[var(--rule)] py-4 transition-colors duration-300 sm:gap-7',
+                    o.kind === 'patronal' ? 'bg-madder-800/6 hover:bg-madder-800/10' : 'hover:bg-gold-200/25',
+                  ]}>
+                <div class="w-[3.6rem] shrink-0 text-center">
+                  <span class:list={['block font-display text-[1.35rem] leading-none',
+                                     o.kind === 'patronal' ? 'text-madder-800' : 'text-ink-800']}>
+                    {o.date.getDate()}
+                  </span>
+                  <span class="mt-0.5 block font-ui text-[.62rem] tracking-[.1em] text-ink-500 uppercase">
+                    {o.date.toLocaleDateString('en-US', { weekday: 'short' })}
+                  </span>
+                </div>
+                <div class="min-w-0 flex-1">
+                  <p class="geez text-[1.1rem] leading-tight text-madder-900">{o.geez}</p>
+                  <p class="mt-0.5 text-[.98rem] text-ink-700">
+                    <span class="font-display">{o.tr}</span>
+                    <span class="text-ink-500"> — {o.en}</span>
+                  </p>
+                  {o.note && <p class="mt-1.5 text-[.9rem] leading-relaxed text-ink-600">{o.note}</p>}
+                </div>
+                <span class:list={[
+                  'shrink-0 border px-2.5 py-1 font-ui text-[.6rem] tracking-[.14em] whitespace-nowrap uppercase',
+                  o.kind === 'patronal' ? 'border-madder-700 bg-madder-800 text-vellum-50'
+                  : o.kind.startsWith('fast') ? 'border-malachite-700/45 text-malachite-800'
+                  : o.rank === 'great' ? 'border-gold-600 bg-gold-200/60 text-gold-900'
+                  : 'border-gold-600/45 text-gold-800',
+                ]}>
+                  {o.kind === 'patronal' ? 'Our feast'
+                   : o.kind.startsWith('fast') ? 'Fast'
+                   : o.rank === 'great' ? 'Great feast' : 'Feast'}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- ══════════ the fasts ══════════ -->
+  <section class="relative overflow-hidden bg-ink-950 text-vellum-200">
+    <div class="mx-auto max-w-[1240px] px-5 py-24 lg:px-8 lg:py-28">
+      <div class="mx-auto mb-14 max-w-2xl text-center" data-reveal>
+        <p class="rubric !text-gold-400/85">The seven fasts · ሰባቱ አጽዋማት</p>
+        <h2 class="mt-4 text-[clamp(1.75rem,3.6vw,2.5rem)] text-vellum-100">
+          Two hundred and fifty days
+        </h2>
+        <p class="mt-5 text-[1.04rem] leading-relaxed text-vellum-200/70">
+          Between a half and two-thirds of the year is fasted. No meat, no eggs, no dairy —
+          which is why Ethiopian cooking has one of the great vegan repertoires on earth,
+          and why nobody here finds it remarkable.
+        </p>
+      </div>
+
+      <div class="grid gap-px border border-vellum-200/12 bg-vellum-200/12 sm:grid-cols-2 lg:grid-cols-3">
+        {FASTS.map((f, i) => (
+          <article class="bg-ink-950 p-7 transition-colors duration-500 hover:bg-ink-900"
+                   data-reveal style={`--reveal-delay:${i * 60}ms`}>
+            <div class="flex items-baseline justify-between gap-3">
+              <span class="geez text-[1.3rem] leading-tight text-gold-300">{f.geez}</span>
+              <span class="shrink-0 font-ui text-[.62rem] tracking-[.12em] text-malachite-400 uppercase">{f.len}</span>
+            </div>
+            <p class="mt-2 font-display text-[1.05rem] text-vellum-100">{f.en}</p>
+            <p class="font-ui text-[.68rem] tracking-[.14em] text-gold-400/70 uppercase">{f.tr}</p>
+            <p class="mt-3 text-[.95rem] leading-relaxed text-vellum-200/62">{f.body}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ the monthly commemorations ══════════ -->
+  <section class="mx-auto max-w-[1240px] px-5 py-24 lg:px-8 lg:py-28">
+    <div class="mx-auto mb-14 max-w-2xl text-center" data-reveal>
+      <p class="rubric">Every month · ወርኀዊ በዓላት</p>
+      <h2 class="mt-4 text-[clamp(1.75rem,3.6vw,2.5rem)]">The days of the month</h2>
+      <p class="mt-5 text-[1.05rem] leading-relaxed text-ink-600">
+        Every day of every Ethiopian month keeps its own remembrance. The sixteenth is
+        Kidane Mihret — which is why this parish keeps a feast twelve times a year as
+        well as the great one in Yekatit.
+      </p>
+    </div>
+
+    <ol class="grid gap-px border border-[var(--rule)] bg-[var(--rule)] sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+      {Object.entries(MONTHLY).map(([day, c]) => {
+        const n = Number(day);
+        const isPatron = n === 16;
+        return (
+          <li class:list={[
+                'flex items-baseline gap-3 p-4 transition-colors duration-300',
+                isPatron ? 'bg-madder-800 text-vellum-50' : 'bg-vellum-50/80 hover:bg-gold-200/40',
+                n === eth.day && !isPatron && 'ring-2 ring-gold-600 ring-inset',
+              ]}>
+            <span class:list={['geez w-7 shrink-0 text-[1.05rem] leading-none',
+                               isPatron ? 'text-gold-300' : 'text-gold-600']}>
+              {toGeez(n)}
+            </span>
+            <div class="min-w-0">
+              <p class:list={['geez text-[1rem] leading-tight', isPatron ? 'text-vellum-50' : 'text-madder-900']}>
+                {c.geez}
+              </p>
+              <p class:list={['mt-0.5 text-[.82rem] leading-snug', isPatron ? 'text-vellum-200/75' : 'text-ink-600']}>
+                {c.en}
+              </p>
+            </div>
+          </li>
+        );
+      })}
+    </ol>
+  </section>
+
+  <Divider />
+</Base>

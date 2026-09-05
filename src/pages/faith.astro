@@ -1,0 +1,235 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+import ThreeChambers from '../components/ThreeChambers.astro';
+import ArchFrame from '../components/ornament/ArchFrame.astro';
+import AngelBand from '../components/ornament/AngelBand.astro';
+import Divider from '../components/ornament/Divider.astro';
+import Harag from '../components/ornament/Harag.astro';
+import { SACRAMENTS, MODES } from '../lib/parish';
+import { toGeez } from '../lib/ethiopic';
+import { u } from '../lib/url';
+
+const PILLARS = [
+  {
+    geez: 'ተዋሕዶ',
+    tr: 'Tewahedo',
+    head: 'One nature, united',
+    body:
+      'In Christ, divinity and humanity are made one — without mixture, change, division ' +
+      'or separation. This is the confession the Church has held since Chalcedon and the ' +
+      'reason she bears the word as her name.',
+  },
+  {
+    geez: 'ታቦት',
+    tr: 'Tabot',
+    head: 'The tablet of the covenant',
+    body:
+      'No Ethiopian church is a church without a tabot — a consecrated tablet kept in the ' +
+      'Holy of Holies, in memory of the tablets Moses carried. It is the tabot, not the ' +
+      'building, that is holy, and it is the tabot that goes out in procession at Timket.',
+  },
+  {
+    geez: 'ጾም',
+    tr: 'Tsom',
+    head: 'Fasting as a way of life',
+    body:
+      'Between two hundred and two hundred and fifty days of the year are fast days, kept ' +
+      'without animal products and, on the strictest, without food until the ninth hour. ' +
+      'It is not extraordinary here. It is simply Wednesday.',
+  },
+  {
+    geez: 'ስግደት',
+    tr: 'Sigdet',
+    head: 'The whole body prays',
+    body:
+      'Prostrations, standing for hours, shoes left at the door, the head covered. The ' +
+      'Ethiopian Church has never accepted that worship is something done only with the mind.',
+  },
+  {
+    geez: 'ማርያም',
+    tr: 'Mariam',
+    head: 'Devotion to the Theotokos',
+    body:
+      'Thirty-three feasts of Our Lady are kept each year, and her covenant of mercy is ' +
+      'remembered on the sixteenth of every month. This parish carries her name.',
+  },
+  {
+    geez: 'መጻሕፍት',
+    tr: 'Metsahift',
+    head: 'The widest canon in Christendom',
+    body:
+      'Eighty-one books. The Ethiopic Bible alone preserves the Book of Enoch and Jubilees ' +
+      'complete, in Ge’ez, when every other tradition had lost them.',
+  },
+];
+---
+
+<Base
+  title="Our Faith"
+  description="What the Ethiopian Orthodox Tewahedo Church believes: the Tewahedo confession, the tabot, the fasts, and the seven sacraments."
+>
+  <PageHeader
+    eyebrow="What we believe · እምነታችን"
+    geez="ሃይማኖተ አበው"
+    title="The faith of the fathers"
+    lede="Handed down, not worked out. Held whole, not in parts."
+    image={u('/art/gondar-wall.jpg')}
+    imageAlt=""
+  />
+
+  <!-- ══════════ pillars ══════════ -->
+  <section class="mx-auto max-w-[1240px] px-5 py-20 lg:px-8 lg:py-28">
+    <div class="mx-auto mb-16 max-w-2xl text-center" data-reveal>
+      <p class="rubric">Six things worth knowing first</p>
+      <h2 class="mt-4 text-[clamp(1.75rem,3.6vw,2.5rem)]">
+        What makes this Church herself
+      </h2>
+    </div>
+
+    <div class="grid gap-px border border-[var(--rule)] bg-[var(--rule)] sm:grid-cols-2 lg:grid-cols-3">
+      {PILLARS.map((p, i) => (
+        <article class="group relative bg-vellum-50/80 p-8 transition-colors duration-500 hover:bg-gold-200/40 lg:p-9"
+                 data-reveal style={`--reveal-delay:${i * 70}ms`}>
+          <span class="geez absolute top-5 right-6 text-[1.6rem] leading-none text-gold-600/25 select-none">
+            {toGeez(i + 1)}
+          </span>
+          <p class="geez text-[1.75rem] leading-tight text-madder-800">{p.geez}</p>
+          <p class="mt-1 font-ui text-[.72rem] tracking-[.18em] text-gold-700 uppercase">{p.tr}</p>
+          <h3 class="mt-5 font-display text-[1.22rem] leading-snug text-madder-900">{p.head}</h3>
+          <p class="mt-3 text-[1rem] leading-relaxed text-ink-700">{p.body}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <!-- ══════════ the sacraments ══════════ -->
+  <section id="sacraments" class="relative overflow-hidden border-y border-[var(--rule)] bg-vellum-100/70">
+    <div class="absolute inset-x-0 top-0 opacity-40"><Harag variant="plait" repeat={22} height={24} /></div>
+    <div class="absolute inset-x-0 bottom-0 opacity-40"><Harag variant="plait" repeat={22} height={24} flip /></div>
+
+    <div class="mx-auto max-w-[1240px] px-5 py-24 lg:px-8 lg:py-28">
+      <div class="grid gap-14 lg:grid-cols-[0.85fr_1.15fr] lg:gap-20">
+        <div data-reveal>
+          <p class="rubric">The seven mysteries · ሰባቱ ምሥጢራት</p>
+          <h2 class="mt-4 text-[clamp(1.75rem,3.6vw,2.5rem)]">The sacraments</h2>
+          <p class="mt-6 text-[1.05rem] leading-relaxed text-ink-600">
+            Seven, as in the other apostolic churches, but kept in the Ethiopian manner —
+            infants baptised at forty and eighty days, confession made to one’s own
+            father-confessor, and communion approached only after fasting.
+          </p>
+          <p class="mt-5 text-[1.05rem] leading-relaxed text-ink-600">
+            For any of them, speak to the priest first. None of them are arranged by form.
+          </p>
+          <a href={u('/visit')}
+             class="group mt-8 inline-flex items-center gap-3 font-ui text-[.82rem] tracking-[.12em] text-madder-800 uppercase">
+            Speak with the priest
+            <span class="inline-block transition-transform duration-300 group-hover:translate-x-1.5">→</span>
+          </a>
+        </div>
+
+        <ol class="border-t border-[var(--rule)]">
+          {SACRAMENTS.map((s, i) => (
+            <li class="grid grid-cols-[2.6rem_1fr] gap-x-5 border-b border-[var(--rule)] py-5"
+                data-reveal style={`--reveal-delay:${i * 60}ms`}>
+              <span class="geez pt-1 text-[1.15rem] leading-none text-gold-600">{toGeez(i + 1)}</span>
+              <div>
+                <div class="flex flex-wrap items-baseline gap-x-3">
+                  <span class="geez text-[1.2rem] leading-tight text-madder-900">{s.geez}</span>
+                  <span class="font-display text-[1.05rem] text-ink-700">{s.en}</span>
+                  <span class="font-ui text-[.7rem] tracking-[.14em] text-gold-700 uppercase">{s.tr}</span>
+                </div>
+                <p class="mt-1.5 text-[.98rem] leading-relaxed text-ink-600">{s.body}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ the ceiling of angels ══════════ -->
+  <section class="relative overflow-hidden bg-ink-950 py-20 text-vellum-200 lg:py-24">
+    <div class="mx-auto max-w-3xl px-6 text-center" data-reveal>
+      <p class="rubric !text-gold-400/85">The witnesses · ኪሩቤል</p>
+      <h2 class="mt-4 text-[clamp(1.6rem,3.6vw,2.3rem)] text-vellum-100">
+        A hundred and thirty-five faces, looking down
+      </h2>
+      <p class="mx-auto mt-5 max-w-xl text-[1.04rem] leading-relaxed text-vellum-200/70">
+        The ceiling of Debre Berhan Selassie at Gondar is covered edge to edge with winged
+        cherub faces — the same face, over and over, in courses like brickwork. Ethiopian
+        painters make the eyes enormous on purpose. The saints are not decoration. They
+        are the congregation you cannot see, and they are watching.
+      </p>
+    </div>
+
+    <div class="mt-14 overflow-hidden">
+      <AngelBand count={13} rows={2} opacity={0.95} />
+    </div>
+
+    <p class="mt-10 px-6 text-center font-ui text-[.72rem] tracking-[.14em] text-vellum-200/58 uppercase">
+      Drawn after the ceiling of Debre Berhan Selassie, Gondar · c. 1690
+    </p>
+  </section>
+
+  <!-- ══════════ the church building ══════════ -->
+  <section class="mx-auto max-w-[1240px] px-5 py-24 lg:px-8 lg:py-32">
+    <div class="mx-auto mb-16 max-w-2xl text-center" data-reveal>
+      <p class="rubric">The house itself · ሕንፃ ቤተ ክርስቲያን</p>
+      <h2 class="mt-4 text-[clamp(1.75rem,3.6vw,2.5rem)]">Three chambers, one house</h2>
+      <p class="mt-5 text-[1.05rem] leading-relaxed text-ink-600">
+        Laid out after the Temple in Jerusalem, and read as an image of the Trinity.
+      </p>
+    </div>
+    <div data-reveal style="--reveal-delay:120ms"><ThreeChambers /></div>
+  </section>
+
+  <Divider />
+
+  <!-- ══════════ zema ══════════ -->
+  <section class="mx-auto max-w-[1240px] px-5 py-20 lg:px-8 lg:py-24">
+    <div class="grid gap-14 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20">
+      <div data-reveal>
+        <ArchFrame
+          src={u('/art/priest-tigray.jpg')}
+          alt="Portrait of an elderly Ethiopian Orthodox priest in Tigray, wearing a turban"
+          ratio="4 / 5"
+          caption="A priest of Tigray. In the rural north the priest is often also the schoolmaster and the scribe — frequently the only person for a day’s walk who can read Ge’ez."
+          credit="Rod Waddington · CC BY-SA 2.0 · Wikimedia Commons"
+        />
+      </div>
+
+      <div data-reveal style="--reveal-delay:120ms">
+        <p class="rubric">The chant · ዝማሬ</p>
+        <h2 class="mt-4 text-[clamp(1.75rem,3.6vw,2.5rem)]">The three modes of St Yared</h2>
+        <div class="reading mt-7 text-[1.05rem] leading-[1.75] text-ink-700">
+          <p>
+            Around the year 520 a deacon of Aksum named Yared set down the entire musical
+            system of the Ethiopian Church: three modes, a notation of ten signs written
+            above the Ge’ez text, and antiphonaries for every day of the year. The tradition
+            says he learned it from three birds sent from the garden of Eden, and that he
+            sang before King Gebre Meskel with such attention that the king’s spear went
+            through Yared’s foot and neither man noticed.
+          </p>
+          <p>
+            It is one of the few complete indigenous notation systems in the world, and it
+            is still taught the way it always was — by ear, from a master, over years.
+          </p>
+        </div>
+
+        <div class="mt-9 space-y-px border border-[var(--rule)] bg-[var(--rule)]">
+          {MODES.map((m) => (
+            <div class="bg-vellum-50/80 p-6">
+              <div class="flex flex-wrap items-baseline gap-x-3">
+                <span class="geez text-[1.35rem] leading-tight text-madder-800">{m.geez}</span>
+                <span class="font-display text-[1.05rem] text-ink-700">{m.tr}</span>
+                <span class="font-serif text-[.95rem] italic text-gold-700">{m.en}</span>
+              </div>
+              <p class="mt-2 text-[.98rem] leading-relaxed text-ink-600">{m.body}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>

@@ -1,0 +1,97 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+import Divider from '../components/ornament/Divider.astro';
+import credits from '../../public/art/credits.json';
+import type { Credit } from '../lib/parish';
+import { u } from '../lib/url';
+
+const items = (credits as Credit[]).map((c) => ({
+  ...c,
+  artist: c.artist.replace(/(.+?)\1$/, '$1').trim() || 'Unknown',
+}));
+
+const LICENCES: Record<string, string> = {
+  'CC0': 'https://creativecommons.org/publicdomain/zero/1.0/',
+  'CC BY 2.0': 'https://creativecommons.org/licenses/by/2.0/',
+  'CC BY-SA 2.0': 'https://creativecommons.org/licenses/by-sa/2.0/',
+  'CC BY-SA 3.0': 'https://creativecommons.org/licenses/by-sa/3.0/',
+  'CC BY-SA 4.0': 'https://creativecommons.org/licenses/by-sa/4.0/',
+};
+---
+
+<Base
+  title="Credits"
+  description="Image credits and licences for the photographs used on this site, and notes on the typefaces and ornament."
+>
+  <PageHeader
+    eyebrow="Credits · ምስጋና"
+    geez="ምስጋና ወፈቃድ"
+    title="Sources and licences"
+    lede="Every photograph here belongs to somebody. This page says who."
+  />
+
+  <section class="mx-auto max-w-[1240px] px-5 py-20 lg:px-8 lg:py-24">
+    <div class="mx-auto max-w-3xl">
+      <div class="reading text-[1.04rem] leading-[1.75] text-ink-700" data-reveal>
+        <p>
+          The photographs on this site are used under Creative Commons licences or are in
+          the public domain, and were obtained from Wikimedia Commons. Attribution is given
+          below in the form each licence requires. Nothing here is a photograph of this
+          parish: they are images of the tradition it belongs to, chosen for a design
+          sample. Before this site is published, the parish should replace them with
+          photographs of its own people and its own building.
+        </p>
+        <p>
+          All ornament — the interlaced harag bands, the processional cross, the frieze of
+          winged faces, the plan of the three chambers — is drawn for this site in SVG,
+          after Ethiopian models. None of it is traced from a copyrighted source.
+        </p>
+      </div>
+
+      <Divider class="my-12" />
+
+      <h2 class="text-[1.5rem]" data-reveal>Photographs</h2>
+      <ul class="mt-7 border-t border-[var(--rule)]" data-reveal>
+        {items.map((c) => (
+          <li class="grid grid-cols-[4.5rem_1fr] items-start gap-5 border-b border-[var(--rule)] py-4">
+            <img src={u(`/art/${c.file}`)} alt="" loading="lazy"
+                 class="aspect-square w-full border border-[var(--rule)] object-cover" />
+            <div class="min-w-0">
+              <p class="font-display text-[1.02rem] leading-snug text-ink-800">{c.title}</p>
+              <p class="mt-1 text-[.9rem] text-ink-600">
+                <span class="text-ink-500">by</span> {c.artist}
+              </p>
+              <p class="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 font-ui text-[.7rem] tracking-[.06em] text-ink-500">
+                {LICENCES[c.license]
+                  ? <a href={LICENCES[c.license]} class="text-madder-700 underline underline-offset-2">{c.license}</a>
+                  : <span>{c.license}</span>}
+                <span aria-hidden="true">·</span>
+                <a href={c.source} class="text-madder-700 underline underline-offset-2">Wikimedia Commons</a>
+              </p>
+            </div>
+          </li>
+        ))}
+      </ul>
+
+      <Divider class="my-12" />
+
+      <h2 class="text-[1.5rem]" data-reveal>Type and ornament</h2>
+      <dl class="mt-7 space-y-5 text-[1rem]" data-reveal>
+        {[
+          ['Noto Serif Ethiopic', 'Google Fonts, SIL Open Font License. Carries all the Ge’ez on this site.'],
+          ['Cinzel', 'Google Fonts, OFL. Lapidary Roman capitals, chosen to echo carved inscription.'],
+          ['EB Garamond', 'Google Fonts, OFL. The reading face.'],
+          ['Jost', 'Google Fonts, OFL. Labels and small capitals.'],
+          ['Ornament', 'Hand-authored SVG: harag interlace, processional cross, cherub frieze, church plan, woven tilet band.'],
+          ['Calendar', 'The Ethiopian date, the monthly commemorations, the fasts and the Paschalion are computed in the browser from the Bahire Hasab — not from a stored table.'],
+        ].map(([k, v]) => (
+          <div class="grid gap-1 border-b border-[var(--rule)] pb-4 last:border-0 sm:grid-cols-[12rem_1fr] sm:gap-5">
+            <dt class="font-display text-[1.04rem] text-madder-900">{k}</dt>
+            <dd class="text-[.98rem] leading-relaxed text-ink-600">{v}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  </section>
+</Base>

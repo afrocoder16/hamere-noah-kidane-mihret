@@ -1,0 +1,327 @@
+@import "tailwindcss";
+
+/* ═══════════════════════════════════════════════════════════════════════
+   ሐመረ ኖኅ ኪዳነ ምሕረት — design system
+   The palette is taken from the pigments of Gondarine panel painting:
+   madder red, orpiment gold, indigo, malachite, and the tanned goatskin
+   the manuscripts were written on.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+@theme {
+  /* ── ground: prepared goatskin parchment ── */
+  --color-vellum-50:  #FBF5E6;
+  --color-vellum-100: #F6EDD9;
+  --color-vellum-200: #EFE2C4;
+  --color-vellum-300: #E4D2A9;
+  --color-vellum-400: #D4BC8A;
+  --color-vellum: #F3E9D2;
+
+  /* ── iron-gall ink ── */
+  --color-ink-950: #14100C;
+  --color-ink-900: #1E1811;
+  --color-ink-800: #2C231A;
+  --color-ink-700: #453626;
+  --color-ink-600: #6A5540;
+  --color-ink-500: #7A6449;
+
+  /* ── orpiment & gold leaf ── */
+  --color-gold-900: #6E4E12;
+  --color-gold-800: #7E5A17;
+  --color-gold-700: #8A621A;
+  --color-gold-600: #C0912E;
+  --color-gold-500: #D4A741;
+  --color-gold-400: #E3BE63;
+  --color-gold-300: #EED596;
+  --color-gold-200: #F5E7C0;
+
+  /* ── madder red: the martyrs, the wine, the Passion ── */
+  --color-madder-950: #3B0C10;
+  --color-madder-900: #56141A;
+  --color-madder-800: #6E1A21;
+  --color-madder-700: #8B2028;
+  --color-madder-600: #A62C32;
+  --color-madder-500: #BF4249;
+  --color-madder-300: #D98D91;
+
+  /* ── indigo & lapis: the heavens, the Theotokos' mantle ── */
+  --color-lapis-950: #0E1A2E;
+  --color-lapis-900: #14263F;
+  --color-lapis-800: #1B3355;
+  --color-lapis-700: #24446F;
+  --color-lapis-600: #2F5A8E;
+  --color-lapis-400: #6B92BD;
+
+  /* ── malachite: paradise, the palm, the living tree ── */
+  --color-malachite-900: #10352A;
+  --color-malachite-800: #17483A;
+  --color-malachite-700: #1E5C4A;
+  --color-malachite-600: #2A7A61;
+  --color-malachite-400: #6FAE97;
+
+  /* ── saffron: the lamplight ── */
+  --color-saffron-600: #D98324;
+  --color-saffron-500: #E8A33D;
+
+  --font-display: "Cinzel", "Cormorant Garamond", Georgia, serif;
+  --font-serif: "EB Garamond", Georgia, "Times New Roman", serif;
+  --font-geez: "Noto Serif Ethiopic", "Abyssinica SIL", serif;
+  --font-ui: "Jost", ui-sans-serif, system-ui, sans-serif;
+
+  --shadow-panel: 0 2px 4px rgba(20,16,12,.06), 0 12px 32px -8px rgba(20,16,12,.22);
+  --shadow-lifted: 0 4px 8px rgba(20,16,12,.08), 0 28px 60px -18px rgba(20,16,12,.34);
+  --shadow-gilt: 0 0 0 1px rgba(192,145,46,.38), 0 10px 34px -12px rgba(110,78,18,.45);
+}
+
+/* ═══════════════════  base  ═══════════════════ */
+
+@layer base {
+  :root {
+    color-scheme: light;
+    --rule: color-mix(in oklab, var(--color-ink-800) 18%, transparent);
+    --rule-gold: color-mix(in oklab, var(--color-gold-700) 42%, transparent);
+    scroll-behavior: smooth;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :root { scroll-behavior: auto; }
+    *, *::before, *::after {
+      animation-duration: .001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: .001ms !important;
+    }
+  }
+
+  html { -webkit-text-size-adjust: 100%; }
+
+  body {
+    background-color: var(--color-vellum);
+    color: var(--color-ink-800);
+    font-family: var(--font-serif);
+    font-size: 1.0625rem;
+    line-height: 1.7;
+    font-feature-settings: "kern", "liga", "onum";
+    /* the tooth and blotch of skin prepared for writing */
+    background-image:
+      radial-gradient(ellipse 70% 50% at 12% 4%,  rgba(192,145,46,.13), transparent 62%),
+      radial-gradient(ellipse 60% 45% at 88% 96%, rgba(139,32,40,.09),  transparent 60%),
+      radial-gradient(ellipse 50% 40% at 96% 22%, rgba(27,51,85,.07),   transparent 58%),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23g)' opacity='.055'/%3E%3C/svg%3E");
+    background-attachment: fixed, fixed, fixed, scroll;
+  }
+
+  ::selection { background: var(--color-gold-300); color: var(--color-ink-950); }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    color: var(--color-madder-900);
+    font-weight: 700;
+    line-height: 1.14;
+    letter-spacing: .005em;
+    text-wrap: balance;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-gold-700);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  img { display: block; max-width: 100%; }
+
+  /* Ge'ez sets on a different rhythm than Latin — give it room. */
+  .geez {
+    font-family: var(--font-geez);
+    line-height: 1.55;
+    font-weight: 500;
+  }
+}
+
+/* ═══════════════════  materials  ═══════════════════ */
+
+@utility gilt {
+  /* gold leaf: a warm ground, a raking highlight, and the tooth of the bole beneath */
+  background-image:
+    linear-gradient(103deg,
+      #8C651C 0%, #C0912E 16%, #F2DCA0 32%, #D4A741 44%,
+      #A87B23 58%, #EED596 72%, #C0912E 86%, #8C651C 100%);
+  background-size: 240% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+@utility gilt-shimmer {
+  animation: gilt-drift 14s ease-in-out infinite;
+}
+
+@keyframes gilt-drift {
+  0%, 100% { background-position: 0% 50%; }
+  50%      { background-position: 100% 50%; }
+}
+
+/* a panel painted on a prepared board, with the gesso edge showing */
+@utility panel {
+  background:
+    linear-gradient(180deg, rgba(255,252,244,.72), rgba(246,237,217,.5));
+  border: 1px solid var(--rule);
+  box-shadow: var(--shadow-panel);
+}
+
+/* the double rule that frames a manuscript page */
+@utility framed {
+  position: relative;
+}
+
+@utility ink-rule {
+  border-color: var(--rule);
+}
+
+/* small caps label, like a rubric written in red */
+@utility rubric {
+  font-family: var(--font-ui);
+  font-size: .6875rem;
+  font-weight: 600;
+  letter-spacing: .28em;
+  text-transform: uppercase;
+  color: var(--color-madder-700);
+}
+
+/* ═══════════════════  the illuminated capital  ═══════════════════ */
+
+@utility dropcap {
+  &::first-letter {
+    font-family: var(--font-display);
+    font-size: 4.1em;
+    line-height: .82;
+    float: left;
+    margin: .06em .12em 0 0;
+    padding: .06em .1em 0 0;
+    color: var(--color-madder-800);
+    text-shadow: 1px 1px 0 var(--color-gold-300), 2px 2px 0 rgba(192,145,46,.3);
+  }
+}
+
+/* ═══════════════════  motion  ═══════════════════ */
+
+@keyframes ink-in {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: none; }
+}
+
+@keyframes draw {
+  from { stroke-dashoffset: var(--dash, 1200); }
+  to   { stroke-dashoffset: 0; }
+}
+
+@keyframes lamp {
+  0%, 100% { opacity: .55; }
+  50%      { opacity: 1; }
+}
+
+@keyframes censer {
+  0%   { transform: translateY(0)    scale(1);   opacity: 0; }
+  18%  { opacity: .5; }
+  100% { transform: translateY(-90px) scale(2.1); opacity: 0; }
+}
+
+/* elements marked [data-reveal] fade up as they enter the page */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity .9s cubic-bezier(.2,.7,.3,1), transform .9s cubic-bezier(.2,.7,.3,1);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+[data-reveal].revealed { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] { opacity: 1; transform: none; }
+}
+
+/* ═══════════════════  ornament helpers  ═══════════════════ */
+
+/* the Aksumite arch — the stepped keyhole window of the old churches */
+@utility arch-mask {
+  clip-path: path("M 0 100 L 0 34 Q 0 0 50 0 Q 100 0 100 34 L 100 100 Z");
+}
+
+@utility tilet-band {
+  background-image: repeating-linear-gradient(
+    90deg,
+    var(--color-madder-800) 0 6px,
+    var(--color-gold-600)   6px 12px,
+    var(--color-malachite-700) 12px 18px,
+    var(--color-lapis-800)  18px 24px
+  );
+}
+
+@utility scrollbar-none {
+  scrollbar-width: none;
+  &::-webkit-scrollbar { display: none; }
+}
+
+/* ═══════════════════  the header over a dark hero  ═══════════════════
+ * Until the page moves, the bar sits on the photograph and must read light.
+ * Once [data-header] gains .is-scrolled it returns to ink on vellum.
+ */
+
+[data-header][data-over-hero]:not(.is-scrolled) {
+  --brand-en: var(--color-vellum-50);
+  --brand-geez: var(--color-gold-300);
+  --nav-fg: color-mix(in oklab, var(--color-vellum-100) 82%, transparent);
+  --nav-fg-hover: var(--color-gold-300);
+  --nav-sub: color-mix(in oklab, var(--color-gold-300) 62%, transparent);
+  --nav-mark: var(--color-gold-400);
+  --nav-mark-ring: color-mix(in oklab, var(--color-gold-400) 55%, transparent);
+  --nav-burger: var(--color-vellum-100);
+}
+[data-header] {
+  --brand-en: var(--color-madder-900);
+  --brand-geez: var(--color-gold-700);
+  --nav-fg: var(--color-ink-700);
+  --nav-fg-hover: var(--color-madder-800);
+  --nav-sub: color-mix(in oklab, var(--color-gold-700) 78%, transparent);
+  --nav-mark: var(--color-madder-800);
+  --nav-mark-ring: color-mix(in oklab, var(--color-gold-600) 65%, transparent);
+  --nav-burger: var(--color-ink-800);
+}
+
+[data-header] .nav-brand-en   { color: var(--brand-en); }
+[data-header] .nav-brand-geez { color: var(--brand-geez); }
+[data-header] .nav-link       { color: var(--nav-fg); }
+[data-header] .nav-link:hover,
+[data-header] .nav-link[aria-current='page'] { color: var(--nav-fg-hover); }
+[data-header] .nav-link-sub   { color: var(--nav-sub); }
+[data-header] .nav-mark-cross { stroke: var(--nav-mark); }
+[data-header] .nav-mark-ring  { stroke: var(--nav-mark-ring); }
+[data-header] .nav-mark-dot   { fill: var(--nav-mark-ring); }
+[data-header] .nav-burger     { color: var(--nav-burger); border-color: color-mix(in oklab, var(--nav-burger) 32%, transparent); }
+
+/* the "Give" button inverts too, so it stays legible either way */
+[data-header][data-over-hero]:not(.is-scrolled) .nav-cta {
+  background: transparent;
+  border-color: color-mix(in oklab, var(--color-gold-400) 70%, transparent);
+  color: var(--color-gold-300);
+}
+[data-header][data-over-hero]:not(.is-scrolled) .nav-cta:hover {
+  background: var(--color-gold-500);
+  border-color: var(--color-gold-500);
+  color: var(--color-ink-950);
+}
+
+/* ═══════════════════  prose  ═══════════════════ */
+
+.reading p { margin-block: 0 1.15em; max-width: 68ch; }
+.reading p:last-child { margin-bottom: 0; }
+.reading a { color: var(--color-madder-700); text-underline-offset: .2em; text-decoration-thickness: 1px; }
+.reading a:hover { color: var(--color-madder-900); }
+
+/* a quotation set as it would be in the margin of a gospel book */
+.marginal {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  line-height: 1.4;
+  color: var(--color-madder-800);
+  border-left: 2px solid var(--rule-gold);
+  padding-left: 1.35rem;
+}

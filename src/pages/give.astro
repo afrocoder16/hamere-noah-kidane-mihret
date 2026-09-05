@@ -1,0 +1,174 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+import Divider from '../components/ornament/Divider.astro';
+import Harag from '../components/ornament/Harag.astro';
+import MeskelCross from '../components/ornament/MeskelCross.astro';
+import { PARISH } from '../lib/parish';
+import { toGeez } from '../lib/ethiopic';
+import { u } from '../lib/url';
+
+const WAYS = [
+  { geez: 'አሥራት', tr: 'Asrat', en: 'The tithe',
+    body: 'A tenth, given regularly. The oldest and plainest form of giving in the Scriptures, and the one the parish is built on.' },
+  { geez: 'መባ', tr: 'Meba', en: 'Offering',
+    body: 'Given at the Liturgy, or at any time — for the building, for the feast-day meal, for whatever the parish needs that month.' },
+  { geez: 'ስለት', tr: 'Silet', en: 'A vow',
+    body: 'A gift promised for a particular intention — a recovery, a safe journey, a child. Kept when the prayer is answered.' },
+  { geez: 'ተዝካር', tr: 'Tezkar', en: 'In memory',
+    body: 'Alms given for the repose of someone who has died, on the fortieth day and at each year’s remembrance.' },
+  { geez: 'ምጽዋት', tr: 'Mitswat', en: 'Alms',
+    body: 'Given directly to the poor. Our Lady’s covenant names it explicitly — even a cup of cold water given in her memory.' },
+];
+
+const USES = [
+  ['The priest', 'A parish supports its priest and his household. This is the first call on anything given.'],
+  ['The building', 'Rent or mortgage, heat through a South Dakota winter, insurance, repairs.'],
+  ['The liturgy', 'Incense, candles, wine and bread for the Eucharist, vestments, service books.'],
+  ['Sunday school', 'Books, Ge’ez primers, materials, and the feast-day meals the children remember.'],
+  ['Those in need', 'Funerals, families in difficulty, and members in hospital — usually handled quietly.'],
+];
+---
+
+<Base
+  title="Giving"
+  description="Tithe, offering, and alms at Hamere Noah Kidane Mihret Ethiopian Orthodox Tewahedo Church."
+>
+  <PageHeader
+    eyebrow="Giving · ስጦታ"
+    geez="አሥራት ወበኵራት"
+    title="Tithe and offering"
+    lede="Everything this parish does is paid for by the people who stand in it."
+    image={u('/art/cross-detail.jpg')}
+    imageAlt=""
+  />
+
+  <!-- ══════════ the covenant ══════════ -->
+  <section class="mx-auto max-w-[1240px] px-5 py-20 lg:px-8 lg:py-28">
+    <div class="grid gap-14 lg:grid-cols-[1.05fr_0.95fr] lg:gap-20">
+      <div data-reveal>
+        <p class="rubric">Why we give · ለምን</p>
+        <h2 class="mt-4 text-[clamp(1.75rem,3.6vw,2.5rem)]">Even a cup of cold water</h2>
+        <div class="reading mt-7 text-[1.05rem] leading-[1.75] text-ink-700">
+          <p class="dropcap">
+            The covenant this parish is named for is, among other things, a covenant about
+            almsgiving. Our Lord promised His mother that He would show mercy to anyone who
+            called on her name or gave alms in her memory — and the promise is specific
+            about how little that gift is allowed to be. A cup of cold water is named. The
+            point is not the amount.
+          </p>
+          <p>
+            So there is no membership fee here, no assessment, no pledge card. What there
+            is, is a congregation of ordinary households who between them keep a priest, a
+            roof, and a Sunday school running in {PARISH.city}, and who have never once
+            been asked how much they gave.
+          </p>
+        </div>
+
+        <blockquote class="marginal mt-9">
+          “Whosoever shall give you a cup of water to drink in my name, he shall not lose
+          his reward.”
+          <footer class="mt-3 font-ui text-[.7rem] tracking-[.16em] text-ink-500 uppercase not-italic">
+            Mark 9:41
+          </footer>
+        </blockquote>
+      </div>
+
+      <div data-reveal style="--reveal-delay:140ms">
+        <div class="relative border border-gold-600/45 bg-gradient-to-br from-madder-900 to-madder-950 p-9 text-vellum-100 lg:p-10">
+          <div class="pointer-events-none absolute inset-3 border border-gold-500/25"></div>
+          <div class="relative">
+            <div class="flex justify-center">
+              <MeskelCross size={62} stroke="var(--color-gold-400)" accent="var(--color-gold-300)" />
+            </div>
+            <p class="rubric mt-7 text-center !text-gold-400/85">How to give</p>
+            <h3 class="mt-3 text-center font-display text-[1.5rem] text-vellum-50">Three ways</h3>
+
+            <ol class="mt-8 space-y-5">
+              {[
+                ['In person', 'At the Liturgy, in the offering — the ordinary way, and still the most common here.'],
+                ['By post or in the office', `Cheques to ${PARISH.nameFull}, ${PARISH.address.full}.`],
+                ['Online', 'TODO — the parish council to add the giving link once an account is set up.'],
+              ].map(([h, b], i) => (
+                <li class="flex gap-4">
+                  <span class="geez shrink-0 text-[1.1rem] leading-tight text-gold-400">{toGeez(i + 1)}</span>
+                  <div>
+                    <p class="font-display text-[1.06rem] text-vellum-50">{h}</p>
+                    <p class="mt-1 text-[.94rem] leading-relaxed text-vellum-200/70">{b}</p>
+                  </div>
+                </li>
+              ))}
+            </ol>
+
+            <p class="mt-8 border-t border-vellum-200/20 pt-5 text-center text-[.85rem] leading-relaxed text-vellum-200/60">
+              The parish is a registered non-profit; gifts are tax-deductible.
+              Ring <a href={PARISH.phoneHref} class="text-gold-300 underline underline-offset-2">{PARISH.phone}</a>{' '}
+              for a giving statement.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ kinds of giving ══════════ -->
+  <section class="relative overflow-hidden border-y border-[var(--rule)] bg-vellum-100/70">
+    <div class="absolute inset-x-0 top-0 opacity-40"><Harag variant="vine" repeat={22} height={24} /></div>
+    <div class="mx-auto max-w-[1240px] px-5 py-20 lg:px-8 lg:py-24">
+      <div class="mx-auto mb-14 max-w-2xl text-center" data-reveal>
+        <p class="rubric">The kinds of giving · ዓይነቶች</p>
+        <h2 class="mt-4 text-[clamp(1.7rem,3.4vw,2.3rem)]">Five words for it</h2>
+        <p class="mt-5 text-[1.04rem] leading-relaxed text-ink-600">
+          The tradition distinguishes carefully between them, and each is offered
+          differently.
+        </p>
+      </div>
+
+      <ul class="grid gap-px border border-[var(--rule)] bg-[var(--rule)] sm:grid-cols-2 lg:grid-cols-3">
+        {WAYS.map((w, i) => (
+          <li class="bg-vellum-50/80 p-7 transition-colors duration-500 hover:bg-gold-200/40"
+              data-reveal style={`--reveal-delay:${i * 70}ms`}>
+            <p class="geez text-[1.5rem] leading-tight text-madder-800">{w.geez}</p>
+            <p class="mt-1 flex flex-wrap items-baseline gap-x-3">
+              <span class="font-display text-[1.06rem] text-ink-800">{w.en}</span>
+              <span class="font-ui text-[.66rem] tracking-[.14em] text-gold-700 uppercase">{w.tr}</span>
+            </p>
+            <p class="mt-3 text-[.96rem] leading-relaxed text-ink-600">{w.body}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- ══════════ where it goes ══════════ -->
+  <section class="mx-auto max-w-[1240px] px-5 py-20 lg:px-8 lg:py-24">
+    <div class="mx-auto max-w-3xl">
+      <div class="mb-12 text-center" data-reveal>
+        <p class="rubric">Where it goes · አጠቃቀም</p>
+        <h2 class="mt-4 text-[clamp(1.7rem,3.4vw,2.3rem)]">What it pays for</h2>
+      </div>
+
+      <ol class="border-t border-[var(--rule)]">
+        {USES.map(([h, b], i) => (
+          <li class="grid grid-cols-[2.4rem_1fr] gap-x-5 border-b border-[var(--rule)] py-5"
+              data-reveal style={`--reveal-delay:${i * 70}ms`}>
+            <span class="geez pt-1 text-[1.1rem] leading-none text-gold-600">{toGeez(i + 1)}</span>
+            <div>
+              <p class="font-display text-[1.12rem] text-madder-900">{h}</p>
+              <p class="mt-1.5 text-[.99rem] leading-relaxed text-ink-600">{b}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+
+      <p class="mt-8 border border-gold-600/35 bg-gold-200/25 px-5 py-4 text-[.9rem] leading-relaxed text-ink-600"
+         data-reveal>
+        <strong class="font-600 text-madder-800">For the parish council:</strong> replace the
+        online-giving placeholder above with your real link, and add the annual accounts
+        here if you publish them.
+      </p>
+    </div>
+  </section>
+
+  <Divider />
+</Base>

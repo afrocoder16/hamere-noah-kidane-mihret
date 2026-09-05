@@ -1,0 +1,26 @@
+---
+import MeskelCross from './MeskelCross.astro';
+import Harag from './Harag.astro';
+
+/**
+ * The rule a scribe draws between one section and the next: a plaited band
+ * running out to either side of a small cross.
+ */
+interface Props {
+  variant?: 'plait' | 'chain' | 'vine';
+  mono?: boolean;
+  class?: string;
+  size?: number;
+}
+const { variant = 'vine', mono = true, class: cls = '', size = 34 } = Astro.props;
+---
+
+<div class={`flex items-center justify-center gap-5 py-2 ${cls}`} aria-hidden="true">
+  <div class="hidden h-6 max-w-[180px] flex-1 opacity-60 sm:block">
+    <Harag variant={variant} repeat={5} mono={mono} height={24} />
+  </div>
+  <MeskelCross size={size} stroke="var(--color-gold-700)" accent="var(--color-madder-700)" class="shrink-0 opacity-90" />
+  <div class="hidden h-6 max-w-[180px] flex-1 opacity-60 sm:block">
+    <Harag variant={variant} repeat={5} mono={mono} height={24} flip />
+  </div>
+</div>

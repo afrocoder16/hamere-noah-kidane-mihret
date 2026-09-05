@@ -1,0 +1,157 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+import Divider from '../components/ornament/Divider.astro';
+import Harag from '../components/ornament/Harag.astro';
+import { PARISH, SERVICES } from '../lib/parish';
+import { ethiopianClockOf } from '../lib/ethiopic';
+import { u } from '../lib/url';
+
+const sunday = SERVICES.find((s) => s.title.startsWith('Kidase'))!;
+
+const CONTACTS = [
+  { label: 'Address', geez: 'አድራሻ',
+    value: [PARISH.address.street, `${PARISH.address.city}, ${PARISH.address.state} ${PARISH.address.zip}`],
+    href: PARISH.address.maps, cta: 'Open in Maps',
+    icon: 'M12 21s-7-6.2-7-11a7 7 0 0114 0c0 4.8-7 11-7 11z|M12 10m-2.5 0a2.5 2.5 0 105 0a2.5 2.5 0 10-5 0' },
+  { label: 'Telephone', geez: 'ስልክ', value: [PARISH.phone], href: PARISH.phoneHref, cta: 'Call the office',
+    icon: 'M3 5h4l2 5-2.5 1.5a11 11 0 005 5L13 14l5 2v4a1 1 0 01-1 1C9 21 3 15 3 6a1 1 0 011-1z' },
+  { label: 'Email', geez: 'ኢሜይል', value: [PARISH.email], href: `mailto:${PARISH.email}`, cta: 'Write to us',
+    note: 'TODO — parish office to confirm',
+    icon: 'M4 5h16v14H4z|M4 7l8 6 8-6' },
+];
+---
+
+<Base
+  title="Visit"
+  description={`Directions and contact for Hamere Noah Kidane Mihret Ethiopian Orthodox Tewahedo Church, ${PARISH.address.full}.`}
+>
+  <PageHeader
+    eyebrow="Find us · ጎብኙን"
+    geez="እንኳን ደህና መጡ"
+    title="Come and see"
+    lede={`${PARISH.address.street}, ${PARISH.address.city}. Sunday Kidase begins at ${sunday.from}.`}
+    image={u('/art/ura-exterior.jpg')}
+    imageAlt=""
+  />
+
+  <!-- ══════════ contact ══════════ -->
+  <section class="mx-auto max-w-[1240px] px-5 py-20 lg:px-8 lg:py-28">
+    <div class="grid gap-14 lg:grid-cols-[0.95fr_1.05fr] lg:gap-16">
+      <div>
+        <div data-reveal>
+          <p class="rubric">Contact · አግኙን</p>
+          <h2 class="mt-4 text-[clamp(1.75rem,3.6vw,2.5rem)]">Where to find the parish</h2>
+        </div>
+
+        <ul class="mt-10 space-y-px border border-[var(--rule)] bg-[var(--rule)]">
+          {CONTACTS.map((c, i) => (
+            <li class="bg-vellum-50/80 p-6 lg:p-7" data-reveal style={`--reveal-delay:${i * 80}ms`}>
+              <div class="flex gap-5">
+                <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="var(--color-madder-800)"
+                     stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"
+                     class="mt-1 shrink-0" aria-hidden="true">
+                  {c.icon.split('|').map((d) => <path d={d} />)}
+                </svg>
+                <div class="min-w-0">
+                  <p class="flex items-baseline gap-2.5">
+                    <span class="font-ui text-[.68rem] font-600 tracking-[.2em] text-madder-700 uppercase">{c.label}</span>
+                    <span class="geez text-[.85rem] text-gold-700">{c.geez}</span>
+                  </p>
+                  {c.value.map((v) => (
+                    <p class="mt-1 font-display text-[1.12rem] break-words text-ink-800">{v}</p>
+                  ))}
+                  {c.note && (
+                    <p class="mt-1 font-ui text-[.66rem] tracking-[.1em] text-ink-500 uppercase">{c.note}</p>
+                  )}
+                  <a href={c.href} class="group mt-3 inline-flex items-center gap-2 font-ui text-[.76rem] tracking-[.12em] text-madder-800 uppercase">
+                    {c.cta}
+                    <span class="inline-block transition-transform duration-300 group-hover:translate-x-1">→</span>
+                  </a>
+                </div>
+              </div>
+            </li>
+          ))}
+        </ul>
+
+        <div class="panel mt-8 p-6 lg:p-7" data-reveal>
+          <p class="rubric">Before you come</p>
+          <ul class="mt-4 space-y-2.5 text-[.98rem] leading-relaxed text-ink-700">
+            <li class="flex gap-3"><span class="text-gold-600">·</span>Shoes come off at the door. There is a rack.</li>
+            <li class="flex gap-3"><span class="text-gold-600">·</span>Dress modestly; women cover their hair with a white netela or a scarf.</li>
+            <li class="flex gap-3"><span class="text-gold-600">·</span>Standing at the back is entirely correct for a first visit.</li>
+            <li class="flex gap-3"><span class="text-gold-600">·</span>Arriving at 8:00 rather than 6:00 is completely normal.</li>
+          </ul>
+          <a href={u('/services#visiting')}
+             class="group mt-5 inline-flex items-center gap-2 font-ui text-[.76rem] tracking-[.12em] text-madder-800 uppercase">
+            The whole first-visit guide
+            <span class="inline-block transition-transform duration-300 group-hover:translate-x-1">→</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- ── map ── -->
+      <div data-reveal style="--reveal-delay:120ms">
+        <div class="relative">
+          <div class="pointer-events-none absolute -inset-2 border border-gold-600/40"></div>
+          <iframe
+            title={`Map showing ${PARISH.nameFull}`}
+            class="aspect-[4/5] w-full border border-[var(--rule)] grayscale-[.28] sepia-[.18]"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            src="https://www.openstreetmap.org/export/embed.html?bbox=-96.7594%2C43.5395%2C-96.7374%2C43.5496&layer=mapnik&marker=43.5445473%2C-96.7483924"
+          ></iframe>
+        </div>
+        <p class="mt-4 text-[.9rem] leading-relaxed text-ink-600">
+          {PARISH.address.full} —
+          <a href={PARISH.address.maps} class="text-madder-700 underline underline-offset-2">open in Google Maps</a>.
+          Street parking on {PARISH.address.street.replace(/^\d+\s/, '')} and the surrounding blocks.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ times ══════════ -->
+  <section class="relative overflow-hidden border-y border-[var(--rule)] bg-vellum-100/70">
+    <div class="absolute inset-x-0 top-0 opacity-40"><Harag variant="chain" repeat={22} height={24} /></div>
+    <div class="mx-auto max-w-[1240px] px-5 py-20 lg:px-8">
+      <div class="mx-auto mb-12 max-w-2xl text-center" data-reveal>
+        <p class="rubric">When · መቼ</p>
+        <h2 class="mt-4 text-[clamp(1.7rem,3.4vw,2.3rem)]">Times at a glance</h2>
+      </div>
+
+      <ul class="mx-auto grid max-w-4xl gap-px border border-[var(--rule)] bg-[var(--rule)] sm:grid-cols-2 lg:grid-cols-3">
+        {SERVICES.map((s, i) => (
+          <li class="bg-vellum-50/80 p-6" data-reveal style={`--reveal-delay:${i * 60}ms`}>
+            <p class="font-ui text-[.66rem] font-600 tracking-[.2em] text-madder-700 uppercase">{s.day}</p>
+            <p class="mt-2 font-display text-[1.08rem] leading-snug text-ink-800">{s.title}</p>
+            <p class="geez text-[.88rem] text-gold-700">{s.geez}</p>
+            <p class="mt-3 font-display text-[1.15rem] text-madder-800">
+              {s.from}{s.toLabel && <span class="text-ink-500"> – {s.toLabel}</span>}
+            </p>
+            <p class="geez text-[.88rem] text-gold-700">{ethiopianClockOf(s.from).text}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <Divider />
+
+  <!-- ══════════ closing ══════════ -->
+  <section class="mx-auto max-w-2xl px-6 py-20 text-center lg:py-24">
+    <p class="geez text-[clamp(1.3rem,3.6vw,1.9rem)] leading-snug text-madder-800" data-reveal>
+      በሰላም ግቡ
+    </p>
+    <p class="mt-3 font-display text-[1.15rem] text-ink-700" data-reveal>“Enter in peace.”</p>
+    <p class="mx-auto mt-6 max-w-md text-[1.02rem] leading-relaxed text-ink-600" data-reveal>
+      If you are coming for the first time and would rather someone were expecting you,
+      ring the office. Someone will meet you at the door.
+    </p>
+    <a href={PARISH.phoneHref}
+       class="mt-8 inline-block border border-madder-800 bg-madder-800 px-8 py-3.5 font-ui text-[.8rem] tracking-[.14em] text-vellum-50 uppercase transition-colors duration-300 hover:bg-madder-900"
+       data-reveal>
+      {PARISH.phone}
+    </a>
+  </section>
+</Base>

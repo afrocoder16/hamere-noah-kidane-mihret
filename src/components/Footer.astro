@@ -1,0 +1,119 @@
+---
+import { PARISH } from '../lib/parish';
+import Harag from './ornament/Harag.astro';
+import MeskelCross from './ornament/MeskelCross.astro';
+import { u } from '../lib/url';
+
+const COLS = [
+  {
+    head: 'The Parish', geez: 'ደብሩ',
+    links: [
+      ['/about', 'About us'],
+      ['/about#name', 'The meaning of our name'],
+      ['/faith', 'What we believe'],
+      ['/community', 'Ministries'],
+    ],
+  },
+  {
+    head: 'Worship', geez: 'አምልኮ',
+    links: [
+      ['/services', 'Service times'],
+      ['/services#visiting', 'Visiting for the first time'],
+      ['/faith#sacraments', 'The sacraments'],
+      ['/calendar', 'Feasts & fasts'],
+    ],
+  },
+  {
+    head: 'Take Part', geez: 'ተሳተፉ',
+    links: [
+      ['/membership', 'Become a member'],
+      ['/give', 'Giving & tithe'],
+      ['/gallery', 'Sacred art'],
+      ['/visit', 'Contact the office'],
+    ],
+  },
+];
+const year = new Date().getFullYear();
+---
+
+<footer class="relative mt-28 bg-ink-950 text-vellum-200">
+  <!-- the woven band, as at the head of the page -->
+  <div class="h-[3px] tilet-band"></div>
+
+  <div class="opacity-30">
+    <Harag variant="chain" repeat={20} height={26} />
+  </div>
+
+  <div class="mx-auto max-w-[1240px] px-5 pt-14 pb-10 lg:px-8">
+    <div class="grid gap-12 lg:grid-cols-[1.5fr_repeat(3,1fr)]">
+      <!-- ── the parish ── -->
+      <div>
+        <div class="flex items-start gap-4">
+          <MeskelCross size={52} stroke="var(--color-gold-500)" accent="var(--color-madder-500)" class="shrink-0 opacity-90" />
+          <div>
+            <p class="geez text-[1.05rem] leading-snug text-gold-300">ሐመረ ኖኅ<br />ኪዳነ ምሕረት</p>
+            <p class="mt-2 font-display text-[1.02rem] leading-snug text-vellum-100">
+              Hamere Noah<br />Kidane Mihret
+            </p>
+          </div>
+        </div>
+
+        <p class="mt-6 max-w-sm text-[.94rem] leading-relaxed text-vellum-200/70">
+          An Ethiopian Orthodox Tewahedo parish in {PARISH.city}, keeping the liturgy of
+          our fathers in Ge’ez and Amharic, for a congregation now growing up in English.
+        </p>
+
+        <address class="mt-6 space-y-1.5 text-[.9rem] not-italic text-vellum-200/70">
+          <p>{PARISH.address.street}</p>
+          <p>{PARISH.address.city}, {PARISH.address.state} {PARISH.address.zip}</p>
+          <p class="pt-1">
+            <a href={PARISH.phoneHref} class="transition-colors hover:text-gold-300">{PARISH.phone}</a>
+          </p>
+        </address>
+      </div>
+
+      <!-- ── link columns ── -->
+      {COLS.map((c) => (
+        <nav aria-label={c.head}>
+          <h2 class="font-ui text-[.68rem] font-600 tracking-[.24em] text-gold-400 uppercase">{c.head}</h2>
+          <p class="geez mt-1 text-[.72rem] text-vellum-200/58">{c.geez}</p>
+          <ul class="mt-4 space-y-2.5">
+            {c.links.map(([href, label]) => (
+              <li>
+                <a href={u(href)} class="text-[.9rem] text-vellum-200/72 transition-colors duration-300 hover:text-gold-300">
+                  {label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      ))}
+    </div>
+
+    <!-- ── the closing line ── -->
+    <div class="mt-14 border-t border-vellum-200/12 pt-7">
+      <p class="geez text-center text-[.95rem] leading-relaxed text-gold-300/80">
+        ጸሎታ ወበረከታ ትኩን ምስሌነ
+      </p>
+      <p class="mt-1.5 text-center font-display text-[.85rem] tracking-wide text-vellum-200/58">
+        May her prayer and her blessing be with us.
+      </p>
+
+      <div class="mt-8 flex flex-col items-center justify-between gap-3 text-center text-[.72rem] text-vellum-200/58 sm:flex-row sm:text-left">
+        <p>© {year} {PARISH.nameFull}</p>
+        <p>
+          <a href={u('/credits')} class="underline decoration-vellum-200/25 underline-offset-2 transition-colors hover:text-gold-300"
+            >Image credits &amp; licences</a
+          >
+        </p>
+      </div>
+
+      <p class="mt-6 border border-gold-700/25 bg-gold-700/8 px-4 py-3 text-center font-ui text-[.72rem] leading-relaxed text-gold-300/85">
+        <strong class="font-600">Design sample.</strong> Content marked
+        <code class="rounded-sm bg-ink-900 px-1 py-px text-gold-300">TODO</code> in the source —
+        service times, staff names, the giving link — is placeholder text for the parish office
+        to confirm. The address and telephone are taken from public listings.
+      </p>
+    </div>
+  </div>
+</footer>

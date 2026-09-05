@@ -1,0 +1,152 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+import ArchFrame from '../components/ornament/ArchFrame.astro';
+import AngelBand from '../components/ornament/AngelBand.astro';
+import Harag from '../components/ornament/Harag.astro';
+import Divider from '../components/ornament/Divider.astro';
+import { PIECES, GROUPS } from '../lib/gallery';
+import { u } from '../lib/url';
+
+const PIGMENTS = [
+  { name: 'Madder', geez: 'ቀይ', hex: '#8B2028', body: 'From the root of the madder plant. The martyrs, the Passion, the ground of the great feasts.' },
+  { name: 'Orpiment', geez: 'ወርቅ', hex: '#C0912E', body: 'A yellow arsenic sulphide, and where gold leaf was not affordable, gold itself. Light, glory, the uncreated.' },
+  { name: 'Indigo', geez: 'ሰማያዊ', hex: '#1B3355', body: 'The heavens, and the mantle of the Theotokos. The most expensive pigment on the panel.' },
+  { name: 'Malachite', geez: 'አረንጓዴ', hex: '#1E5C4A', body: 'Ground copper carbonate. Paradise, the palm, the living tree.' },
+  { name: 'Lampblack', geez: 'ጥቁር', hex: '#14100C', body: 'Soot and gum. Every figure is outlined in it, which is what gives Ethiopian painting its snap.' },
+  { name: 'Parchment', geez: 'ብራና', hex: '#F3E9D2', body: 'Not a pigment but the ground: goatskin, limed, scraped, and stretched. The colour of the page is the colour of the animal.' },
+];
+---
+
+<Base
+  title="Gallery"
+  description="Ethiopian Orthodox sacred art — wall painting, rock-hewn architecture, illuminated manuscripts, processional crosses."
+>
+  <PageHeader
+    eyebrow="Sacred art · ሥዕለ አድኅኖ"
+    geez="ቅዱስ ሥዕል"
+    title="Painted so that it can be read"
+    lede="Clarity before pleasure. Meaning before proportion. Beauty arrives anyway."
+    image={u('/art/gondar-wall.jpg')}
+    imageAlt=""
+  />
+
+  <!-- ══════════ how to look ══════════ -->
+  <section class="mx-auto max-w-[1240px] px-5 py-20 lg:px-8 lg:py-24">
+    <div class="grid gap-14 lg:grid-cols-[1.05fr_0.95fr] lg:gap-20">
+      <div data-reveal>
+        <p class="rubric">How to look at it · አመለካከት</p>
+        <h2 class="mt-4 text-[clamp(1.75rem,3.6vw,2.5rem)]">A grammar, not a style</h2>
+        <div class="reading mt-7 text-[1.05rem] leading-[1.75] text-ink-700">
+          <p class="dropcap">
+            Ethiopian religious painting looks, to an eye trained on the Renaissance, as
+            though the painter could not draw. That is exactly backwards. The painter is
+            not attempting a window onto a room; he is writing, in pictures, for a
+            congregation that could not read.
+          </p>
+          <p>
+            So the conventions are strict and they are legible. The righteous face you
+            straight on with both eyes visible. The wicked — Judas, the soldiers, the
+            devil — are always shown in profile, with one eye, because they have turned
+            away. Size is rank, not distance: Christ is largest because He is greatest,
+            not because He is nearer. Proportion is distorted wherever distortion makes
+            the meaning plainer, and never otherwise.
+          </p>
+          <p>
+            Once you know the grammar, a wall at Gondar reads as fluently as a page.
+          </p>
+        </div>
+      </div>
+
+      <div data-reveal style="--reveal-delay:140ms">
+        <ArchFrame
+          src={u('/art/manuscript-traditional.jpg')}
+          alt="An Ethiopian painting of a martyrdom before an enthroned king"
+          ratio="1 / 1"
+          caption="A martyrdom before an enthroned king. Every martyr is painted full-face — the convention that marks the righteous — while the executioner is turned aside."
+          credit="Public domain · Wikimedia Commons"
+          loading="eager"
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ the pigments ══════════ -->
+  <section class="relative overflow-hidden border-y border-[var(--rule)] bg-vellum-100/70">
+    <div class="absolute inset-x-0 top-0 opacity-40"><Harag variant="plait" repeat={22} height={24} /></div>
+    <div class="mx-auto max-w-[1240px] px-5 py-20 lg:px-8 lg:py-24">
+      <div class="mx-auto mb-14 max-w-2xl text-center" data-reveal>
+        <p class="rubric">The palette · ቀለማት</p>
+        <h2 class="mt-4 text-[clamp(1.75rem,3.6vw,2.5rem)]">Six colours, ground by hand</h2>
+        <p class="mt-5 text-[1.05rem] leading-relaxed text-ink-600">
+          This whole site is built out of them. They are the pigments a painter at Gondar
+          would have had on the board, and nothing else was available.
+        </p>
+      </div>
+
+      <ul class="grid gap-px border border-[var(--rule)] bg-[var(--rule)] sm:grid-cols-2 lg:grid-cols-3">
+        {PIGMENTS.map((p, i) => (
+          <li class="flex gap-5 bg-vellum-50/80 p-6" data-reveal style={`--reveal-delay:${i * 60}ms`}>
+            <span class="mt-1 h-12 w-12 shrink-0 border border-ink-800/25" style={`background:${p.hex}`}></span>
+            <div>
+              <p class="flex items-baseline gap-2.5">
+                <span class="font-display text-[1.1rem] text-madder-900">{p.name}</span>
+                <span class="geez text-[.92rem] text-gold-700">{p.geez}</span>
+              </p>
+              <p class="font-ui text-[.66rem] tracking-[.14em] text-ink-500 uppercase">{p.hex}</p>
+              <p class="mt-2 text-[.94rem] leading-relaxed text-ink-600">{p.body}</p>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- ══════════ the gallery proper ══════════ -->
+  {GROUPS.map((g, gi) => {
+    const items = PIECES.filter((p) => p.group === g.key);
+    return (
+      <section class="mx-auto max-w-[1240px] px-5 py-16 lg:px-8 lg:py-20">
+        <div class="mb-12 flex flex-wrap items-baseline gap-x-5 gap-y-2 border-b border-[var(--rule)] pb-5"
+             data-reveal>
+          <span class="geez text-[1.9rem] leading-none text-madder-800">{g.geez}</span>
+          <h2 class="font-display text-[1.5rem] text-ink-800">{g.en}</h2>
+          <span class="ml-auto font-ui text-[.7rem] tracking-[.16em] text-ink-500 uppercase">
+            {items.length} {items.length === 1 ? 'piece' : 'pieces'}
+          </span>
+        </div>
+
+        <div class="grid gap-10 sm:grid-cols-2 lg:grid-cols-3 lg:gap-12">
+          {items.map((p, i) => (
+            <figure data-reveal style={`--reveal-delay:${i * 90}ms`}>
+              <ArchFrame src={u(`/art/${p.file}`)} alt={`${p.title} — ${p.place}`} ratio={p.ratio} />
+              <figcaption class="mt-5">
+                <p class="geez text-[1.2rem] leading-tight text-madder-900">{p.geez}</p>
+                <p class="mt-1 font-display text-[1.06rem] text-ink-800">{p.title}</p>
+                <p class="mt-0.5 font-ui text-[.68rem] tracking-[.12em] text-gold-700 uppercase">{p.place}</p>
+                <p class="mt-3 text-[.96rem] leading-relaxed text-ink-600">{p.body}</p>
+                <p class="mt-3 font-ui text-[.66rem] tracking-[.08em] text-ink-500">{p.credit}</p>
+              </figcaption>
+            </figure>
+          ))}
+        </div>
+
+        {gi < GROUPS.length - 1 && <Divider class="mt-16" />}
+      </section>
+    );
+  })}
+
+  <!-- ══════════ closing frieze ══════════ -->
+  <section class="relative overflow-hidden bg-ink-950 py-16 text-vellum-200">
+    <div class="overflow-hidden opacity-85"><AngelBand count={14} /></div>
+    <p class="mt-10 px-6 text-center font-ui text-[.72rem] tracking-[.16em] text-vellum-200/58 uppercase">
+      Ornament throughout this site is drawn by hand, after Ethiopian models
+    </p>
+    <p class="mt-4 px-6 text-center text-[.92rem] text-vellum-200/55">
+      Photographs are used under their Creative Commons licences —
+      <a href={u('/credits')} class="text-gold-300 underline underline-offset-2 hover:text-gold-200">
+        full credits and licences
+      </a>.
+    </p>
+  </section>
+</Base>

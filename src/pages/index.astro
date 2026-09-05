@@ -1,0 +1,376 @@
+---
+import Base from '../layouts/Base.astro';
+import TodayStrip from '../components/TodayStrip.astro';
+import ThreeChambers from '../components/ThreeChambers.astro';
+import MeskelCross from '../components/ornament/MeskelCross.astro';
+import Harag from '../components/ornament/Harag.astro';
+import ArchFrame from '../components/ornament/ArchFrame.astro';
+import Divider from '../components/ornament/Divider.astro';
+import { PARISH, NAME_MEANING, SERVICES } from '../lib/parish';
+import { upcomingObservances, ethiopianClockOf, toGeez } from '../lib/ethiopic';
+import { u } from '../lib/url';
+
+const feasts = upcomingObservances(new Date(), 5);
+const sunday = SERVICES.find((s) => s.title.startsWith('Kidase'))!;
+---
+
+<Base title="Home" bleed>
+  <!-- ══════════════════════════ HERO ══════════════════════════ -->
+  <section class="relative flex min-h-[100svh] items-center justify-center overflow-hidden bg-ink-950">
+    <!-- the ceiling of Debre Berhan Selassie, looking up -->
+    <img
+      src={u('/art/ceiling-angels.jpg')}
+      alt=""
+      aria-hidden="true"
+      class="absolute inset-0 h-full w-full scale-105 object-cover opacity-[.38]"
+      style="filter: sepia(.35) contrast(1.05)"
+      fetchpriority="high"
+    />
+    <div class="absolute inset-0 bg-[radial-gradient(ellipse_60%_55%_at_50%_45%,transparent,rgba(20,16,12,.86)_78%)]"></div>
+    <div class="absolute inset-0 bg-gradient-to-b from-ink-950/85 via-ink-950/45 to-ink-950"></div>
+
+    <!-- the gold rule that frames a manuscript page -->
+    <div class="pointer-events-none absolute inset-5 border border-gold-600/22 sm:inset-8"></div>
+    <div class="pointer-events-none absolute inset-[26px] border border-gold-600/12 sm:inset-[42px]"></div>
+
+    <div class="relative mx-auto max-w-3xl px-6 py-24 text-center">
+      <div class="flex justify-center" data-reveal>
+        <MeskelCross
+          size={132}
+          stroke="var(--color-gold-400)"
+          accent="var(--color-madder-500)"
+          animate
+          class="drop-shadow-[0_0_28px_rgba(212,167,65,.35)]"
+          title="Ethiopian processional cross"
+        />
+      </div>
+
+      <p class="rubric mt-8 !text-gold-400/85" data-reveal style="--reveal-delay:120ms">
+        Ethiopian Orthodox Tewahedo Church
+      </p>
+
+      <h1 class="geez mt-5 text-[clamp(2rem,7vw,4.15rem)] leading-[1.14] font-600 gilt gilt-shimmer"
+          data-reveal style="--reveal-delay:220ms">
+        ሐመረ ኖኅ<br />ኪዳነ ምሕረት
+      </h1>
+
+      <p class="mt-5 font-display text-[clamp(1.05rem,2.6vw,1.6rem)] tracking-[.06em] text-vellum-100"
+         data-reveal style="--reveal-delay:320ms">
+        Hamere Noah Kidane Mihret
+      </p>
+
+      <p class="mx-auto mt-7 max-w-xl text-[1.06rem] leading-relaxed text-vellum-200/72"
+         data-reveal style="--reveal-delay:420ms">
+        The Ark that carried Noah through the flood, and the Covenant of Mercy given to
+        Our Lady — the two names this parish in {PARISH.city} was given, and the two
+        things it is here to do.
+      </p>
+
+      <div class="mt-10 flex flex-wrap items-center justify-center gap-4"
+           data-reveal style="--reveal-delay:520ms">
+        <a href={u('/services')}
+           class="border border-gold-500 bg-gold-500 px-7 py-3.5 font-ui text-[.8rem] tracking-[.14em] text-ink-950 uppercase transition-colors duration-300 hover:bg-gold-400 hover:border-gold-400">
+          Service Times
+        </a>
+        <a href={u('/visit')}
+           class="border border-vellum-200/35 px-7 py-3.5 font-ui text-[.8rem] tracking-[.14em] text-vellum-100 uppercase transition-colors duration-300 hover:border-gold-400 hover:text-gold-300">
+          Plan a Visit
+        </a>
+      </div>
+
+      <p class="mt-9 font-ui text-[.78rem] tracking-[.05em] text-vellum-200/58"
+         data-reveal style="--reveal-delay:620ms">
+        {PARISH.address.street}, {PARISH.city} · Kidase begins {sunday.from}
+        <span class="geez">&#8202;({ethiopianClockOf(sunday.from).text})</span>
+      </p>
+    </div>
+
+    <!-- the plaited band that closes the page, as at the foot of a folio -->
+    <div class="pointer-events-none absolute inset-x-0 bottom-0">
+      <div class="h-px bg-gradient-to-r from-transparent via-gold-500/55 to-transparent"></div>
+      <div class="opacity-55">
+        <Harag variant="plait" repeat={26} height={30} mono color="var(--color-gold-500)" />
+      </div>
+    </div>
+  </section>
+
+  <TodayStrip />
+
+  <!-- ══════════════════════════ WELCOME ══════════════════════════ -->
+  <section class="mx-auto max-w-[1240px] px-5 py-24 lg:px-8 lg:py-32">
+    <div class="grid gap-14 lg:grid-cols-[1.15fr_0.85fr] lg:gap-20">
+      <div data-reveal>
+        <p class="rubric">Welcome · እንኳን ደህና መጡ</p>
+        <h2 class="mt-4 text-[clamp(1.9rem,4vw,2.9rem)]">
+          You are welcome here,<br />whether you know the words or not.
+        </h2>
+
+        <div class="reading mt-8 text-[1.08rem] leading-[1.75] text-ink-700">
+          <p class="dropcap">
+            The liturgy of this church is older than the language most of us speak at
+            work. It is sung in Ge’ez, which no one has spoken at home for a thousand
+            years, to melodies St Yared is said to have learned from three birds sent
+            from paradise. The priest stands behind a curtain. The deacons carry a
+            sistrum and a drum. Nothing about it is designed to be easy on a first
+            visit — and that is not an oversight.
+          </p>
+          <p>
+            What it is designed to do is carry something intact across a very long
+            distance. Through the reign of Ezana, through Gragn’s wars, through the
+            years when Ethiopian Christians were scattered and had to start again in
+            cities they had never heard of — including this one. The service you would
+            walk into on a Sunday morning on West 11th Street is, in its bones, the
+            service that was offered at Axum.
+          </p>
+          <p>
+            So: come. Stand at the back. Nobody will ask you anything. Take your shoes
+            off at the door, as everyone does, and stay as long as you like.
+          </p>
+        </div>
+
+        <a href={u('/services#visiting')}
+           class="group mt-9 inline-flex items-center gap-3 font-ui text-[.82rem] tracking-[.12em] text-madder-800 uppercase">
+          What to expect on your first visit
+          <span class="inline-block transition-transform duration-300 group-hover:translate-x-1.5">→</span>
+        </a>
+      </div>
+
+      <div data-reveal style="--reveal-delay:150ms">
+        <ArchFrame
+          src={u('/art/priest-cross.jpg')}
+          alt="An Ethiopian Orthodox priest in vestments holding a painted icon of Christ"
+          ratio="3 / 4"
+          caption="A priest in full vestments, holding a painted icon of the Saviour before the sanctuary curtain."
+          credit="Chuck Moravec · CC BY 2.0 · Wikimedia Commons"
+          loading="eager"
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════ THE NAME ══════════════════════════ -->
+  <section id="name" class="relative overflow-hidden border-y border-[var(--rule)] bg-vellum-100/70">
+    <div class="absolute inset-x-0 top-0 opacity-45"><Harag variant="plait" repeat={22} height={26} /></div>
+    <div class="absolute inset-x-0 bottom-0 opacity-45"><Harag variant="plait" repeat={22} height={26} flip /></div>
+
+    <div class="mx-auto max-w-[1240px] px-5 py-24 lg:px-8 lg:py-28">
+      <div class="mx-auto max-w-2xl text-center" data-reveal>
+        <p class="rubric">The name · ስያሜው</p>
+        <h2 class="mt-4 text-[clamp(1.85rem,4vw,2.7rem)]">Two names, and what they carry</h2>
+        <p class="mt-5 text-[1.05rem] leading-relaxed text-ink-600">
+          Ethiopian parishes are named for what they mean to stand for. This one was
+          given two.
+        </p>
+      </div>
+
+      <div class="mt-16 grid gap-10 md:grid-cols-2 lg:gap-16">
+        {NAME_MEANING.map((n, i) => (
+          <article class="relative" data-reveal style={`--reveal-delay:${i * 140}ms`}>
+            <div class="panel h-full p-8 lg:p-10">
+              <span class="geez block text-[clamp(2rem,5vw,2.9rem)] leading-tight text-madder-800">{n.geez}</span>
+              <p class="mt-3 font-display text-[1.28rem] tracking-[.05em] text-gold-700">{n.tr}</p>
+              <p class="mt-1 font-serif text-[1.02rem] italic text-ink-600">“{n.en}”</p>
+              <div class="my-6 h-px bg-[var(--rule-gold)]"></div>
+              <p class="text-[1.02rem] leading-[1.75] text-ink-700">{n.body}</p>
+            </div>
+            <span class="geez absolute -top-4 right-5 text-[2.4rem] leading-none text-gold-600/30 select-none">
+              {toGeez(i + 1)}
+            </span>
+          </article>
+        ))}
+      </div>
+
+      <p class="mx-auto mt-14 max-w-2xl text-center font-display text-[1.15rem] leading-relaxed text-madder-800" data-reveal>
+        The patronal feast falls on {PARISH.patron.feastEth}
+        <span class="geez text-gold-700">&#8202;({PARISH.patron.feastGeez})</span> — {PARISH.patron.feastGreg} —
+        and is kept again on the sixteenth of every month.
+      </p>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════ THE THREE CHAMBERS ══════════════════════════ -->
+  <section class="mx-auto max-w-[1240px] px-5 py-24 lg:px-8 lg:py-32">
+    <div class="mx-auto mb-16 max-w-2xl text-center" data-reveal>
+      <p class="rubric">How a church is built · ሕንፃ ቤተ ክርስቲያን</p>
+      <h2 class="mt-4 text-[clamp(1.85rem,4vw,2.7rem)]">Three chambers, one house</h2>
+      <p class="mt-5 text-[1.05rem] leading-relaxed text-ink-600">
+        Every Ethiopian church — the rock-hewn ones at Lalibela, the round ones on Lake
+        Tana, and the rented halls of the diaspora alike — is laid out in three rings,
+        after the pattern of the Temple in Jerusalem, and read as an image of the Trinity.
+      </p>
+    </div>
+
+    <div data-reveal style="--reveal-delay:120ms"><ThreeChambers /></div>
+  </section>
+
+  <!-- ══════════════════════════ THE WEEK ══════════════════════════ -->
+  <section class="relative overflow-hidden bg-ink-950 text-vellum-200">
+    <img src={u('/art/gondar-interior.jpg')} alt="" aria-hidden="true"
+         class="absolute inset-0 h-full w-full object-cover opacity-[.14]" loading="lazy" />
+    <div class="absolute inset-0 bg-gradient-to-b from-ink-950 via-ink-950/88 to-ink-950"></div>
+
+    <div class="relative mx-auto max-w-[1240px] px-5 py-24 lg:px-8 lg:py-32">
+      <div class="grid gap-14 lg:grid-cols-[0.85fr_1.15fr] lg:gap-20">
+        <div class="lg:sticky lg:top-28 lg:self-start" data-reveal>
+          <p class="rubric !text-gold-400/85">The week · ሳምንቱ</p>
+          <h2 class="mt-4 text-[clamp(1.85rem,4vw,2.7rem)] text-vellum-100">
+            When we gather
+          </h2>
+          <p class="mt-6 text-[1.04rem] leading-relaxed text-vellum-200/70">
+            Times are given twice: as the clock reads here, and as the Church has always
+            counted the hours — from dawn, so that six in the morning is the twelfth
+            hour and the day begins with light.
+          </p>
+          <a href={u('/services')}
+             class="group mt-8 inline-flex items-center gap-3 font-ui text-[.82rem] tracking-[.12em] text-gold-400 uppercase">
+            The full order of services
+            <span class="inline-block transition-transform duration-300 group-hover:translate-x-1.5">→</span>
+          </a>
+        </div>
+
+        <ul class="divide-y divide-vellum-200/12 border-y border-vellum-200/12">
+          {SERVICES.map((s, i) => {
+            const eth = ethiopianClockOf(s.from);
+            return (
+              <li class="grid grid-cols-[auto_1fr] items-baseline gap-x-6 gap-y-1 py-5 sm:grid-cols-[7.5rem_1fr_auto]"
+                  data-reveal style={`--reveal-delay:${i * 70}ms`}>
+                <span class="font-ui text-[.72rem] tracking-[.16em] text-gold-400/85 uppercase">{s.day}</span>
+                <div class="col-span-2 sm:col-span-1">
+                  <p class="font-display text-[1.08rem] text-vellum-100">{s.title}</p>
+                  <p class="geez mt-0.5 text-[.9rem] text-gold-300/70">{s.geez}</p>
+                  <p class="mt-1.5 text-[.88rem] leading-relaxed text-vellum-200/55">{s.note}</p>
+                </div>
+                <div class="col-start-1 row-start-1 text-right sm:col-start-3 sm:row-start-auto">
+                  <span class="block font-display text-[1.02rem] whitespace-nowrap text-vellum-100">
+                    {s.from}{s.toLabel && <span class="text-vellum-200/58"> – {s.toLabel}</span>}
+                  </span>
+                  <span class="geez block text-[.82rem] text-gold-400/70">{eth.text}</span>
+                </div>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════ FEASTS ══════════════════════════ -->
+  <section class="mx-auto max-w-[1240px] px-5 py-24 lg:px-8 lg:py-32">
+    <div class="grid gap-14 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
+      <div data-reveal>
+        <p class="rubric">Bahire Hasab · ባሕረ ሐሳብ</p>
+        <h2 class="mt-4 text-[clamp(1.85rem,4vw,2.7rem)]">What is coming</h2>
+        <p class="mt-6 text-[1.04rem] leading-relaxed text-ink-600">
+          The dates below are not typed into a spreadsheet. They are computed the way the
+          Church computes them — the Paschalion fixes Fasika, and every movable feast and
+          fast is measured out from it in days.
+        </p>
+        <a href={u('/calendar')}
+           class="group mt-8 inline-flex items-center gap-3 font-ui text-[.82rem] tracking-[.12em] text-madder-800 uppercase">
+          The whole year
+          <span class="inline-block transition-transform duration-300 group-hover:translate-x-1.5">→</span>
+        </a>
+      </div>
+
+      <ul class="border-t border-[var(--rule)]">
+        {feasts.map((f, i) => (
+          <li class="group flex items-baseline gap-5 border-b border-[var(--rule)] py-5 transition-colors duration-300 hover:bg-gold-200/25 sm:gap-8"
+              data-reveal style={`--reveal-delay:${i * 80}ms`}>
+            <div class="w-[4.5rem] shrink-0 text-center">
+              <span class="block font-display text-[1.55rem] leading-none text-madder-800">
+                {f.date.getDate()}
+              </span>
+              <span class="block font-ui text-[.66rem] tracking-[.16em] text-gold-700 uppercase">
+                {f.date.toLocaleDateString('en-US', { month: 'short' })}
+              </span>
+            </div>
+            <div class="min-w-0 flex-1">
+              <p class="geez text-[1.12rem] leading-tight text-madder-900">{f.geez}</p>
+              <p class="mt-1 font-display text-[1rem] text-ink-700">{f.tr} — {f.en}</p>
+              {f.note && <p class="mt-1.5 text-[.9rem] leading-relaxed text-ink-600">{f.note}</p>}
+            </div>
+            <span class:list={[
+              'shrink-0 border px-2.5 py-1 font-ui text-[.62rem] tracking-[.14em] uppercase',
+              f.kind === 'patronal' ? 'border-madder-700 bg-madder-800 text-vellum-50'
+              : f.kind.startsWith('fast') ? 'border-malachite-700/45 text-malachite-800'
+              : 'border-gold-600/50 text-gold-800',
+            ]}>
+              {f.kind === 'patronal' ? 'Our feast' : f.kind.startsWith('fast') ? 'Fast' : 'Feast'}
+            </span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <Divider class="my-4" />
+
+  <!-- ══════════════════════════ ART ══════════════════════════ -->
+  <section class="mx-auto max-w-[1240px] px-5 py-20 lg:px-8 lg:py-24">
+    <div class="mx-auto mb-14 max-w-2xl text-center" data-reveal>
+      <p class="rubric">Sacred art · ሥዕለ አድኅኖ</p>
+      <h2 class="mt-4 text-[clamp(1.85rem,4vw,2.7rem)]">Painted so that it can be read</h2>
+      <p class="mt-5 text-[1.05rem] leading-relaxed text-ink-600">
+        Ethiopian painters will distort a proportion without hesitation if it makes the
+        meaning clearer. The eyes are large because the saints are watching; the
+        righteous face you and the wicked are shown in profile. Clarity first, and
+        beauty follows from it.
+      </p>
+    </div>
+
+    <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+      {[
+        { src: u('/art/ceiling-angels.jpg'), alt: 'The painted ceiling of winged cherub faces at Debre Berhan Selassie, Gondar', cap: 'A hundred and thirty-five winged faces on one ceiling at Gondar.', cr: 'Rod Waddington · CC BY-SA 2.0' },
+        { src: u('/art/manuscript-18c.jpg'), alt: 'An open Ethiopian codex showing Adam and Eve at the tree, with Ge’ez text', cap: 'The Fall, painted between two blocks of Ge’ez.', cr: 'Public domain' },
+        { src: u('/art/cross-walters.jpg'), alt: 'Ethiopian processional cross', cap: 'A processional cross, pierced and interlaced.', cr: 'Walters Art Museum · Public domain' },
+        { src: u('/art/ura-painting.jpg'), alt: 'Wall painting at Ura Kidane Mehret on Lake Tana', cap: 'Wall painting at Ura Kidane Mehret, Lake Tana.', cr: 'Bernard Gagnon · CC BY-SA 3.0' },
+      ].map((a, i) => (
+        <div data-reveal style={`--reveal-delay:${i * 110}ms`}>
+          <ArchFrame src={a.src} alt={a.alt} ratio="3 / 4" caption={a.cap} credit={a.cr} />
+        </div>
+      ))}
+    </div>
+
+    <div class="mt-14 text-center" data-reveal>
+      <a href={u('/gallery')}
+         class="group inline-flex items-center gap-3 border border-madder-800 px-8 py-3.5 font-ui text-[.8rem] tracking-[.14em] text-madder-800 uppercase transition-colors duration-300 hover:bg-madder-800 hover:text-vellum-50">
+        Enter the gallery
+        <span class="inline-block transition-transform duration-300 group-hover:translate-x-1.5">→</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════ INVITATION ══════════════════════════ -->
+  <section class="relative overflow-hidden border-t border-[var(--rule)]">
+    <img src={u('/art/bete-giyorgis-sunset.jpg')} alt="" aria-hidden="true"
+         class="absolute inset-0 h-full w-full object-cover" loading="lazy" />
+    <div class="absolute inset-0 bg-ink-950/78"></div>
+    <div class="pointer-events-none absolute inset-6 border border-gold-500/22"></div>
+
+    <div class="relative mx-auto max-w-3xl px-6 py-28 text-center lg:py-36">
+      <div class="flex justify-center" data-reveal>
+        <MeskelCross size={64} stroke="var(--color-gold-400)" accent="var(--color-madder-500)" />
+      </div>
+      <h2 class="geez mt-8 text-[clamp(1.6rem,4.5vw,2.6rem)] leading-tight text-gold-300" data-reveal>
+        ኑ ኀቤየ ኵልክሙ ጥሙያን
+      </h2>
+      <p class="mt-4 font-display text-[clamp(1.15rem,3vw,1.75rem)] leading-snug text-vellum-100" data-reveal>
+        “Come to me, all you who labour.”
+      </p>
+      <p class="mx-auto mt-7 max-w-lg text-[1.05rem] leading-relaxed text-vellum-200/70" data-reveal>
+        Sunday Kidase begins at {sunday.from}. There is no sign-in sheet, no visitor’s
+        badge, and no expectation that you understand a word of it.
+      </p>
+      <div class="mt-10 flex flex-wrap items-center justify-center gap-4" data-reveal>
+        <a href={u('/visit')}
+           class="border border-gold-500 bg-gold-500 px-7 py-3.5 font-ui text-[.8rem] tracking-[.14em] text-ink-950 uppercase transition-colors duration-300 hover:bg-gold-400 hover:border-gold-400">
+          Find us
+        </a>
+        <a href={u('/membership')}
+           class="border border-vellum-200/35 px-7 py-3.5 font-ui text-[.8rem] tracking-[.14em] text-vellum-100 uppercase transition-colors duration-300 hover:border-gold-400 hover:text-gold-300">
+          Become a member
+        </a>
+      </div>
+    </div>
+  </section>
+</Base>

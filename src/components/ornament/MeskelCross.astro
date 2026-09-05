@@ -1,0 +1,72 @@
+---
+/**
+ * The Ethiopian cross — built the way the smiths of Lalibela built them:
+ * a square at the heart, four arms of pierced latticework, tendrils curling
+ * into every quadrant, and a floret at each terminal. Four-fold symmetry,
+ * so the whole figure is drawn once and turned.
+ */
+interface Props {
+  size?: number | string;
+  stroke?: string;
+  accent?: string;
+  /** trace the cross on with stroke-dashoffset, as if drawn by hand */
+  animate?: boolean;
+  class?: string;
+  title?: string;
+}
+const {
+  size = 160,
+  stroke = 'currentColor',
+  accent = 'var(--color-gold-500)',
+  animate = false,
+  class: cls = '',
+  title,
+} = Astro.props;
+
+const uid = 'mk' + Math.random().toString(36).slice(2, 8);
+---
+
+<svg
+  viewBox="0 0 200 200"
+  width={size} height={size}
+  fill="none"
+  class={cls}
+  role={title ? 'img' : 'presentation'}
+  aria-label={title}
+  aria-hidden={title ? undefined : 'true'}
+>
+  {title && <title>{title}</title>}
+
+  <g
+    stroke={stroke}
+    stroke-width="3"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    style={animate ? `--dash:900; stroke-dasharray:900; animation: draw 3.2s cubic-bezier(.4,0,.2,1) forwards;` : undefined}
+  >
+    <!-- the four arms, each the same figure turned a quarter -->
+    {[0, 90, 180, 270].map((deg) => (
+      <g transform={`rotate(${deg} 100 100)`}>
+        <!-- shaft: two parallel bands, pierced -->
+        <path d="M88 78 L88 26 Q88 18 96 18 L104 18 Q112 18 112 26 L112 78" />
+        <path d="M95 74 L95 32 Q95 27 100 27 Q105 27 105 32 L105 74" opacity=".62" />
+
+        <!-- the crossbar of the terminal, a small cross upon the great one -->
+        <path d="M74 42 Q66 42 66 34 Q66 26 74 26 L88 26" />
+        <path d="M126 42 Q134 42 134 34 Q134 26 126 26 L112 26" />
+
+        <!-- terminal floret -->
+        <path d="M100 18 Q100 8 92 8 Q84 8 84 16 Q84 22 92 22" />
+        <path d="M100 18 Q100 8 108 8 Q116 8 116 16 Q116 22 108 22" />
+
+        <!-- quadrant tendril — the vine that fills the open field -->
+        <path d="M112 78 Q132 78 138 62 Q142 50 132 46 Q124 43 122 52 Q121 59 129 60" opacity=".85" />
+      </g>
+    ))}
+
+    <!-- the square at the heart, set as a lozenge and doubled -->
+    <rect x="78" y="78" width="44" height="44" rx="3" />
+    <rect x="86" y="86" width="28" height="28" rx="2" transform="rotate(45 100 100)" opacity=".8" />
+    <circle cx="100" cy="100" r="6" fill={accent} stroke="none" />
+  </g>
+</svg>
