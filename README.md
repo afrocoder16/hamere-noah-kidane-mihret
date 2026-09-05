@@ -114,3 +114,17 @@ and section screenshots during development. They are not part of the build.
 node scripts/shot.mjs "/,/about,/faith"    # full-page desktop + mobile
 node scripts/crop.mjs "/calendar" 3400 out # viewport crop at a scroll offset
 ```
+
+---
+
+## Deployment
+
+Live at **https://afrocoder16.github.io/hamere-noah-kidane-mihret/**
+
+Pushing to `main` builds and publishes via `.github/workflows/deploy.yml`.
+GitHub Pages serves a project repo from a subpath, so `astro.config.mjs` sets
+`base` when `GITHUB_ACTIONS` is set, and every internal link and asset goes
+through `u()` in `src/lib/url.ts`. Local `npm run dev` keeps `base` at `/`.
+
+To move the site to a custom domain (e.g. the parish's own), set the domain in
+the repo's Pages settings and change `base` back to `'/'`.
