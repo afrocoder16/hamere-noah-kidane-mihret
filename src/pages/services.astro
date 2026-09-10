@@ -5,22 +5,9 @@ import TodayStrip from '../components/TodayStrip.astro';
 import ArchFrame from '../components/ornament/ArchFrame.astro';
 import Divider from '../components/ornament/Divider.astro';
 import Harag from '../components/ornament/Harag.astro';
-import { PARISH, SERVICES } from '../lib/parish';
+import { KIDASE_ORDER, PARISH, SERVICES } from '../lib/parish';
 import { ethiopianClockOf, toGeez } from '../lib/ethiopic';
 import { u } from '../lib/url';
-
-const KIDASE_ORDER = [
-  { geez: 'ውዳሴ ማርያም', tr: 'Wudase Mariam', en: 'Praises of Our Lady',
-    body: 'The night office. Each day of the week has its own portion, and the whole is sung through in a week.' },
-  { geez: 'ማኅሌት', tr: 'Mahlet', en: 'The night chant',
-    body: 'The debtera stand through the small hours with prayer-staff, sistrum and drum, in the mode appointed for the day.' },
-  { geez: 'ሰዓታት', tr: 'Se’atat', en: 'The hours',
-    body: 'The morning office of psalms, read before the sun is properly up.' },
-  { geez: 'ቅዳሴ', tr: 'Kidase', en: 'The Divine Liturgy',
-    body: 'The Anaphora itself. Fourteen are appointed for use through the year; the one attributed to the Apostles is the most common.' },
-  { geez: 'ቁርባን', tr: 'Qurban', en: 'Holy Communion',
-    body: 'Given to those who have fasted and been to confession. Children are always communed.' },
-];
 
 const EXPECT = [
   { q: 'What time should I come?',

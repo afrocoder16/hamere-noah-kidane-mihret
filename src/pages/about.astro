@@ -145,6 +145,103 @@ const TIMELINE = [
     </div>
   </section>
 
+  <!-- ══════════════════════════ OUR SPIRITUAL FATHERS ══════════════════════════ -->
+  <section id="clergy" class="relative overflow-hidden bg-ink-950 text-vellum-200">
+    <div class="absolute inset-0 opacity-[.055]"
+         style="background-image:linear-gradient(rgba(238,213,150,.4) 1px,transparent 1px),linear-gradient(90deg,rgba(238,213,150,.4) 1px,transparent 1px);background-size:72px 72px"
+         aria-hidden="true"></div>
+    <div class="absolute -top-32 -right-28 h-[32rem] w-[32rem] rounded-full border border-gold-500/10" aria-hidden="true"></div>
+
+    <div class="relative mx-auto max-w-[1240px] px-5 py-24 lg:px-8 lg:py-32">
+      <div class="grid items-center gap-14 lg:grid-cols-[.86fr_1.14fr] lg:gap-20">
+        <div data-reveal>
+          <p class="rubric !text-gold-400/85">Our spiritual fathers · መንፈሳዊ አባቶቻችን</p>
+          <h2 class="mt-5 text-[clamp(2rem,4.6vw,3.45rem)] !text-vellum-50">
+            Called to the altar.<br />Present with the people.
+          </h2>
+          <p class="mt-7 text-[1.06rem] leading-[1.8] text-vellum-200/74">
+            In the Tewahedo Church, ordained ministry is understood as service. Our clergy
+            guard the worship of the Church, teach the apostolic faith, celebrate the Holy
+            Mysteries, and stay near to families through joy, illness, counsel, and grief.
+            That ancient calling is lived here in Sioux Falls, one prayer and one household
+            at a time.
+          </p>
+
+          <blockquote class="relative mt-9 border-l border-gold-400/55 pl-7">
+            <span class="absolute -top-5 -left-1 font-display text-5xl leading-none text-gold-400/35" aria-hidden="true">“</span>
+            <p class="font-display text-[1.35rem] leading-snug text-gold-200">
+              Shepherd the flock of God which is among you.
+            </p>
+            <cite class="mt-3 block font-ui text-[.68rem] tracking-[.2em] text-vellum-200/50 not-italic uppercase">
+              1 Peter 5:2
+            </cite>
+          </blockquote>
+
+          <p class="mt-9 max-w-lg border-t border-vellum-100/12 pt-6 font-ui text-[.7rem] leading-relaxed tracking-[.13em] text-vellum-200/48 uppercase">
+            Prayer · teaching · sacraments · pastoral care
+          </p>
+        </div>
+
+        <figure class="relative mx-auto w-full max-w-[560px]" data-reveal style="--reveal-delay:140ms">
+          <div class="absolute -inset-4 border border-gold-400/20 lg:-inset-6" aria-hidden="true"></div>
+          <div class="relative overflow-hidden border-[10px] border-vellum-50/95 bg-vellum-50 shadow-2xl">
+            <img
+              src={u('/pics/church-father-together.jpg')}
+              alt="The clergy of Hamere Noah Kidane Mihret Church standing together inside the sanctuary"
+              class="aspect-[4/3] w-full object-cover object-[center_31%]"
+              loading="lazy"
+            />
+            <figcaption class="bg-vellum-50 px-5 py-4 text-center font-ui text-[.68rem] tracking-[.16em] text-ink-700 uppercase">
+              Serving Hamere Noah Kidane Mihret · Sioux Falls
+            </figcaption>
+          </div>
+        </figure>
+      </div>
+
+      <div class="mt-20 grid gap-6 sm:grid-cols-3 lg:gap-8">
+        {[
+          {
+            image: '/pics/main-church-father.jpg',
+            alt: 'A priest of Hamere Noah Kidane Mihret holding an Ethiopian hand cross',
+            eyebrow: 'At the altar · በመሠዊያው',
+            title: 'Prayer & the Holy Mysteries',
+            position: 'center 24%',
+          },
+          {
+            image: '/pics/church-father2.jpg',
+            alt: 'A priest of Hamere Noah Kidane Mihret in liturgical vestments',
+            eyebrow: 'In the word · በትምህርት',
+            title: 'Teaching & formation',
+            position: 'center 22%',
+          },
+          {
+            image: '/pics/church-father3.jpg',
+            alt: 'A member of the clergy of Hamere Noah Kidane Mihret holding a cross',
+            eyebrow: 'With the people · ከሕዝቡ ጋር',
+            title: 'Pastoral care & fellowship',
+            position: 'center 25%',
+          },
+        ].map((father, i) => (
+          <article class="group border border-gold-400/18 bg-vellum-50/[.035] p-3" data-reveal style={`--reveal-delay:${i * 90}ms`}>
+            <div class="overflow-hidden">
+              <img
+                src={u(father.image)}
+                alt={father.alt}
+                class="aspect-[4/5] w-full object-cover transition duration-700 group-hover:scale-[1.025]"
+                style={`object-position:${father.position}`}
+                loading="lazy"
+              />
+            </div>
+            <div class="px-3 pt-5 pb-4">
+              <p class="font-ui text-[.64rem] tracking-[.16em] text-gold-400/80 uppercase">{father.eyebrow}</p>
+              <h3 class="mt-2 text-[1.08rem] !text-vellum-100">{father.title}</h3>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
   <!-- ══════════ the name ══════════ -->
   <section id="name" class="relative overflow-hidden border-y border-[var(--rule)] bg-vellum-100/70">
     <div class="absolute inset-x-0 top-0 opacity-40"><Harag variant="chain" repeat={22} height={24} /></div>

@@ -1,0 +1,581 @@
+---
+import { adminApiConfigured } from '../../lib/admin/client';
+import { u } from '../../lib/url';
+
+interface Props {
+  publishedCount: number;
+  latestTitleAmharic?: string;
+  latestTitleEnglish?: string;
+  latestDate?: Date;
+}
+
+const {
+  publishedCount,
+  latestTitleAmharic = 'የደብራችን ዓመታዊ ሩጫ',
+  latestTitleEnglish = 'The Annual Parish Run',
+  latestDate,
+} = Astro.props;
+
+const latestDateLabel = latestDate?.toLocaleDateString('en-US', {
+  month: 'short',
+  day: 'numeric',
+  year: 'numeric',
+  timeZone: 'UTC',
+}) ?? 'Sep 8, 2026';
+
+const navItems = [
+  { view: 'overview', label: 'Overview', geez: 'መነሻ', icon: '⌂' },
+  { view: 'editor', label: 'Create & edit', geez: 'ጽሑፍ', icon: '✎' },
+  { view: 'library', label: 'Media library', geez: 'ምስሎች', icon: '▧' },
+];
+---
+
+<div class="min-h-screen bg-[#eef0ec] lg:grid lg:grid-cols-[17rem_minmax(0,1fr)]">
+  <aside class="border-b border-white/10 bg-lapis-950 text-vellum-100 lg:sticky lg:top-0 lg:h-screen lg:border-r lg:border-b-0">
+    <div class="flex h-full flex-col">
+      <div class="flex items-center gap-3 border-b border-white/10 px-5 py-5 lg:px-6 lg:py-7">
+        <div class="grid h-11 w-11 shrink-0 place-items-center border border-gold-400/45 text-gold-300">
+          <svg viewBox="0 0 48 48" class="h-7 w-7" aria-hidden="true">
+            <path d="M24 5v38M10 18h28M17 12v12M31 12v12M17 34h14" fill="none" stroke="currentColor" stroke-width="2" />
+          </svg>
+        </div>
+        <div class="min-w-0">
+          <p class="geez truncate text-[1rem] leading-tight text-gold-200">ሐመረ ኖኅ</p>
+          <p class="mt-0.5 truncate font-ui text-[.64rem] tracking-[.16em] text-vellum-200/55 uppercase">Parish admin</p>
+        </div>
+      </div>
+
+      <nav class="scrollbar-none flex gap-2 overflow-x-auto px-4 py-4 lg:block lg:space-y-1 lg:overflow-visible lg:px-3 lg:py-7" aria-label="Admin sections">
+        {navItems.map((item, i) => (
+          <button
+            type="button"
+            data-admin-nav={item.view}
+            aria-current={i === 0 ? 'page' : undefined}
+            class="group flex min-w-max items-center gap-3 border border-transparent px-3 py-2.5 text-left font-ui text-[.76rem] tracking-[.04em] text-vellum-200/65 transition hover:bg-white/[.055] hover:text-vellum-50 lg:w-full"
+          >
+            <span class="grid h-7 w-7 place-items-center border border-white/10 text-[.9rem] text-gold-400/80 group-aria-[current=page]:border-gold-400/45 group-aria-[current=page]:bg-gold-400/10">{item.icon}</span>
+            <span>{item.label}</span>
+            <span class="geez ml-auto hidden text-[.72rem] text-gold-300/45 lg:block">{item.geez}</span>
+          </button>
+        ))}
+      </nav>
+
+      <div class="mt-auto hidden border-t border-white/10 p-5 lg:block">
+        <p class="font-ui text-[.6rem] tracking-[.16em] text-vellum-200/38 uppercase">{adminApiConfigured ? 'Signed in as' : 'Workspace mode'}</p>
+        <p class="mt-2 font-ui text-[.78rem] text-vellum-100/78">{adminApiConfigured ? 'Parish administrator' : 'Phase Two preview'}</p>
+        <a href={u('/')} class="mt-4 inline-flex items-center gap-2 font-ui text-[.65rem] tracking-[.12em] text-gold-300 uppercase hover:text-gold-200">
+          View public site <span aria-hidden="true">↗</span>
+        </a>
+        {adminApiConfigured && (
+          <button type="button" data-sign-out class="mt-3 block font-ui text-[.6rem] tracking-[.12em] text-vellum-200/45 uppercase hover:text-vellum-100">
+            Sign out
+          </button>
+        )}
+      </div>
+    </div>
+  </aside>
+
+  <div class="min-w-0">
+    <header class="flex min-h-[4.75rem] items-center justify-between gap-5 border-b border-black/8 bg-white/80 px-5 backdrop-blur-sm sm:px-8 lg:px-10">
+      <div>
+        <p class="font-ui text-[.62rem] tracking-[.17em] text-ink-500 uppercase">Content workspace</p>
+        <p class="geez mt-0.5 text-[.92rem] text-madder-800">የደብሩ ይዘት ማስተዳደሪያ</p>
+      </div>
+      <div class="flex items-center gap-3">
+        <span class:list={[
+          'hidden items-center gap-2 border px-3 py-1.5 font-ui text-[.6rem] tracking-[.12em] uppercase sm:inline-flex',
+          adminApiConfigured
+            ? 'border-malachite-700/25 bg-malachite-700/7 text-malachite-800'
+            : 'border-gold-700/25 bg-gold-600/7 text-gold-800',
+        ]}>
+          <span class:list={['h-1.5 w-1.5 rounded-full', adminApiConfigured ? 'bg-malachite-600' : 'bg-gold-600']}></span>
+          {adminApiConfigured ? 'API connected' : 'Phase Two preview'}
+        </span>
+        <button type="button" data-open-editor="news" class="bg-madder-800 px-4 py-2 font-ui text-[.66rem] tracking-[.12em] text-vellum-50 uppercase transition hover:bg-madder-900 sm:px-5">
+          New post
+        </button>
+      </div>
+    </header>
+
+    <main id="admin-main" class="mx-auto max-w-[1400px] p-5 sm:p-8 lg:p-10">
+      <!-- OVERVIEW -->
+      <section data-admin-view="overview">
+        <div class="flex flex-wrap items-end justify-between gap-5">
+          <div>
+            <p data-today class="font-ui text-[.65rem] tracking-[.2em] text-gold-800 uppercase">Today</p>
+            <h1 class="mt-2 text-[clamp(1.8rem,4vw,2.7rem)] text-lapis-950">Welcome back.</h1>
+            <p class="mt-2 text-[1rem] text-ink-600">News, celebrations, photographs, and parish stories—all in one quiet workspace.</p>
+          </div>
+        </div>
+
+        {!adminApiConfigured && (
+          <div class="mt-8 grid gap-4 border border-gold-700/25 bg-[#fff8e8] p-5 sm:grid-cols-[auto_1fr_auto] sm:items-center sm:px-6">
+            <span class="grid h-10 w-10 place-items-center border border-gold-700/30 bg-gold-300/20 font-display text-gold-800" aria-hidden="true">II</span>
+            <div>
+              <p class="font-ui text-[.72rem] font-medium tracking-[.08em] text-ink-800 uppercase">Phase Two workspace</p>
+              <p class="mt-1 text-[.9rem] leading-relaxed text-ink-600">Browser drafts work now. Publishing and secure sign-in activate when the admin API URL is added.</p>
+            </div>
+            <button type="button" data-admin-nav="editor" class="justify-self-start font-ui text-[.65rem] tracking-[.12em] text-madder-800 uppercase sm:justify-self-end">Write a draft →</button>
+          </div>
+        )}
+
+        <div class="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+          <article class="border border-black/8 bg-white p-5 shadow-[0_12px_30px_-24px_rgba(20,16,12,.5)]">
+            <div class="flex items-start justify-between gap-4">
+              <p class="font-ui text-[.64rem] tracking-[.14em] text-ink-500 uppercase">Published</p>
+              <span class="text-malachite-700" aria-hidden="true">●</span>
+            </div>
+            <p class="mt-4 font-display text-3xl text-lapis-950">{publishedCount}</p>
+            <p class="mt-2 text-[.84rem] text-ink-500">Live parish updates</p>
+          </article>
+          <article class="border border-black/8 bg-white p-5 shadow-[0_12px_30px_-24px_rgba(20,16,12,.5)]">
+            <div class="flex items-start justify-between gap-4">
+              <p class="font-ui text-[.64rem] tracking-[.14em] text-ink-500 uppercase">Browser drafts</p>
+              <span class="text-gold-700" aria-hidden="true">✎</span>
+            </div>
+            <p class="mt-4 font-display text-3xl text-lapis-950" data-draft-count>0</p>
+            <p class="mt-2 text-[.84rem] text-ink-500">Saved on this device</p>
+          </article>
+          <article class="border border-black/8 bg-white p-5 shadow-[0_12px_30px_-24px_rgba(20,16,12,.5)]">
+            <div class="flex items-start justify-between gap-4">
+              <p class="font-ui text-[.64rem] tracking-[.14em] text-ink-500 uppercase">Content types</p>
+              <span class="text-lapis-600" aria-hidden="true">◆</span>
+            </div>
+            <p class="mt-4 font-display text-3xl text-lapis-950">3</p>
+            <p class="mt-2 text-[.84rem] text-ink-500">News · celebrations · blogs</p>
+          </article>
+          <article class="border border-black/8 bg-white p-5 shadow-[0_12px_30px_-24px_rgba(20,16,12,.5)]">
+            <div class="flex items-start justify-between gap-4">
+              <p class="font-ui text-[.64rem] tracking-[.14em] text-ink-500 uppercase">Media</p>
+              <span class="text-madder-700" aria-hidden="true">▧</span>
+            </div>
+            <p class="mt-4 font-display text-3xl text-lapis-950">Ready</p>
+            <p class="mt-2 text-[.84rem] text-ink-500">Multi-photo posts supported</p>
+          </article>
+        </div>
+
+        <div class="mt-8 grid gap-6 xl:grid-cols-[1.25fr_.75fr]">
+          <section class="border border-black/8 bg-white">
+            <header class="flex items-center justify-between gap-4 border-b border-black/8 px-5 py-4 sm:px-6">
+              <div>
+                <h2 class="font-ui text-[.78rem] font-medium tracking-[.08em] text-lapis-950 uppercase">Recent content</h2>
+                <p class="geez mt-0.5 text-[.78rem] text-ink-500">የቅርብ ጊዜ ጽሑፎች</p>
+              </div>
+              <button type="button" data-admin-nav="editor" class="font-ui text-[.62rem] tracking-[.12em] text-madder-800 uppercase">Manage →</button>
+            </header>
+            <div class="grid grid-cols-[4.5rem_1fr] gap-4 p-5 sm:grid-cols-[5.5rem_1fr_auto] sm:items-center sm:px-6">
+              <img src={u('/pics/running.jpg')} alt="Annual parish run" class="aspect-square h-full w-full object-cover" />
+              <div class="min-w-0">
+                <p class="geez truncate text-[1rem] font-medium text-madder-900">{latestTitleAmharic}</p>
+                <p class="mt-0.5 truncate font-ui text-[.72rem] tracking-[.04em] text-ink-700">{latestTitleEnglish}</p>
+                <p class="mt-2 font-ui text-[.58rem] tracking-[.12em] text-ink-400 uppercase">News · {latestDateLabel}</p>
+              </div>
+              <span class="col-start-2 inline-flex w-fit items-center gap-1.5 bg-malachite-700/8 px-2.5 py-1 font-ui text-[.58rem] tracking-[.1em] text-malachite-800 uppercase sm:col-start-auto">
+                <span class="h-1.5 w-1.5 rounded-full bg-malachite-600"></span> Published
+              </span>
+            </div>
+          </section>
+
+          <section class="border border-black/8 bg-lapis-950 p-6 text-vellum-100 sm:p-7">
+            <p class="font-ui text-[.62rem] tracking-[.18em] text-gold-400 uppercase">Quick create</p>
+            <h2 class="mt-3 text-[1.35rem] !text-vellum-50">What would you like to share?</h2>
+            <div class="mt-6 grid gap-2">
+              {[
+                ['news', 'Parish news', 'የደብሩ ዜና'],
+                ['celebration', 'Celebration', 'በዓል'],
+                ['blog', 'Blog story', 'ጽሑፍ'],
+              ].map(([kind, label, geez]) => (
+                <button type="button" data-open-editor={kind} class="group flex items-center gap-3 border border-white/10 bg-white/[.035] px-4 py-3 text-left transition hover:border-gold-400/35 hover:bg-white/[.065]">
+                  <span class="grid h-8 w-8 place-items-center border border-gold-400/25 text-gold-300 group-hover:border-gold-400/55">+</span>
+                  <span class="font-ui text-[.72rem] tracking-[.05em] text-vellum-100">{label}</span>
+                  <span class="geez ml-auto text-[.74rem] text-gold-300/55">{geez}</span>
+                </button>
+              ))}
+            </div>
+          </section>
+        </div>
+      </section>
+
+      <!-- EDITOR -->
+      <section data-admin-view="editor" hidden>
+        <div class="flex flex-wrap items-end justify-between gap-5">
+          <div>
+            <p class="font-ui text-[.65rem] tracking-[.2em] text-gold-800 uppercase">Create & edit · ጽሑፍ</p>
+            <h1 class="mt-2 text-[clamp(1.8rem,4vw,2.7rem)] text-lapis-950">Compose a parish post</h1>
+            <p class="mt-2 text-[1rem] text-ink-600">Write in Amharic, add the English context you want, then attach one or more photographs.</p>
+          </div>
+          <button type="button" data-clear-editor class="border border-black/12 bg-white px-4 py-2 font-ui text-[.63rem] tracking-[.1em] text-ink-600 uppercase hover:border-madder-700/35 hover:text-madder-800">Clear form</button>
+        </div>
+
+        <form data-content-form class="mt-8 grid gap-6 xl:grid-cols-[1fr_22rem]">
+          <div class="space-y-6">
+            <section class="border border-black/8 bg-white p-5 sm:p-7">
+              <div class="grid gap-5 sm:grid-cols-2">
+                <label class="block">
+                  <span class="admin-label">Content type</span>
+                  <select name="kind" class="admin-field">
+                    <option value="news">Parish news · ዜና</option>
+                    <option value="celebration">Celebration · በዓል</option>
+                    <option value="blog">Blog story · ጽሑፍ</option>
+                  </select>
+                </label>
+                <label class="block">
+                  <span class="admin-label">Publication date</span>
+                  <input name="publicationDate" type="date" class="admin-field" value="2026-09-10" required />
+                </label>
+                <label class="block sm:col-span-2">
+                  <span class="admin-label">Amharic title · የአማርኛ ርዕስ</span>
+                  <input name="titleAmharic" lang="am" class="admin-field geez" placeholder="የደብሩ ዜና…" required />
+                </label>
+                <label class="block sm:col-span-2">
+                  <span class="admin-label">English title</span>
+                  <input name="titleEnglish" class="admin-field" placeholder="A short, clear title" required />
+                </label>
+                <label class="block sm:col-span-2">
+                  <span class="admin-label">Event or celebration date <span class="font-normal normal-case text-ink-400">(optional)</span></span>
+                  <input name="eventDate" class="admin-field" placeholder="Meskerem 7 · September 8, 2026" />
+                </label>
+              </div>
+            </section>
+
+            <section class="border border-black/8 bg-white p-5 sm:p-7">
+              <label class="block">
+                <span class="admin-label">Amharic story · ዋና ጽሑፍ</span>
+                <textarea name="bodyAmharic" lang="am" rows="11" class="admin-field geez resize-y leading-[1.9]" placeholder="የዕለቱን ታሪክ እዚህ ይጻፉ…" required></textarea>
+              </label>
+              <label class="mt-5 block">
+                <span class="admin-label">English summary <span class="font-normal normal-case text-ink-400">(optional)</span></span>
+                <textarea name="bodyEnglish" rows="5" class="admin-field resize-y" placeholder="A short English summary for the wider community"></textarea>
+              </label>
+            </section>
+
+            <section class="border border-black/8 bg-white p-5 sm:p-7">
+              <div class="flex flex-wrap items-end justify-between gap-3">
+                <div>
+                  <p class="admin-label !mb-1">Photographs</p>
+                  <p class="text-[.86rem] text-ink-500">JPEG, PNG, or WebP. Choose several for a gallery.</p>
+                </div>
+                <span class="font-ui text-[.58rem] tracking-[.12em] text-ink-400 uppercase">Up to 12 images</span>
+              </div>
+              <label class="mt-5 grid cursor-pointer place-items-center border border-dashed border-lapis-700/30 bg-lapis-950/[.025] px-6 py-10 text-center transition hover:border-gold-700/55 hover:bg-gold-300/10">
+                <span class="grid h-11 w-11 place-items-center rounded-full bg-lapis-950 text-xl text-gold-300" aria-hidden="true">+</span>
+                <span class="mt-3 font-ui text-[.75rem] font-medium text-lapis-950">Choose photographs</span>
+                <span class="mt-1 text-[.82rem] text-ink-500">or drag them here</span>
+                <input name="photos" type="file" accept="image/jpeg,image/png,image/webp" multiple class="sr-only" data-photo-input />
+              </label>
+              <div data-photo-list class="mt-4 grid gap-2 sm:grid-cols-2" aria-live="polite"></div>
+              <div class="mt-5 grid gap-4 sm:grid-cols-2">
+                <label class="block">
+                  <span class="admin-label">English image description</span>
+                  <input name="mediaAltEnglish" class="admin-field" placeholder="Who and what is shown" />
+                </label>
+                <label class="block">
+                  <span class="admin-label">Amharic image description</span>
+                  <input name="mediaAltAmharic" lang="am" class="admin-field geez" placeholder="በምስሉ ላይ የሚታየው…" />
+                </label>
+              </div>
+            </section>
+          </div>
+
+          <aside class="space-y-6 xl:sticky xl:top-6 xl:self-start">
+            <section class="border border-black/8 bg-white p-5">
+              <p class="admin-label">Post preview</p>
+              <div class="mt-4 overflow-hidden border border-black/8 bg-vellum-50">
+                <div class="relative aspect-[16/10] bg-lapis-950">
+                  <img data-preview-image src={u('/pics/running.jpg')} alt="" class="h-full w-full object-cover opacity-80" />
+                  <span data-preview-kind class="absolute top-3 left-3 bg-madder-800 px-2.5 py-1 font-ui text-[.56rem] tracking-[.12em] text-vellum-50 uppercase">News</span>
+                </div>
+                <div class="p-5">
+                  <p data-preview-amharic class="geez text-[1.05rem] leading-snug text-madder-900">የአማርኛ ርዕስ</p>
+                  <p data-preview-english class="mt-2 font-display text-[.88rem] leading-snug text-lapis-950">English title</p>
+                  <p data-preview-body class="mt-4 line-clamp-3 text-[.82rem] leading-relaxed text-ink-500">Your story preview will appear here as you type.</p>
+                </div>
+              </div>
+            </section>
+
+            <section class="border border-black/8 bg-white p-5">
+              <p class="admin-label">Publishing</p>
+              <p class="mt-3 text-[.85rem] leading-relaxed text-ink-500">
+                Drafts remain private. Published posts appear on the public site after the content API triggers a rebuild.
+              </p>
+              <div class="mt-5 grid gap-2">
+                <button type="submit" data-submit-intent="draft" class="border border-lapis-900/20 bg-white px-4 py-3 font-ui text-[.67rem] tracking-[.12em] text-lapis-950 uppercase hover:bg-lapis-950/[.04]">Save draft</button>
+                <button type="submit" data-submit-intent="published" disabled={!adminApiConfigured} class="bg-madder-800 px-4 py-3 font-ui text-[.67rem] tracking-[.12em] text-vellum-50 uppercase hover:bg-madder-900 disabled:cursor-not-allowed disabled:bg-ink-300 disabled:text-white/75">Publish to website</button>
+              </div>
+              {!adminApiConfigured && <p class="mt-3 text-center font-ui text-[.58rem] leading-relaxed tracking-[.08em] text-gold-800 uppercase">Publishing unlocks when the API is connected</p>}
+            </section>
+          </aside>
+        </form>
+      </section>
+
+      <!-- MEDIA -->
+      <section data-admin-view="library" hidden>
+        <div>
+          <p class="font-ui text-[.65rem] tracking-[.2em] text-gold-800 uppercase">Media library · ምስሎች</p>
+          <h1 class="mt-2 text-[clamp(1.8rem,4vw,2.7rem)] text-lapis-950">Parish photographs</h1>
+          <p class="mt-2 text-[1rem] text-ink-600">A simple view of images already used across the website.</p>
+        </div>
+        <div class="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+          {[
+            ['/pics/running.jpg', 'Annual parish run'],
+            ['/pics/running2.jpg', 'Community at the starting line'],
+            ['/pics/church1.png', 'Hamere Noah Kidane Mihret Church'],
+            ['/pics/inside church.jpg', 'Inside the sanctuary'],
+            ['/pics/church-father-together.jpg', 'Parish clergy together'],
+            ['/pics/kidane_meheret-new.jpg', 'Kidane Mihret icon'],
+          ].map(([src, label]) => (
+            <figure class="group overflow-hidden border border-black/8 bg-white p-2">
+              <div class="overflow-hidden bg-lapis-950">
+                <img src={u(src)} alt={label} class="aspect-[4/3] w-full object-cover transition duration-700 group-hover:scale-[1.025]" loading="lazy" />
+              </div>
+              <figcaption class="flex items-center justify-between gap-4 px-3 py-3">
+                <span class="truncate font-ui text-[.7rem] text-ink-700">{label}</span>
+                <span class="font-ui text-[.56rem] tracking-[.1em] text-ink-400 uppercase">Image</span>
+              </figcaption>
+            </figure>
+          ))}
+        </div>
+      </section>
+    </main>
+  </div>
+</div>
+
+<div data-admin-toast role="status" aria-live="polite" class="pointer-events-none fixed right-5 bottom-5 z-50 max-w-sm translate-y-4 border border-gold-400/30 bg-lapis-950 px-5 py-4 font-ui text-[.72rem] leading-relaxed text-vellum-100 opacity-0 shadow-2xl transition duration-300"></div>
+
+<style>
+  .admin-label {
+    display: block;
+    margin-bottom: .45rem;
+    font-family: var(--font-ui);
+    font-size: .63rem;
+    font-weight: 600;
+    letter-spacing: .12em;
+    line-height: 1.4;
+    text-transform: uppercase;
+    color: var(--color-ink-600);
+  }
+
+  .admin-field {
+    width: 100%;
+    border: 1px solid color-mix(in oklab, var(--color-ink-800) 16%, transparent);
+    background: #fcfcfa;
+    padding: .72rem .85rem;
+    color: var(--color-ink-800);
+    font-family: var(--font-ui);
+    font-size: .88rem;
+    line-height: 1.5;
+    outline: none;
+    transition: border-color .2s, box-shadow .2s, background-color .2s;
+  }
+
+  textarea.admin-field { font-family: var(--font-serif); font-size: 1rem; }
+  .admin-field.geez { font-family: var(--font-geez); }
+  .admin-field:focus { border-color: var(--color-gold-700); box-shadow: 0 0 0 3px rgba(192,145,46,.12); background: white; }
+  [data-admin-nav][aria-current='page'] { border-color: rgba(227,190,99,.28); background: rgba(255,255,255,.07); color: var(--color-vellum-50); }
+</style>
+
+<script>
+  import {
+    AdminApiError,
+    adminApiConfigured,
+    deleteAdminSession,
+    getAdminSession,
+    saveAdminContent,
+    uploadAdminMedia,
+  } from '../../lib/admin/client';
+  import type { AdminContentInput, AdminContentKind, AdminContentStatus } from '../../lib/admin/types';
+
+  const DRAFT_STORAGE_KEY = 'hamere-noah.admin-drafts.v1';
+  const sections = [...document.querySelectorAll<HTMLElement>('[data-admin-view]')];
+  const navButtons = [...document.querySelectorAll<HTMLButtonElement>('[data-admin-nav]')];
+  const form = document.querySelector<HTMLFormElement>('[data-content-form]');
+  const toast = document.querySelector<HTMLElement>('[data-admin-toast]');
+  const photoInput = document.querySelector<HTMLInputElement>('[data-photo-input]');
+  const photoList = document.querySelector<HTMLElement>('[data-photo-list]');
+  const draftCount = document.querySelector<HTMLElement>('[data-draft-count]');
+  let toastTimer = 0;
+
+  const today = document.querySelector<HTMLElement>('[data-today]');
+  if (today) {
+    today.textContent = new Intl.DateTimeFormat('en-US', {
+      weekday: 'long',
+      month: 'long',
+      day: 'numeric',
+    }).format(new Date()).replace(',', ' ·');
+  }
+
+  if (adminApiConfigured) {
+    getAdminSession().catch((error) => {
+      if (error instanceof AdminApiError && error.status === 401) {
+        window.location.assign(`${import.meta.env.BASE_URL}admin/login`);
+        return;
+      }
+      showToast('The admin service could not be reached. Your browser drafts are still available.', true);
+    });
+  }
+
+  function showToast(message: string, isError = false) {
+    if (!toast) return;
+    toast.textContent = message;
+    toast.classList.toggle('!border-madder-500/60', isError);
+    toast.classList.remove('translate-y-4', 'opacity-0');
+    clearTimeout(toastTimer);
+    toastTimer = window.setTimeout(() => toast.classList.add('translate-y-4', 'opacity-0'), 4200);
+  }
+
+  function setView(view: string) {
+    sections.forEach((section) => { section.hidden = section.dataset.adminView !== view; });
+    navButtons.forEach((button) => {
+      if (button.dataset.adminNav === view) button.setAttribute('aria-current', 'page');
+      else button.removeAttribute('aria-current');
+    });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  document.querySelectorAll<HTMLButtonElement>('[data-admin-nav]').forEach((button) => {
+    button.addEventListener('click', () => setView(button.dataset.adminNav ?? 'overview'));
+  });
+
+  document.querySelectorAll<HTMLButtonElement>('[data-open-editor]').forEach((button) => {
+    button.addEventListener('click', () => {
+      setView('editor');
+      const kind = form?.elements.namedItem('kind');
+      if (kind instanceof HTMLSelectElement) kind.value = button.dataset.openEditor ?? 'news';
+      updatePreview();
+      form?.querySelector<HTMLInputElement>('[name="titleAmharic"]')?.focus();
+    });
+  });
+
+  document.querySelector<HTMLButtonElement>('[data-sign-out]')?.addEventListener('click', async () => {
+    try {
+      await deleteAdminSession();
+    } finally {
+      window.location.assign(`${import.meta.env.BASE_URL}admin/login`);
+    }
+  });
+
+  function getDrafts(): unknown[] {
+    try {
+      const parsed = JSON.parse(localStorage.getItem(DRAFT_STORAGE_KEY) ?? '[]');
+      return Array.isArray(parsed) ? parsed : [];
+    } catch {
+      return [];
+    }
+  }
+
+  function refreshDraftCount() {
+    if (draftCount) draftCount.textContent = String(getDrafts().length);
+  }
+
+  function updatePreview() {
+    if (!form) return;
+    const values = new FormData(form);
+    const amharic = String(values.get('titleAmharic') ?? '').trim() || 'የአማርኛ ርዕስ';
+    const english = String(values.get('titleEnglish') ?? '').trim() || 'English title';
+    const body = String(values.get('bodyAmharic') ?? '').trim() || String(values.get('bodyEnglish') ?? '').trim() || 'Your story preview will appear here as you type.';
+    const kind = String(values.get('kind') ?? 'news');
+    const labels: Record<string, string> = { news: 'News', celebration: 'Celebration', blog: 'Blog' };
+    const amharicEl = document.querySelector<HTMLElement>('[data-preview-amharic]');
+    const englishEl = document.querySelector<HTMLElement>('[data-preview-english]');
+    const bodyEl = document.querySelector<HTMLElement>('[data-preview-body]');
+    const kindEl = document.querySelector<HTMLElement>('[data-preview-kind]');
+    if (amharicEl) amharicEl.textContent = amharic;
+    if (englishEl) englishEl.textContent = english;
+    if (bodyEl) bodyEl.textContent = body;
+    if (kindEl) kindEl.textContent = labels[kind] ?? 'News';
+  }
+
+  form?.addEventListener('input', updatePreview);
+
+  photoInput?.addEventListener('change', () => {
+    const files = [...(photoInput.files ?? [])].slice(0, 12);
+    if (photoList) {
+      photoList.innerHTML = '';
+      for (const file of files) {
+        const item = document.createElement('div');
+        item.className = 'flex min-w-0 items-center gap-3 border border-black/8 bg-[#fcfcfa] p-2.5';
+        const preview = document.createElement('img');
+        preview.className = 'h-10 w-10 shrink-0 object-cover';
+        preview.src = URL.createObjectURL(file);
+        preview.alt = '';
+        const name = document.createElement('span');
+        name.className = 'min-w-0 truncate font-ui text-[.68rem] text-ink-700';
+        name.textContent = file.name;
+        item.append(preview, name);
+        photoList.append(item);
+      }
+    }
+    const first = files[0];
+    const preview = document.querySelector<HTMLImageElement>('[data-preview-image]');
+    if (first && preview) preview.src = URL.createObjectURL(first);
+  });
+
+  document.querySelector<HTMLButtonElement>('[data-clear-editor]')?.addEventListener('click', () => {
+    form?.reset();
+    if (photoList) photoList.innerHTML = '';
+    const preview = document.querySelector<HTMLImageElement>('[data-preview-image]');
+    if (preview) preview.src = `${import.meta.env.BASE_URL}pics/running.jpg`;
+    updatePreview();
+  });
+
+  form?.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    if (!form.reportValidity()) return;
+
+    const submitter = event.submitter as HTMLButtonElement | null;
+    const status = (submitter?.dataset.submitIntent ?? 'draft') as AdminContentStatus;
+    const values = new FormData(form);
+    const input: AdminContentInput = {
+      kind: String(values.get('kind') ?? 'news') as AdminContentKind,
+      titleAmharic: String(values.get('titleAmharic') ?? '').trim(),
+      titleEnglish: String(values.get('titleEnglish') ?? '').trim(),
+      bodyAmharic: String(values.get('bodyAmharic') ?? '').trim(),
+      bodyEnglish: String(values.get('bodyEnglish') ?? '').trim() || undefined,
+      publicationDate: String(values.get('publicationDate') ?? ''),
+      eventDate: String(values.get('eventDate') ?? '').trim() || undefined,
+      mediaIds: [],
+    };
+
+    submitter?.setAttribute('disabled', '');
+    const originalLabel = submitter?.textContent;
+    if (submitter) submitter.textContent = 'Saving…';
+
+    try {
+      if (!adminApiConfigured) {
+        if (status === 'published') throw new Error('Connect the Phase Two API before publishing.');
+        const drafts = getDrafts();
+        drafts.unshift({
+          id: crypto.randomUUID(),
+          ...input,
+          status: 'draft',
+          savedAt: new Date().toISOString(),
+          photoNames: [...(photoInput?.files ?? [])].map((file) => file.name),
+        });
+        localStorage.setItem(DRAFT_STORAGE_KEY, JSON.stringify(drafts.slice(0, 30)));
+        refreshDraftCount();
+        showToast('Draft saved safely in this browser. Photos will upload when the Phase Two API is connected.');
+      } else {
+        const files = [...(photoInput?.files ?? [])];
+        if (files.length) {
+          const media = await uploadAdminMedia(files, {
+            english: String(values.get('mediaAltEnglish') ?? '').trim() || undefined,
+            amharic: String(values.get('mediaAltAmharic') ?? '').trim() || undefined,
+          });
+          input.mediaIds = media.map((asset) => asset.id);
+        }
+        await saveAdminContent(input, status);
+        showToast(status === 'published' ? 'Post published and rebuild requested.' : 'Draft saved to the admin API.');
+      }
+    } catch (error) {
+      showToast(error instanceof Error ? error.message : 'Something went wrong while saving.', true);
+    } finally {
+      if (submitter) {
+        submitter.textContent = originalLabel ?? 'Save';
+        if (status !== 'published' || adminApiConfigured) submitter.removeAttribute('disabled');
+      }
+    }
+  });
+
+  refreshDraftCount();
+  updatePreview();
+</script>

@@ -96,6 +96,21 @@ export const SERVICES: ServiceEntry[] = [
     from: '6:00 AM', note: 'Kept every month, and kept greatly in Yekatit.', kind: 'liturgy' },
 ];
 
+/* ── the shape of Sunday morning ───────────────────────────────────── */
+
+export const KIDASE_ORDER = [
+  { geez: 'ውዳሴ ማርያም', tr: 'Wudase Mariam', en: 'Praises of Our Lady',
+    body: 'The night office. Each day of the week has its own portion, and the whole is sung through in a week.' },
+  { geez: 'ማኅሌት', tr: 'Mahlet', en: 'The night chant',
+    body: 'The debtera stand through the small hours with prayer-staff, sistrum and drum, in the mode appointed for the day.' },
+  { geez: 'ሰዓታት', tr: 'Se’atat', en: 'The hours',
+    body: 'The morning office of psalms, read before the sun is properly up.' },
+  { geez: 'ቅዳሴ', tr: 'Kidase', en: 'The Divine Liturgy',
+    body: 'The Anaphora itself. Fourteen are appointed for use through the year; the one attributed to the Apostles is the most common.' },
+  { geez: 'ቁርባን', tr: 'Qurban', en: 'Holy Communion',
+    body: 'Given to those who have fasted and been to confession. Children are always communed.' },
+] as const;
+
 /* ── the seven sacraments ───────────────────────────────────────────── */
 
 export const SACRAMENTS = [

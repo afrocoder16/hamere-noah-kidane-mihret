@@ -1,0 +1,18 @@
+---
+import { getCollection } from 'astro:content';
+import AdminLayout from '../../layouts/Admin.astro';
+import AdminDashboard from '../../components/admin/AdminDashboard.astro';
+
+const updates = (await getCollection('parishUpdates', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.publicationDate.getTime() - a.data.publicationDate.getTime());
+const latest = updates[0];
+---
+
+<AdminLayout title="Dashboard">
+  <AdminDashboard
+    publishedCount={updates.length}
+    latestTitleAmharic={latest?.data.titleAmharic}
+    latestTitleEnglish={latest?.data.titleEnglish}
+    latestDate={latest?.data.publicationDate}
+  />
+</AdminLayout>

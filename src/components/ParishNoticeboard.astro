@@ -1,0 +1,134 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { render } from 'astro:content';
+import Harag from './ornament/Harag.astro';
+import { u } from '../lib/url';
+
+interface Props {
+  update: CollectionEntry<'parishUpdates'>;
+}
+
+const { update } = Astro.props;
+const { Content } = await render(update);
+const { data } = update;
+const photos = data.photos.slice(0, 4);
+const galleryColumns = photos.length === 1
+  ? 'sm:grid-cols-1'
+  : photos.length === 2
+    ? 'sm:grid-cols-[1.18fr_.82fr]'
+    : 'sm:grid-cols-2';
+const publicationDate = data.publicationDate.toLocaleDateString('en-US', {
+  month: 'long',
+  day: 'numeric',
+  year: 'numeric',
+  timeZone: 'UTC',
+});
+---
+
+<section id="parish-news" class="relative overflow-hidden bg-lapis-950 text-vellum-100">
+  <div class="absolute inset-0 opacity-15" aria-hidden="true"
+       style="background-image:linear-gradient(rgba(238,213,150,.16) 1px,transparent 1px),linear-gradient(90deg,rgba(238,213,150,.16) 1px,transparent 1px);background-size:34px 34px"></div>
+  <img src={u('/pics/angels winged cherub faces-Photoroom.png')} alt="" aria-hidden="true"
+       class="pointer-events-none absolute -right-24 -bottom-28 w-[30rem] opacity-[.05]" />
+  <div class="absolute inset-x-0 top-0 opacity-55">
+    <Harag variant="chain" repeat={24} height={28} mono color="var(--color-gold-500)" />
+  </div>
+
+  <div class="relative mx-auto max-w-[1240px] px-5 py-24 lg:px-8 lg:py-28">
+    <header class="max-w-3xl" data-reveal>
+      <p class="rubric !text-gold-400/85">Parish journal · የደብሩ ዜና</p>
+      <h2 class="mt-4 text-[clamp(1.9rem,4vw,2.9rem)] text-vellum-50">What our community is sharing</h2>
+      <p class="mt-4 max-w-2xl text-[1.04rem] leading-relaxed text-vellum-200/68">
+        Photographs, announcements, celebrations, and words from the life of our parish—kept here as our story grows.
+      </p>
+    </header>
+
+    <article class="mt-12 overflow-hidden border border-gold-400/32 bg-vellum-50 text-ink-800 shadow-lifted" data-reveal style="--reveal-delay:100ms">
+      <div class:list={['grid gap-1.5 bg-ink-950 p-1.5', galleryColumns]}>
+        {photos.map((photo, i) => (
+          <figure class:list={[
+            'group relative overflow-hidden bg-ink-900',
+            i === 0 ? 'min-h-[18rem] sm:min-h-[27rem] lg:min-h-[31rem]' : 'min-h-[14rem] sm:min-h-[27rem] lg:min-h-[31rem]',
+          ]}>
+            <img
+              src={u(photo.src)}
+              alt={photo.alt}
+              class="absolute inset-0 h-full w-full object-cover transition-transform duration-1000 group-hover:scale-[1.02]"
+              style={`object-position:${photo.position ?? 'center center'}`}
+              loading="lazy"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-ink-950/60 via-transparent to-transparent"></div>
+            {photo.caption && (
+              <figcaption class="absolute right-0 bottom-0 left-0 p-4 font-ui text-[.6rem] tracking-[.12em] text-vellum-50/82 uppercase sm:p-5">
+                {photo.caption}
+              </figcaption>
+            )}
+          </figure>
+        ))}
+      </div>
+
+      <div class="grid gap-10 p-7 sm:p-10 lg:grid-cols-[.72fr_1.28fr] lg:gap-16 lg:p-14">
+        <header>
+          <div class="flex flex-wrap items-center gap-x-3 gap-y-1 font-ui text-[.62rem] tracking-[.16em] text-madder-700 uppercase">
+            <span lang="am">{data.categoryAmharic}</span>
+            <span class="text-gold-700" aria-hidden="true">◆</span>
+            <span>{data.categoryEnglish}</span>
+          </div>
+          <h3 lang="am" class="geez mt-5 text-[clamp(1.75rem,4vw,2.55rem)] leading-[1.35] text-madder-900">
+            {data.titleAmharic}
+          </h3>
+          <p class="mt-3 font-display text-[1.08rem] tracking-[.06em] text-gold-800 uppercase">{data.titleEnglish}</p>
+
+          <dl class="mt-7 border-y border-[var(--rule)] py-5 text-[.86rem]">
+            <div class="grid grid-cols-[5.5rem_1fr] gap-3">
+              <dt class="font-ui text-[.6rem] tracking-[.14em] text-ink-500 uppercase">Posted</dt>
+              <dd class="text-ink-700">{publicationDate}</dd>
+            </div>
+            {(data.eventDateAmharic || data.eventDateEnglish) && (
+              <div class="mt-3 grid grid-cols-[5.5rem_1fr] gap-3">
+                <dt class="font-ui text-[.6rem] tracking-[.14em] text-ink-500 uppercase">Event</dt>
+                <dd>
+                  {data.eventDateAmharic && <span lang="am" class="geez block text-madder-800">{data.eventDateAmharic}</span>}
+                  {data.eventDateEnglish && <span class="block text-ink-600">{data.eventDateEnglish}</span>}
+                </dd>
+              </div>
+            )}
+          </dl>
+
+          {data.summaryAmharic && (
+            <p lang="am" class="geez mt-7 border-l-2 border-gold-600/60 pl-5 text-[1.05rem] leading-[1.9] text-madder-800">
+              {data.summaryAmharic}
+            </p>
+          )}
+          {data.summaryEnglish && <p class="mt-4 text-[.94rem] leading-relaxed text-ink-600">{data.summaryEnglish}</p>}
+        </header>
+
+        <div>
+          {data.scriptureAmharic && (
+            <blockquote lang="am" class="relative border border-gold-700/32 bg-gold-200/28 p-6 sm:p-7">
+              <span class="absolute -top-3 left-5 bg-vellum-50 px-2 font-display text-[1.8rem] leading-none text-gold-700" aria-hidden="true">“</span>
+              <p class="geez text-[1.02rem] leading-[1.9] text-madder-900">{data.scriptureAmharic}</p>
+              {data.scriptureReference && <cite class="mt-3 block font-ui text-[.62rem] not-italic tracking-[.14em] text-gold-800 uppercase">{data.scriptureReference}</cite>}
+            </blockquote>
+          )}
+
+          <div lang="am" class="parish-update-copy geez mt-7 text-[1.01rem] leading-[1.95] text-ink-700">
+            <Content />
+          </div>
+        </div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<style is:global>
+  .parish-update-copy p { margin-block: 0 1.25rem; }
+  .parish-update-copy p:last-child { margin-bottom: 0; }
+  .parish-update-copy ol,
+  .parish-update-copy ul { margin: .25rem 0 1.35rem; padding-inline-start: 1.6rem; }
+  .parish-update-copy ol { list-style: decimal; }
+  .parish-update-copy ul { list-style: disc; }
+  .parish-update-copy li { margin-block: .45rem; padding-inline-start: .35rem; }
+  .parish-update-copy li::marker { color: var(--color-gold-700); font-family: var(--font-display); }
+  .parish-update-copy strong { color: var(--color-madder-900); font-weight: 600; }
+</style>
