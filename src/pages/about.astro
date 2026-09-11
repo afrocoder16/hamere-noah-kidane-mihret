@@ -1,271 +1,211 @@
 ---
 import Base from '../layouts/Base.astro';
 import PageHeader from '../components/PageHeader.astro';
-import ArchFrame from '../components/ornament/ArchFrame.astro';
 import Divider from '../components/ornament/Divider.astro';
-import Harag from '../components/ornament/Harag.astro';
-import { PARISH, NAME_MEANING } from '../lib/parish';
-import { toGeez } from '../lib/ethiopic';
+import { PARISH } from '../lib/parish';
 import { u } from '../lib/url';
 
 const TIMELINE = [
   {
-    when: 'AD 34',
+    when: 'Acts 8',
     geez: 'ጃንደረባው',
-    head: 'The eunuch of Queen Candace',
+    head: 'An Ethiopian receives the Gospel',
     body:
-      'The Acts of the Apostles records an Ethiopian official reading Isaiah in his ' +
-      'chariot, and Philip baptising him on the road to Gaza. The Church counts this ' +
-      'as her beginning — before Rome, before Constantinople.',
+      'The Acts of the Apostles records Philip meeting an Ethiopian court official who ' +
+      'was reading Isaiah. Philip proclaimed Christ to him and baptised him on the road ' +
+      'from Jerusalem to Gaza—an early biblical witness cherished by Ethiopian Christians.',
   },
   {
-    when: 'AD 330',
+    when: '4th c.',
     geez: 'ፍሬምናጦስ',
     head: 'Frumentius and King Ezana',
     body:
-      'Frumentius, a shipwrecked Syrian boy raised in the Aksumite court, is consecrated ' +
-      'first bishop by Athanasius of Alexandria. Ezana strikes coins bearing the cross — ' +
-      'among the earliest Christian coinage anywhere.',
+      'St Frumentius was consecrated by St Athanasius of Alexandria as the first bishop ' +
+      'of the Ethiopian Church. Christianity took root in the Aksumite kingdom during ' +
+      'the reign of King Ezana.',
   },
   {
-    when: 'c. 500',
+    when: '5th–6th c.',
     geez: 'ተስዓቱ ቅዱሳን',
     head: 'The Nine Saints',
     body:
-      'Monks from the Roman world settle in Tigray, found monasteries, and translate the ' +
-      'Scriptures into Ge’ez. The Ethiopic Bible they leave behind still holds books no ' +
-      'other canon keeps — Enoch, Jubilees, the Shepherd.',
+      'The Nine Saints strengthened monastic life, teaching, and the translation of the ' +
+      'Scriptures and other Christian works into Ge’ez, helping the faith spread beyond Aksum.',
   },
   {
-    when: 'c. 520',
+    when: '6th c.',
     geez: 'ቅዱስ ያሬድ',
-    head: 'St Yared composes the zema',
+    head: 'The sacred music of St Yared',
     body:
-      'The whole musical system of the Church — three modes, ten signs, the antiphonaries ' +
-      'sung to this day — is set down by a single deacon of Aksum, who is said to have ' +
-      'learned it from three birds sent from paradise.',
+      'Ethiopian tradition honours St Yared as the father of its sacred music. The ' +
+      'three modes associated with his work continue to shape the Church’s liturgical chant.',
   },
   {
-    when: 'c. 1200',
+    when: '12th–13th c.',
     geez: 'ላሊበላ',
     head: 'The churches hewn at Lalibela',
     body:
-      'Eleven churches cut downward out of living rock, roof first, to stand as a new ' +
-      'Jerusalem when the old one had become unreachable.',
+      'The rock-hewn churches of Lalibela remain an enduring witness to Ethiopian ' +
+      'Christian worship, architecture, pilgrimage, and devotion.',
   },
   {
     when: '1959',
     geez: 'ራስ ገዝ',
     head: 'Autocephaly',
     body:
-      'After sixteen centuries under the Patriarch of Alexandria, the Ethiopian Church ' +
-      'receives her own Patriarch and becomes self-governing.',
+      'The installation of Abuna Basilios as the first Patriarch of Ethiopia completed ' +
+      'the Ethiopian Orthodox Tewahedo Church’s path to full self-government.',
   },
   {
     when: 'Today',
     geez: 'ሲዩክስ ፎልስ',
-    head: 'And so, Sioux Falls',
+    head: 'The faith lived in Sioux Falls',
     body:
-      'Ethiopians came to South Dakota for work, for safety, for family. What they brought ' +
-      'with them needed somewhere to be offered. This parish is that somewhere.',
+      `Hamere Noah Kidane Mihret now gathers at ${PARISH.address.street}. Here the parish ` +
+      'continues the worship and sacramental life of the Ethiopian Orthodox Tewahedo Church.',
   },
 ];
 ---
 
 <Base
   title="About"
-  description="The story of Hamere Noah Kidane Mihret and of the Ethiopian Orthodox Tewahedo Church, from the eunuch of Queen Candace to a parish in Sioux Falls."
+  description="About Hamere Noah Kidane Mihret Ethiopian Orthodox Tewahedo Church in Sioux Falls, its parish life, clergy, and faith."
 >
   <PageHeader
     eyebrow="About us · ስለ እኛ"
     geez="ስለ ቤተ ክርስቲያናችን"
-    title="An old faith, newly planted"
-    lede="One of the oldest Christian churches on earth, keeping house on West 11th Street."
+    title="Ancient faith, a living parish"
+    lede="An Ethiopian Orthodox Tewahedo parish serving the faithful in Sioux Falls, South Dakota."
     image={u('/art/bete-giyorgis.jpg')}
     imageAlt=""
   />
 
   <!-- ══════════ opening ══════════ -->
-  <section class="mx-auto max-w-[1240px] px-5 py-20 lg:px-8 lg:py-28">
-    <div class="grid gap-14 lg:grid-cols-[1.1fr_0.9fr] lg:gap-20">
+  <section id="parish" class="mx-auto max-w-[1240px] px-5 py-20 lg:px-8 lg:py-28">
+    <div class="grid items-center gap-14 lg:grid-cols-[.92fr_1.08fr] lg:gap-20">
       <div data-reveal>
         <p class="rubric">The parish · ደብሩ</p>
-        <h2 class="mt-4 text-[clamp(1.75rem,3.6vw,2.5rem)]">A congregation, not a building</h2>
+        <h2 class="mt-4 text-[clamp(1.9rem,4.2vw,3rem)]">A home for worship, mercy, and belonging</h2>
         <div class="reading mt-7 text-[1.06rem] leading-[1.75] text-ink-700">
           <p class="dropcap">
-            Ethiopian parishes in America almost never begin with a church. They begin with
-            a handful of families, a priest who has come a long way, and a room borrowed
-            from somebody else — a Lutheran fellowship hall, a school gym, a rented storefront.
-            The tabot is set up on a Saturday night and taken down on Sunday afternoon, and
-            that is enough: a consecrated tabot makes a church, and nothing else does.
+            Hamere Noah Kidane Mihret is an Ethiopian Orthodox Tewahedo parish in
+            {' '}{PARISH.city}, {PARISH.state}. The parish gathers around the Divine Liturgy,
+            the sacramental life of the Church, prayer, teaching, and fellowship.
           </p>
           <p>
-            That is how Hamere Noah Kidane Mihret came to be in {PARISH.city}. The people
-            arrived first. The liturgy followed. Everything you can see — the address on{' '}
-            {PARISH.address.street.replace(/^\d+\s/, '')}, the schedule, the Sunday school
-            classes — grew out of that order, not the other way round.
+            Its name holds two images dear to the parish: Hamere Noah, the Ark of Noah,
+            and Kidane Mihret, the Covenant of Mercy. Together they speak of the Church
+            as a place of refuge in Christ and of the mercy of God remembered in the
+            Church’s devotion to the Mother of God.
           </p>
           <p>
-            The congregation is Ethiopian and Eritrean, first-generation and second, some
-            fluent in Amharic and some who understand it only when their grandmother is
-            speaking. The liturgy is in Ge’ez, the preaching in Amharic, and a growing part
-            of the teaching in English — because the children being baptised here now will
-            pray in English, and the Church intends to be there when they do.
+            At {PARISH.address.street}, parish life is shared across generations. The
+            faithful come together to worship, children learn the tradition, families keep
+            feast days, and the community cares for one another through both joyful and
+            difficult seasons. The building is the parish’s visible home; the life within it
+            is formed by common prayer and faithful service.
           </p>
         </div>
       </div>
 
-      <div class="space-y-8" data-reveal style="--reveal-delay:140ms">
-        <ArchFrame
-          src={u('/art/procession.jpg')}
-          alt="An Ethiopian Orthodox procession with ceremonial umbrellas"
-          ratio="4 / 5"
-          caption="A procession at Gondar. The fringed umbrellas are carried over the tabot whenever it leaves the sanctuary."
-          credit="Brian Dell · CC0 · Wikimedia Commons"
-          loading="eager"
-        />
-        <div class="panel p-7">
-          <p class="rubric">In brief</p>
-          <dl class="mt-5 space-y-4 text-[.95rem]">
-            {[
-              ['Tradition', 'Ethiopian Orthodox Tewahedo — Oriental Orthodox'],
-              ['Patron', `${PARISH.patron.tr} · ${PARISH.patron.en}`],
-              ['Patronal feast', `${PARISH.patron.feastEth} (${PARISH.patron.feastGreg})`],
-              ['Liturgical language', 'Ge’ez, with Amharic and English'],
-              ['Where', `${PARISH.address.city}, ${PARISH.address.state}`],
-            ].map(([k, v]) => (
-              <div class="grid grid-cols-[7.5rem_1fr] gap-3 border-b border-[var(--rule)] pb-3 last:border-0 last:pb-0">
-                <dt class="font-ui text-[.7rem] tracking-[.12em] text-ink-500 uppercase">{k}</dt>
-                <dd class="text-ink-700">{v}</dd>
-              </div>
-            ))}
-          </dl>
+      <figure class="relative mx-auto w-full max-w-[35rem]" data-reveal style="--reveal-delay:140ms">
+        <div class="absolute -inset-4 border border-gold-700/32 sm:-inset-6" aria-hidden="true"></div>
+        <div class="relative bg-ink-950 p-2.5 shadow-lifted sm:p-3">
+          <picture>
+            <source srcset={u('/pics/church1.webp')} type="image/webp" />
+            <img
+              src={u('/pics/church1.png')}
+              alt="The nave and sanctuary of Hamere Noah Kidane Mihret Church in Sioux Falls"
+              width="1086"
+              height="1448"
+              class="h-auto w-full"
+              loading="eager"
+            />
+          </picture>
+          <figcaption class="flex flex-col gap-1 px-3 py-4 text-vellum-100 sm:flex-row sm:items-center sm:justify-between sm:px-4">
+            <span class="font-display text-[.86rem]">Our parish church</span>
+            <span class="font-ui text-[.58rem] tracking-[.14em] text-gold-400/80 uppercase">Sioux Falls · South Dakota</span>
+          </figcaption>
         </div>
-      </div>
+      </figure>
     </div>
   </section>
 
   <!-- ══════════════════════════ OUR SPIRITUAL FATHERS ══════════════════════════ -->
-  <section id="clergy" class="relative overflow-hidden bg-ink-950 text-vellum-200">
-    <div class="absolute inset-0 opacity-[.055]"
-         style="background-image:linear-gradient(rgba(238,213,150,.4) 1px,transparent 1px),linear-gradient(90deg,rgba(238,213,150,.4) 1px,transparent 1px);background-size:72px 72px"
-         aria-hidden="true"></div>
-    <div class="absolute -top-32 -right-28 h-[32rem] w-[32rem] rounded-full border border-gold-500/10" aria-hidden="true"></div>
+  <section id="clergy" class="relative overflow-hidden border-y border-[var(--rule-gold)] bg-vellum-100/72">
+    <div class="absolute inset-0 opacity-30" aria-hidden="true"
+         style="background-image:radial-gradient(circle at 1px 1px,rgba(110,78,18,.16) 1px,transparent 0);background-size:20px 20px"></div>
+    <div class="absolute top-0 left-1/2 h-px w-[min(78rem,88vw)] -translate-x-1/2 bg-gradient-to-r from-transparent via-gold-700/45 to-transparent" aria-hidden="true"></div>
 
     <div class="relative mx-auto max-w-[1240px] px-5 py-24 lg:px-8 lg:py-32">
-      <div class="grid items-center gap-14 lg:grid-cols-[.86fr_1.14fr] lg:gap-20">
-        <div data-reveal>
-          <p class="rubric !text-gold-400/85">Our spiritual fathers · መንፈሳዊ አባቶቻችን</p>
-          <h2 class="mt-5 text-[clamp(2rem,4.6vw,3.45rem)] !text-vellum-50">
-            Called to the altar.<br />Present with the people.
-          </h2>
-          <p class="mt-7 text-[1.06rem] leading-[1.8] text-vellum-200/74">
-            In the Tewahedo Church, ordained ministry is understood as service. Our clergy
-            guard the worship of the Church, teach the apostolic faith, celebrate the Holy
-            Mysteries, and stay near to families through joy, illness, counsel, and grief.
-            That ancient calling is lived here in Sioux Falls, one prayer and one household
-            at a time.
+      <header class="grid gap-8 lg:grid-cols-[.78fr_1.22fr] lg:gap-20" data-reveal>
+        <div>
+          <p class="rubric">Our spiritual fathers · መንፈሳዊ አባቶቻችን</p>
+          <h2 class="mt-4 text-[clamp(2rem,4.6vw,3.35rem)]">A ministry entrusted to service</h2>
+        </div>
+        <div class="grid gap-5 text-[1.05rem] leading-[1.78] text-ink-700 sm:grid-cols-2">
+          <p>
+            In the Ethiopian Orthodox Tewahedo Church, ordained authority is understood as
+            <em>diakonia</em>—service. Priests are entrusted with the sacramental life of the
+            parish and with teaching and preaching the faith received by the Church.
           </p>
-
-          <blockquote class="relative mt-9 border-l border-gold-400/55 pl-7">
-            <span class="absolute -top-5 -left-1 font-display text-5xl leading-none text-gold-400/35" aria-hidden="true">“</span>
-            <p class="font-display text-[1.35rem] leading-snug text-gold-200">
-              Shepherd the flock of God which is among you.
-            </p>
-            <cite class="mt-3 block font-ui text-[.68rem] tracking-[.2em] text-vellum-200/50 not-italic uppercase">
-              1 Peter 5:2
-            </cite>
-          </blockquote>
-
-          <p class="mt-9 max-w-lg border-t border-vellum-100/12 pt-6 font-ui text-[.7rem] leading-relaxed tracking-[.13em] text-vellum-200/48 uppercase">
-            Prayer · teaching · sacraments · pastoral care
+          <p>
+            Deacons assist the bishop and priests in worship, proclaim the Scriptures, and
+            help preserve good order. Clergy and faithful serve together as one body, sharing
+            responsibility for the prayer, unity, and care of the parish.
           </p>
         </div>
+      </header>
 
-        <figure class="relative mx-auto w-full max-w-[560px]" data-reveal style="--reveal-delay:140ms">
-          <div class="absolute -inset-4 border border-gold-400/20 lg:-inset-6" aria-hidden="true"></div>
-          <div class="relative overflow-hidden border-[10px] border-vellum-50/95 bg-vellum-50 shadow-2xl">
-            <img
-              src={u('/pics/church-father-together.jpg')}
-              alt="The clergy of Hamere Noah Kidane Mihret Church standing together inside the sanctuary"
-              class="aspect-[4/3] w-full object-cover object-[center_31%]"
-              loading="lazy"
-            />
-            <figcaption class="bg-vellum-50 px-5 py-4 text-center font-ui text-[.68rem] tracking-[.16em] text-ink-700 uppercase">
-              Serving Hamere Noah Kidane Mihret · Sioux Falls
-            </figcaption>
-          </div>
-        </figure>
-      </div>
-
-      <div class="mt-20 grid gap-6 sm:grid-cols-3 lg:gap-8">
+      <div class="relative mt-20 grid gap-10 md:grid-cols-3 md:gap-6 lg:mt-24 lg:gap-9">
+        <div class="absolute top-16 right-0 left-0 hidden h-px bg-gold-700/30 md:block" aria-hidden="true"></div>
         {[
+          {
+            image: '/pics/church-father2.jpg',
+            alt: 'A priest of Hamere Noah Kidane Mihret wearing liturgical vestments',
+            className: 'md:mt-10',
+          },
           {
             image: '/pics/main-church-father.jpg',
             alt: 'A priest of Hamere Noah Kidane Mihret holding an Ethiopian hand cross',
-            eyebrow: 'At the altar · በመሠዊያው',
-            title: 'Prayer & the Holy Mysteries',
-            position: 'center 24%',
-          },
-          {
-            image: '/pics/church-father2.jpg',
-            alt: 'A priest of Hamere Noah Kidane Mihret in liturgical vestments',
-            eyebrow: 'In the word · በትምህርት',
-            title: 'Teaching & formation',
-            position: 'center 22%',
+            className: '',
           },
           {
             image: '/pics/church-father3.jpg',
             alt: 'A member of the clergy of Hamere Noah Kidane Mihret holding a cross',
-            eyebrow: 'With the people · ከሕዝቡ ጋር',
-            title: 'Pastoral care & fellowship',
-            position: 'center 25%',
+            className: 'md:mt-10',
           },
         ].map((father, i) => (
-          <article class="group border border-gold-400/18 bg-vellum-50/[.035] p-3" data-reveal style={`--reveal-delay:${i * 90}ms`}>
-            <div class="overflow-hidden">
-              <img
-                src={u(father.image)}
-                alt={father.alt}
-                class="aspect-[4/5] w-full object-cover transition duration-700 group-hover:scale-[1.025]"
-                style={`object-position:${father.position}`}
-                loading="lazy"
-              />
+          <figure class={`group relative ${father.className}`} data-reveal style={`--reveal-delay:${i * 100}ms`}>
+            <div class="relative border border-gold-700/30 bg-vellum-50 p-2.5 shadow-lifted sm:p-3">
+              <div class="overflow-hidden bg-ink-950">
+                <img
+                  src={u(father.image)}
+                  alt={father.alt}
+                  width="960"
+                  height="1280"
+                  class="h-auto w-full transition-transform duration-700 group-hover:scale-[1.012]"
+                  loading="lazy"
+                />
+              </div>
+              <figcaption class="flex items-center justify-between gap-4 px-2 pt-4 pb-2 sm:px-3 sm:pt-5 sm:pb-3">
+                <span class="font-display text-[.9rem] text-madder-900">Parish clergy</span>
+                <span class="geez text-[.74rem] text-gold-800">የደብሩ ካህናት</span>
+              </figcaption>
             </div>
-            <div class="px-3 pt-5 pb-4">
-              <p class="font-ui text-[.64rem] tracking-[.16em] text-gold-400/80 uppercase">{father.eyebrow}</p>
-              <h3 class="mt-2 text-[1.08rem] !text-vellum-100">{father.title}</h3>
-            </div>
-          </article>
+          </figure>
         ))}
       </div>
-    </div>
-  </section>
 
-  <!-- ══════════ the name ══════════ -->
-  <section id="name" class="relative overflow-hidden border-y border-[var(--rule)] bg-vellum-100/70">
-    <div class="absolute inset-x-0 top-0 opacity-40"><Harag variant="chain" repeat={22} height={24} /></div>
-    <div class="mx-auto max-w-[1240px] px-5 py-24 lg:px-8">
-      <div class="mx-auto max-w-2xl text-center" data-reveal>
-        <p class="rubric">The name · ስያሜው</p>
-        <h2 class="mt-4 text-[clamp(1.75rem,3.6vw,2.5rem)]">Why we are called this</h2>
-      </div>
-      <div class="mt-14 grid gap-10 md:grid-cols-2 lg:gap-16">
-        {NAME_MEANING.map((n, i) => (
-          <article class="relative" data-reveal style={`--reveal-delay:${i * 140}ms`}>
-            <div class="panel h-full p-8 lg:p-10">
-              <span class="geez block text-[clamp(2rem,5vw,2.9rem)] leading-tight text-madder-800">{n.geez}</span>
-              <p class="mt-3 font-display text-[1.28rem] tracking-[.05em] text-gold-700">{n.tr}</p>
-              <p class="mt-1 font-serif text-[1.02rem] italic text-ink-600">“{n.en}”</p>
-              <div class="my-6 h-px bg-[var(--rule-gold)]"></div>
-              <p class="text-[1.02rem] leading-[1.75] text-ink-700">{n.body}</p>
-            </div>
-            <span class="geez absolute -top-4 right-5 text-[2.4rem] leading-none text-gold-600/30 select-none">
-              {toGeez(i + 1)}
-            </span>
-          </article>
-        ))}
-      </div>
+      <blockquote class="mx-auto mt-20 grid max-w-4xl items-center gap-5 border-y border-gold-700/35 py-7 text-center sm:grid-cols-[1fr_auto_1fr] sm:text-left" data-reveal>
+        <p class="font-display text-[clamp(1.2rem,2.4vw,1.55rem)] leading-snug text-madder-900">
+          “Shepherd the flock of God which is among you.”
+        </p>
+        <span class="hidden h-10 w-px bg-gold-700/35 sm:block" aria-hidden="true"></span>
+        <cite class="font-ui text-[.66rem] tracking-[.18em] text-gold-800 not-italic uppercase sm:text-right">
+          1 Peter 5:2 · ፩ ጴጥሮስ ፭፥፪
+        </cite>
+      </blockquote>
     </div>
   </section>
 
@@ -273,10 +213,10 @@ const TIMELINE = [
   <section class="mx-auto max-w-[1240px] px-5 py-24 lg:px-8 lg:py-32">
     <div class="mx-auto mb-16 max-w-2xl text-center" data-reveal>
       <p class="rubric">How we got here · ታሪክ</p>
-      <h2 class="mt-4 text-[clamp(1.75rem,3.6vw,2.5rem)]">Nineteen centuries, briefly</h2>
+      <h2 class="mt-4 text-[clamp(1.75rem,3.6vw,2.5rem)]">A faith carried through the centuries</h2>
       <p class="mt-5 text-[1.05rem] leading-relaxed text-ink-600">
-        The line from a chariot on the Gaza road to a Sunday morning in South Dakota is
-        long, but it has never been broken.
+        Selected moments from the history and living tradition of the Ethiopian Orthodox
+        Tewahedo Church, leading to a parish worshipping today in South Dakota.
       </p>
     </div>
 
@@ -304,27 +244,111 @@ const TIMELINE = [
   <Divider />
 
   <!-- ══════════ tewahedo ══════════ -->
-  <section class="relative overflow-hidden bg-ink-950 text-vellum-200">
-    <img src={u('/art/ura-interior.jpg')} alt="" aria-hidden="true"
-         class="absolute inset-0 h-full w-full object-cover opacity-[.16]" loading="lazy" />
-    <div class="absolute inset-0 bg-gradient-to-b from-ink-950 via-ink-950/85 to-ink-950"></div>
+  <section class="relative overflow-hidden border-y border-[var(--rule-gold)] bg-vellum-50">
+    <div
+      class="absolute inset-0 opacity-35"
+      aria-hidden="true"
+      style="background-image:radial-gradient(circle at 1px 1px,rgba(110,78,18,.14) 1px,transparent 0);background-size:22px 22px"
+    ></div>
+    <div class="geez pointer-events-none absolute top-8 -right-8 hidden text-[11rem] leading-none text-gold-700/[.055] select-none xl:block" aria-hidden="true">
+      ተዋሕዶ
+    </div>
 
-    <div class="relative mx-auto max-w-3xl px-6 py-24 text-center lg:py-32">
-      <p class="rubric !text-gold-400/85" data-reveal>The word itself · ተዋሕዶ</p>
-      <h2 class="geez mt-5 text-[clamp(2.2rem,7vw,4rem)] leading-none gilt" data-reveal>ተዋሕዶ</h2>
-      <p class="mt-4 font-display text-[1.4rem] tracking-wide text-vellum-100" data-reveal>Tewahedo — “made one”</p>
-      <p class="mx-auto mt-7 max-w-xl text-[1.06rem] leading-relaxed text-vellum-200/72" data-reveal>
-        The name of this Church is a single Ge’ez word, and it is a doctrine. It says that
-        in Christ the divine and the human are not two natures set side by side but one,
-        united without mixture, without confusion, without separation — as fire is one with
-        heated iron. Everything else the Church holds follows from that word.
-      </p>
-      <a href={u('/faith')}
-         class="group mt-9 inline-flex items-center gap-3 font-ui text-[.82rem] tracking-[.12em] text-gold-400 uppercase"
-         data-reveal>
-        What we believe
-        <span class="inline-block transition-transform duration-300 group-hover:translate-x-1.5">→</span>
-      </a>
+    <div class="relative mx-auto max-w-[1240px] px-5 py-24 lg:px-8 lg:py-32">
+      <div class="grid items-end gap-10 lg:grid-cols-[.86fr_1.14fr] lg:gap-20">
+        <header data-reveal>
+          <p class="rubric">The word itself · ተዋሕዶ</p>
+          <h2 class="geez mt-5 text-[clamp(3.4rem,8vw,6.7rem)] leading-[.9] text-madder-900">
+            ተዋሕዶ
+          </h2>
+          <p class="mt-5 font-display text-[clamp(1.35rem,2.6vw,1.85rem)] tracking-wide text-ink-800">
+            Tewahedo — “made one”
+          </p>
+        </header>
+
+        <div class="relative border-l-2 border-madder-800 pl-6 sm:pl-9" data-reveal style="--reveal-delay:120ms">
+          <p class="text-[1.08rem] leading-[1.85] text-ink-700">
+            Tewahedo is a Ge’ez word meaning “being made one.” It confesses that in the one
+            incarnate Lord Jesus Christ, divinity and humanity are united without mixture,
+            confusion, division, or separation. He is fully God and fully human, one Lord and
+            Saviour.
+          </p>
+          <a
+            href={u('/faith')}
+            class="group mt-7 inline-flex items-center gap-3 font-ui text-[.76rem] tracking-[.14em] text-madder-800 uppercase"
+          >
+            What we believe
+            <span class="inline-block transition-transform duration-300 group-hover:translate-x-1.5">→</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="mt-16 border border-gold-700/30 bg-vellum-100/80 p-2.5 shadow-lifted sm:p-3 lg:mt-20" data-reveal>
+        <div class="grid gap-2.5 lg:grid-cols-12 lg:gap-3">
+          <figure class="group relative overflow-hidden bg-ink-950 lg:col-span-7 lg:row-span-2">
+            <img
+              src={u('/pics/church-pic3.jpg')}
+              alt="Clergy and faithful taking part in an outdoor church procession"
+              width="2048"
+              height="1365"
+              class="h-auto w-full transition-transform duration-700 group-hover:scale-[1.012]"
+              loading="lazy"
+            />
+          </figure>
+
+          <figure class="group relative overflow-hidden bg-ink-950 lg:col-span-5">
+            <img
+              src={u('/pics/church-pic.jpg')}
+              alt="Clergy and faithful gathered during a church service"
+              width="2000"
+              height="924"
+              class="h-auto w-full transition-transform duration-700 group-hover:scale-[1.012]"
+              loading="lazy"
+            />
+          </figure>
+
+          <figure class="group relative overflow-hidden bg-ink-950 lg:col-span-5">
+            <img
+              src={u('/pics/church-pic2.jpg')}
+              alt="The congregation gathered for worship beneath an Ethiopian flag"
+              width="2000"
+              height="924"
+              class="h-auto w-full transition-transform duration-700 group-hover:scale-[1.012]"
+              loading="lazy"
+            />
+          </figure>
+        </div>
+
+        <div class="mt-2.5 grid gap-2.5 sm:grid-cols-2 lg:mt-3 lg:gap-3">
+          <figure class="group relative overflow-hidden bg-ink-950">
+            <img
+              src={u('/pics/church-pic4.jpg')}
+              alt="Clergy, young people, and parishioners gathered before the sanctuary"
+              width="2048"
+              height="1365"
+              class="h-auto w-full transition-transform duration-700 group-hover:scale-[1.012]"
+              loading="lazy"
+            />
+          </figure>
+
+          <figure class="group relative overflow-hidden bg-ink-950">
+            <img
+              src={u('/pics/church-pic5.jpg')}
+              alt="The parish community gathered before the painted sanctuary"
+              width="2048"
+              height="1365"
+              class="h-auto w-full transition-transform duration-700 group-hover:scale-[1.012]"
+              loading="lazy"
+            />
+          </figure>
+        </div>
+
+        <div class="grid divide-y divide-gold-700/25 px-3 py-5 text-center sm:grid-cols-3 sm:divide-x sm:divide-y-0 sm:px-0 sm:py-6">
+          <p class="py-2 font-ui text-[.65rem] tracking-[.16em] text-gold-900 uppercase sm:py-0">One incarnate Lord</p>
+          <p class="py-2 font-ui text-[.65rem] tracking-[.16em] text-gold-900 uppercase sm:py-0">Fully God</p>
+          <p class="py-2 font-ui text-[.65rem] tracking-[.16em] text-gold-900 uppercase sm:py-0">Fully human</p>
+        </div>
+      </div>
     </div>
   </section>
 </Base>

@@ -9,16 +9,28 @@ interface Props {
 const { overHero = false } = Astro.props;
 
 const path = Astro.url.pathname.replace(/\/$/, '') || '/';
-const LINKS = [
-  { href: '/about',     en: 'About',     geez: 'ስለ እኛ' },
-  { href: '/faith',     en: 'Our Faith', geez: 'እምነታችን' },
-  { href: '/services',  en: 'Services',  geez: 'አገልግሎት' },
+interface NavLink {
+  href: string;
+  en: string;
+  geez: string;
+  children?: NavLink[];
+}
+
+const SERVICE_LINKS: NavLink[] = [
   { href: '/calendar',  en: 'Calendar',  geez: 'በዓላት' },
   { href: '/community', en: 'Community', geez: 'ማኅበረሰብ' },
   { href: '/gallery',   en: 'Gallery',   geez: 'ሥዕላት' },
-  { href: '/visit',     en: 'Visit',     geez: 'ጎብኙን' },
+];
+
+const LINKS: NavLink[] = [
+  { href: '/about',    en: 'About',     geez: 'ስለ እኛ' },
+  { href: '/faith',    en: 'Our Faith', geez: 'እምነታችን' },
+  { href: '/services', en: 'Services',  geez: 'አገልግሎት', children: SERVICE_LINKS },
+  { href: '/visit',    en: 'Visit',     geez: 'ጎብኙን' },
 ];
 const isActive = (href: string) => path === href || path.startsWith(href + '/');
+const isLinkActive = (link: NavLink) =>
+  isActive(link.href) || Boolean(link.children?.some((child) => isActive(child.href)));
 ---
 
 <header
@@ -53,7 +65,50 @@ const isActive = (href: string) => path === href || path.startsWith(href + '/');
 
       <!-- ── links ── -->
       <nav class="ml-auto hidden items-center gap-1 lg:flex" aria-label="Main">
-        {LINKS.map((l) => (
+        {LINKS.map((l) => l.children ? (
+          <div class="nav-dropdown relative">
+            <a
+              href={u(l.href)}
+              aria-current={isActive(l.href) ? 'page' : undefined}
+              class="nav-link group relative rounded-sm px-3 py-2 text-center font-ui text-[.82rem] transition-colors duration-300"
+            >
+              <span class="flex items-center justify-center gap-1.5 leading-tight">
+                {l.en}
+                <svg class="nav-dropdown-chevron h-2.5 w-2.5 transition-transform duration-300" viewBox="0 0 10 6" fill="none" aria-hidden="true">
+                  <path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.2" />
+                </svg>
+              </span>
+              <span class="nav-link-sub geez block text-[.6rem] leading-tight transition-colors duration-500">{l.geez}</span>
+              <span
+                class:list={[
+                  'absolute inset-x-3 -bottom-px h-px origin-center bg-gold-600 transition-transform duration-300',
+                  isLinkActive(l) ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100',
+                ]}
+              ></span>
+            </a>
+
+            <div class="nav-dropdown-panel absolute top-full left-1/2 w-60 -translate-x-1/2 pt-3">
+              <div class="border border-gold-700/30 bg-vellum-50 p-2 shadow-lifted">
+                <p class="border-b border-[var(--rule)] px-3 py-2 font-ui text-[.58rem] tracking-[.16em] text-gold-800 uppercase">
+                  Parish life · የደብሩ ሕይወት
+                </p>
+                {l.children.map((child) => (
+                  <a
+                    href={u(child.href)}
+                    aria-current={isActive(child.href) ? 'page' : undefined}
+                    class:list={[
+                      'flex items-center justify-between gap-4 px-3 py-3 font-ui text-[.78rem] transition-colors hover:bg-gold-200/45 hover:text-madder-900',
+                      isActive(child.href) ? 'bg-gold-200/35 text-madder-900' : 'text-ink-800',
+                    ]}
+                  >
+                    <span>{child.en}</span>
+                    <span class="geez text-[.7rem] text-gold-700">{child.geez}</span>
+                  </a>
+                ))}
+              </div>
+            </div>
+          </div>
+        ) : (
           <a
             href={u(l.href)}
             aria-current={isActive(l.href) ? 'page' : undefined}
@@ -102,22 +157,76 @@ const isActive = (href: string) => path === href || path.startsWith(href + '/');
   >
     <nav class="mx-auto max-w-[1240px] px-5 py-4" aria-label="Main, mobile">
       {LINKS.map((l) => (
-        <a
-          href={u(l.href)}
-          class:list={[
-            'flex items-baseline justify-between border-b border-[var(--rule)] py-3 font-ui text-[.95rem] last:border-0',
-            isActive(l.href) ? 'text-madder-800' : 'text-ink-800',
-          ]}
-        >
-          <span>{l.en}</span>
-          <span class="geez text-[.8rem] text-gold-700">{l.geez}</span>
-        </a>
+        <div class="border-b border-[var(--rule)]">
+          <a
+            href={u(l.href)}
+            aria-current={isActive(l.href) ? 'page' : undefined}
+            class:list={[
+              'flex items-baseline justify-between py-3 font-ui text-[.95rem]',
+              isLinkActive(l) ? 'text-madder-800' : 'text-ink-800',
+            ]}
+          >
+            <span>{l.en}</span>
+            <span class="geez text-[.8rem] text-gold-700">{l.geez}</span>
+          </a>
+
+          {l.children && (
+            <div class="mb-3 ml-2 border-l border-gold-700/35 pl-4">
+              {l.children.map((child) => (
+                <a
+                  href={u(child.href)}
+                  aria-current={isActive(child.href) ? 'page' : undefined}
+                  class:list={[
+                    'flex items-baseline justify-between py-2.5 font-ui text-[.82rem]',
+                    isActive(child.href) ? 'text-madder-800' : 'text-ink-600',
+                  ]}
+                >
+                  <span>{child.en}</span>
+                  <span class="geez text-[.7rem] text-gold-700">{child.geez}</span>
+                </a>
+              ))}
+            </div>
+          )}
+        </div>
       ))}
       <a href={u('/give')} class="mt-4 block bg-madder-800 py-3 text-center font-ui text-sm tracking-[.09em] text-vellum-50 uppercase">Give</a>
       <a href={u('/membership')} class="mt-2 block border border-[var(--rule)] py-3 text-center font-ui text-sm tracking-[.09em] text-ink-800 uppercase">Become a member</a>
     </nav>
   </div>
 </header>
+
+<style>
+  .nav-dropdown-panel {
+    visibility: hidden;
+    pointer-events: none;
+    opacity: 0;
+    transform: translate(-50%, -0.35rem);
+    transition:
+      opacity 180ms ease,
+      transform 180ms ease,
+      visibility 180ms;
+  }
+
+  .nav-dropdown:hover .nav-dropdown-panel,
+  .nav-dropdown:focus-within .nav-dropdown-panel {
+    visibility: visible;
+    pointer-events: auto;
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+
+  .nav-dropdown:hover .nav-dropdown-chevron,
+  .nav-dropdown:focus-within .nav-dropdown-chevron {
+    transform: rotate(180deg);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .nav-dropdown-panel,
+    .nav-dropdown-chevron {
+      transition: none;
+    }
+  }
+</style>
 
 <script>
   const btn = document.querySelector('[data-menu-btn]');

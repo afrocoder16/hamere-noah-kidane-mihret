@@ -1,7 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
 import PageHeader from '../components/PageHeader.astro';
-import ArchFrame from '../components/ornament/ArchFrame.astro';
 import Divider from '../components/ornament/Divider.astro';
 import Harag from '../components/ornament/Harag.astro';
 import { MINISTRIES, PARISH } from '../lib/parish';
@@ -23,6 +22,27 @@ const YOUTH = [
   { geez: 'ዝማሬ', tr: 'Zema', body: 'The chant of St Yared, learned by ear from someone who learned it by ear. There is no other way to learn it.' },
   { geez: 'የቅዱሳን ገድል', tr: 'Lives of the saints', body: 'Tekle Haymanot, Gebre Menfes Kidus, Yared, Giorgis — told as stories, because that is what they are.' },
 ];
+
+const COMMUNITY_MOMENTS = [
+  { src: '/pics/communitity4.jpg', alt: 'Families gathered outdoors during a parish celebration' },
+  { src: '/pics/communitity7.jpg', alt: 'Women of the parish gathered together outdoors' },
+  { src: '/pics/communitity8.jpg', alt: 'Parishioners wearing Ethiopian colors at a community gathering' },
+  { src: '/pics/communitity9.jpg', alt: 'Families sharing a joyful moment at a parish gathering' },
+];
+
+const SUNDAY_SCHOOL_PHOTOS = [
+  { src: '/pics/Sunday School.jpg', alt: 'Sunday School students gathered in graduation robes' },
+  { src: '/pics/Sunday School2.jpg', alt: 'Sunday School students and teachers gathered inside the church' },
+  { src: '/pics/Sunday School6.jpg', alt: 'Young parishioners participating in worship with the congregation' },
+  { src: '/pics/Sunday School7.jpg', alt: 'Children taking part in an outdoor parish procession' },
+];
+
+const MAHLET_PHOTOS = [
+  { src: '/pics/Mahlet.jpg', alt: 'Mahlet singers gathered with prayer staffs inside the church' },
+  { src: '/pics/Mahlet2.jpg', alt: 'The Mahlet group standing together before the sanctuary' },
+  { src: '/pics/Mahlet3.jpg', alt: 'Parish singers participating in Mahlet' },
+  { src: '/pics/Mahlet4.jpg', alt: 'The Mahlet choir during worship' },
+];
 ---
 
 <Base
@@ -34,8 +54,8 @@ const YOUTH = [
     geez="ማኅበረ ምእመናን"
     title="The life of the parish"
     lede="What happens here between one Sunday and the next."
-    image={u('/art/procession.jpg')}
-    imageAlt=""
+    image={u('/pics/communitity10.jpg')}
+    imageAlt="Children and families gathered for the parish community run"
   />
 
   <!-- ══════════ ministries ══════════ -->
@@ -68,6 +88,24 @@ const YOUTH = [
         </article>
       ))}
     </div>
+
+    <figure class="mx-auto mt-14 max-w-[920px]" data-reveal>
+      <div class="grid grid-cols-2 gap-2 border border-gold-700/30 bg-vellum-100 p-2 shadow-panel sm:grid-cols-4">
+        {COMMUNITY_MOMENTS.map((photo) => (
+          <img
+            src={u(photo.src)}
+            alt={photo.alt}
+            width="206"
+            height="206"
+            class="aspect-square h-auto w-full object-cover"
+            loading="lazy"
+          />
+        ))}
+      </div>
+      <figcaption class="mt-4 text-center font-ui text-[.64rem] tracking-[.16em] text-gold-800 uppercase">
+        Parish life, carried together · የደብሩ ሕይወት
+      </figcaption>
+    </figure>
   </section>
 
   <!-- ══════════ sunday school ══════════ -->
@@ -118,22 +156,82 @@ const YOUTH = [
           </p>
         </div>
 
-        <div data-reveal style="--reveal-delay:140ms">
-          <ArchFrame
-            src={u('/art/manuscript-zechariah.jpg')}
-            alt="A page from an Ethiopian illuminated Bible showing the annunciation to Zechariah"
-            ratio="3 / 4"
-            caption="The annunciation to Zechariah, from an Ethiopic Bible. Ge’ez is still taught from pages like this one — read aloud, in column, until the letters stick."
-            credit="British Library Add. MS 59874 · Public domain"
-          />
+        <div class="self-start" data-reveal style="--reveal-delay:140ms">
+          <div class="border border-gold-700/30 bg-vellum-50 p-3 shadow-lifted sm:p-4">
+            <figure class="border border-gold-700/25 bg-vellum-100 p-4 text-center sm:p-6">
+              <img
+                src={u('/pics/deacons.jpg')}
+                alt="Young deacons of Hamere Noah Kidane Mihret gathered before the sanctuary"
+                width="206"
+                height="206"
+                class="mx-auto aspect-square h-auto w-full max-w-[22rem] object-cover"
+                loading="lazy"
+              />
+              <figcaption class="mt-5">
+                <span class="geez block text-[1.15rem] text-madder-900">የነገው አገልጋዮች</span>
+                <span class="mt-1 block font-ui text-[.64rem] tracking-[.16em] text-gold-800 uppercase">The servants of tomorrow</span>
+              </figcaption>
+            </figure>
+
+            <div class="mt-3 grid grid-cols-2 gap-3">
+              {SUNDAY_SCHOOL_PHOTOS.map((photo) => (
+                <img
+                  src={u(photo.src)}
+                  alt={photo.alt}
+                  width="206"
+                  height="206"
+                  class="aspect-square h-auto w-full border border-gold-700/20 object-cover"
+                  loading="lazy"
+                />
+              ))}
+            </div>
+          </div>
+          <p class="mx-auto mt-5 max-w-md text-center text-[.92rem] leading-relaxed text-ink-600">
+            Learning is carried through worship, instruction, service, and the example of
+            the generations already standing beside them.
+          </p>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ mahlet ══════════ -->
+  <section class="relative overflow-hidden border-b border-[var(--rule)] bg-vellum-50">
+    <div class="absolute inset-0 opacity-30" aria-hidden="true"
+         style="background-image:radial-gradient(circle at 1px 1px,rgba(110,78,18,.16) 1px,transparent 0);background-size:20px 20px"></div>
+    <div class="relative mx-auto max-w-[1240px] px-5 py-20 lg:px-8 lg:py-28">
+      <header class="mx-auto grid max-w-[920px] gap-7 lg:grid-cols-[.8fr_1.2fr] lg:items-end lg:gap-16" data-reveal>
+        <div>
+          <p class="rubric">Mahlet · ማኅሌት</p>
+          <h2 class="mt-4 text-[clamp(1.75rem,3.6vw,2.5rem)]">The prayer carried in song</h2>
+        </div>
+        <p class="text-[1.04rem] leading-[1.75] text-ink-600">
+          Mahlet is learned and offered together. Voice, rhythm, and the movement of the
+          prayer staff gather the singers into one act of praise—and hand the Church’s
+          sacred song from one generation to the next.
+        </p>
+      </header>
+
+      <div class="mx-auto mt-12 grid max-w-[920px] grid-cols-2 gap-2 border border-gold-700/30 bg-vellum-100 p-2 shadow-lifted sm:grid-cols-4" aria-label="Parish Mahlet photographs">
+        {MAHLET_PHOTOS.map((photo, i) => (
+          <figure data-reveal style={`--reveal-delay:${i * 70}ms`}>
+            <img
+              src={u(photo.src)}
+              alt={photo.alt}
+              width="206"
+              height="206"
+              class="aspect-square h-auto w-full object-cover"
+              loading="lazy"
+            />
+          </figure>
+        ))}
       </div>
     </div>
   </section>
 
   <!-- ══════════ mutual aid ══════════ -->
   <section class="relative overflow-hidden bg-ink-950 text-vellum-200">
-    <img src={u('/art/priest-tigray.jpg')} alt="" aria-hidden="true"
+    <img src={u('/pics/church-pic2.jpg')} alt="" aria-hidden="true"
          class="absolute inset-0 h-full w-full object-cover opacity-[.13]" loading="lazy" />
     <div class="absolute inset-0 bg-gradient-to-b from-ink-950 via-ink-950/88 to-ink-950"></div>
 

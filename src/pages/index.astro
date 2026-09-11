@@ -21,17 +21,20 @@ const latestParishUpdate = parishUpdates[0];
 <Base title="Home" bleed>
   <!-- ══════════════════════════ HERO ══════════════════════════ -->
   <section class="relative flex min-h-[100svh] items-center justify-center overflow-hidden bg-ink-950">
-    <!-- the ceiling of Debre Berhan Selassie, looking up -->
-    <img
-      src={u('/art/ceiling-angels.jpg')}
-      alt=""
-      aria-hidden="true"
-      class="absolute inset-0 h-full w-full scale-105 object-cover opacity-[.38]"
-      style="filter: sepia(.35) contrast(1.05)"
-      fetchpriority="high"
-    />
-    <div class="absolute inset-0 bg-[radial-gradient(ellipse_60%_55%_at_50%_45%,transparent,rgba(20,16,12,.86)_78%)]"></div>
-    <div class="absolute inset-0 bg-gradient-to-b from-ink-950/85 via-ink-950/45 to-ink-950"></div>
+    <!-- the angel-painted ceiling of Debre Berhan Selassie, looking up -->
+    <picture class="absolute inset-0" aria-hidden="true">
+      <source srcset={u('/pics/hero-angels.webp')} type="image/webp" />
+      <img
+        src={u('/pics/9af15841-4cc0-4c87-8725-72c2e3d98189.png')}
+        alt=""
+        width="1536"
+        height="1024"
+        class="h-full w-full scale-105 object-cover object-center opacity-[.62]"
+        fetchpriority="high"
+      />
+    </picture>
+    <div class="absolute inset-0 bg-[radial-gradient(ellipse_60%_55%_at_50%_45%,transparent,rgba(20,16,12,.8)_78%)]"></div>
+    <div class="absolute inset-0 bg-gradient-to-b from-ink-950/80 via-ink-950/38 to-ink-950/94"></div>
 
     <!-- the gold rule that frames a manuscript page -->
     <div class="pointer-events-none absolute inset-5 border border-gold-600/22 sm:inset-8"></div>
@@ -105,10 +108,34 @@ const latestParishUpdate = parishUpdates[0];
     <div class="absolute inset-0 opacity-35" aria-hidden="true"
          style="background-image:radial-gradient(circle at 1px 1px,rgba(110,78,18,.18) 1px,transparent 0);background-size:18px 18px"></div>
     <div class="absolute inset-x-0 top-0 opacity-55"><Harag variant="plait" repeat={24} height={28} /></div>
-    <img src={u('/pics/angels winged cherub faces-Photoroom.png')} alt="" aria-hidden="true"
-         class="pointer-events-none absolute top-8 -right-5 block w-36 rotate-6 opacity-[.2] mix-blend-multiply sm:top-7 sm:right-3 sm:w-56 sm:opacity-[.24] lg:-top-2 lg:right-2 lg:w-80 lg:opacity-[.2]" />
+    <div class="pointer-events-none absolute inset-0" aria-hidden="true">
+      <img
+        src={u('/pics/angels winged cherub faces-Photoroom.png')}
+        alt=""
+        class="absolute top-9 -left-8 w-32 -rotate-6 opacity-[.13] mix-blend-multiply sm:top-8 sm:-left-6 sm:w-48 lg:-top-2 lg:left-1 lg:w-72 lg:opacity-[.15]"
+        loading="lazy"
+      />
+      <img
+        src={u('/pics/angels winged cherub faces-Photoroom.png')}
+        alt=""
+        class="absolute top-9 -right-8 w-32 rotate-6 opacity-[.13] mix-blend-multiply sm:top-8 sm:-right-6 sm:w-48 lg:-top-2 lg:right-1 lg:w-72 lg:opacity-[.15]"
+        loading="lazy"
+      />
+      <img
+        src={u('/pics/angels winged cherub faces-Photoroom.png')}
+        alt=""
+        class="absolute bottom-8 -left-8 w-28 rotate-6 opacity-[.11] mix-blend-multiply sm:bottom-10 sm:-left-5 sm:w-44 lg:bottom-7 lg:left-2 lg:w-64 lg:opacity-[.13]"
+        loading="lazy"
+      />
+      <img
+        src={u('/pics/angels winged cherub faces-Photoroom.png')}
+        alt=""
+        class="absolute right-[-2rem] bottom-8 w-28 -rotate-6 opacity-[.11] mix-blend-multiply sm:right-[-1.25rem] sm:bottom-10 sm:w-44 lg:right-2 lg:bottom-7 lg:w-64 lg:opacity-[.13]"
+        loading="lazy"
+      />
+    </div>
 
-    <div class="relative mx-auto max-w-[1240px] px-5 py-20 lg:px-8 lg:py-28">
+    <div class="relative z-10 mx-auto max-w-[1240px] px-5 py-20 lg:px-8 lg:py-28">
       <header class="relative z-10 mb-10 max-w-2xl pr-20 sm:pr-32 lg:pr-0">
         <p class="rubric">The meaning we carry · ስያሜያችን</p>
         <h2 class="mt-4 text-[clamp(1.9rem,4vw,2.9rem)]">Two names. One calling.</h2>

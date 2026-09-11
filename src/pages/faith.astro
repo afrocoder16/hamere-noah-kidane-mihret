@@ -3,7 +3,6 @@ import Base from '../layouts/Base.astro';
 import PageHeader from '../components/PageHeader.astro';
 import ThreeChambers from '../components/ThreeChambers.astro';
 import ArchFrame from '../components/ornament/ArchFrame.astro';
-import AngelBand from '../components/ornament/AngelBand.astro';
 import Divider from '../components/ornament/Divider.astro';
 import Harag from '../components/ornament/Harag.astro';
 import { SACRAMENTS, MODES } from '../lib/parish';
@@ -122,7 +121,7 @@ const PILLARS = [
             For any of them, speak to the priest first. None of them are arranged by form.
           </p>
           <a href={u('/visit')}
-             class="group mt-8 inline-flex items-center gap-3 font-ui text-[.82rem] tracking-[.12em] text-madder-800 uppercase">
+             class="group mt-8 inline-flex items-center gap-3 border border-madder-800 bg-madder-800 px-7 py-3.5 font-ui text-[.8rem] font-bold tracking-[.14em] text-vellum-50 uppercase shadow-panel transition-colors duration-300 hover:bg-transparent hover:text-madder-800">
             Speak with the priest
             <span class="inline-block transition-transform duration-300 group-hover:translate-x-1.5">→</span>
           </a>
@@ -149,8 +148,23 @@ const PILLARS = [
   </section>
 
   <!-- ══════════ the ceiling of angels ══════════ -->
-  <section class="relative overflow-hidden bg-ink-950 py-20 text-vellum-200 lg:py-24">
-    <div class="mx-auto max-w-3xl px-6 text-center" data-reveal>
+  <section class="relative flex min-h-[38rem] items-center overflow-hidden bg-ink-950 py-20 text-vellum-200 lg:py-24">
+    <picture class="absolute inset-0" aria-hidden="true">
+      <source srcset={u('/pics/hero-angels.webp')} type="image/webp" />
+      <img
+        src={u('/pics/9af15841-4cc0-4c87-8725-72c2e3d98189.png')}
+        alt=""
+        width="1536"
+        height="1024"
+        class="h-full w-full object-cover object-center opacity-[.58]"
+        loading="lazy"
+      />
+    </picture>
+    <div class="absolute inset-0 bg-[radial-gradient(ellipse_62%_60%_at_50%_48%,rgba(20,16,12,.36),rgba(20,16,12,.88)_82%)]" aria-hidden="true"></div>
+    <div class="absolute inset-0 bg-gradient-to-b from-ink-950/70 via-ink-950/42 to-ink-950/82" aria-hidden="true"></div>
+    <div class="pointer-events-none absolute inset-5 border border-gold-600/25 sm:inset-8" aria-hidden="true"></div>
+
+    <div class="relative mx-auto max-w-3xl px-6 text-center">
       <p class="rubric !text-gold-400/85">The witnesses · ኪሩቤል</p>
       <h2 class="mt-4 text-[clamp(1.6rem,3.6vw,2.3rem)] text-vellum-100">
         A hundred and thirty-five faces, looking down
@@ -161,15 +175,11 @@ const PILLARS = [
         painters make the eyes enormous on purpose. The saints are not decoration. They
         are the congregation you cannot see, and they are watching.
       </p>
+      <div class="mx-auto mt-9 h-px w-24 bg-gold-400/65" aria-hidden="true"></div>
+      <p class="mt-6 font-ui text-[.68rem] tracking-[.14em] text-vellum-200/62 uppercase">
+        The ceiling of Debre Berhan Selassie, Gondar · c. 1690
+      </p>
     </div>
-
-    <div class="mt-14 overflow-hidden">
-      <AngelBand count={13} rows={2} opacity={0.95} />
-    </div>
-
-    <p class="mt-10 px-6 text-center font-ui text-[.72rem] tracking-[.14em] text-vellum-200/58 uppercase">
-      Drawn after the ceiling of Debre Berhan Selassie, Gondar · c. 1690
-    </p>
   </section>
 
   <!-- ══════════ the church building ══════════ -->
@@ -191,11 +201,11 @@ const PILLARS = [
     <div class="grid gap-14 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20">
       <div data-reveal>
         <ArchFrame
-          src={u('/art/priest-tigray.jpg')}
-          alt="Portrait of an elderly Ethiopian Orthodox priest in Tigray, wearing a turban"
-          ratio="4 / 5"
-          caption="A priest of Tigray. In the rural north the priest is often also the schoolmaster and the scribe — frequently the only person for a day’s walk who can read Ge’ez."
-          credit="Rod Waddington · CC BY-SA 2.0 · Wikimedia Commons"
+          src={u('/art/saint-yared.jpg')}
+          alt="Traditional Ethiopian painting of Saint Yared singing before Emperor Gebre Meskel"
+          ratio="2 / 3"
+          caption="Saint Yared sings before Emperor Gebre Meskel. The saint is shown with the musicians and instruments that carry Ethiopia’s sacred chant."
+          credit="Unknown Ethiopian artist · public domain · Wikimedia Commons"
         />
       </div>
 
