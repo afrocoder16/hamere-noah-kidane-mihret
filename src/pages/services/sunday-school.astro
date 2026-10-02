@@ -1,0 +1,56 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import { PARISH } from '../../lib/parish';
+import { u } from '../../lib/url';
+
+const LEARNING = [
+  { title: 'Scripture & the life of Christ', body: 'Children learn the stories, prayers, and teachings that shape Orthodox Christian life.' },
+  { title: "Ge'ez, Amharic & English", body: 'Lessons can connect the liturgical language with the languages children use at home and school.' },
+  { title: 'Worship, feasts & service', body: 'Church seasons and feast days become part of learning through participation, music, and service.' },
+  { title: 'Community & belonging', body: 'Students learn alongside peers, teachers, clergy, and families across generations.' },
+];
+const PHOTOS = [
+  { src: '/pics/Sunday School.jpg', alt: 'Sunday School students gathered in graduation robes' },
+  { src: '/pics/Sunday School2.jpg', alt: 'Sunday School students and teachers gathered inside the church' },
+  { src: '/pics/Sunday School6.jpg', alt: 'Young parishioners participating in worship with the congregation' },
+  { src: '/pics/Sunday School7.jpg', alt: 'Children taking part in an outdoor parish procession' },
+];
+---
+<Base title="Sunday School" description="Sunday School at Hamere Noah Kidane Mihret: faith, language, worship, and community for the next generation.">
+  <PageHeader eyebrow="Services · Sunday School" geez="ሰንበት ትምህርት" title="The generation that will keep this" lede="A living faith is handed on through prayer, learning, and the people who make room for children to grow." image={u('/pics/Sunday School2.jpg')} imageAlt="Sunday School students and teachers gathered inside the church" />
+
+  <section class="mx-auto grid max-w-[1240px] gap-14 px-5 py-20 lg:grid-cols-[1fr_.9fr] lg:px-8 lg:py-28">
+    <div data-reveal>
+      <p class="rubric">Learning in the life of the Church</p>
+      <h2 class="mt-4 text-[clamp(1.8rem,4vw,2.6rem)]">Faith taught with care</h2>
+      <div class="reading mt-7 text-[1.04rem] leading-[1.8] text-ink-700">
+        <p>A diaspora parish has one problem that a parish in Addis does not: the children. They are American. They dream in English. The liturgy that holds their parents will not hold them by inheritance alone; it has to be taught, deliberately, in a language they actually think in.</p>
+        <p>Sunday School can bring Amharic and English together with Ge'ez, the language of the liturgy. Children learn the faith as a life: its prayers and stories, its fasts and feasts, its songs and service to one another.</p>
+      </div>
+      <p class="mt-6 text-[.9rem] leading-relaxed text-ink-600">The exact class schedule and age groups are set by the parish. Ask the parish office about enrollment and current classes.</p>
+      <a href={PARISH.phoneHref} class="mt-7 inline-flex border border-madder-800 px-6 py-3 font-ui text-[.7rem] tracking-[.14em] text-madder-800 uppercase transition hover:bg-madder-800 hover:text-vellum-50">Ask about Sunday School</a>
+    </div>
+    <div class="grid grid-cols-2 gap-3 self-start" data-reveal style="--reveal-delay:100ms">
+      {PHOTOS.map((photo) => <img src={u(photo.src)} alt={photo.alt} class="aspect-square w-full border border-gold-700/25 object-cover" loading="lazy" />)}
+    </div>
+  </section>
+
+  <section class="border-y border-[var(--rule)] bg-vellum-100/70">
+    <div class="mx-auto max-w-[1240px] px-5 py-20 lg:px-8 lg:py-24">
+      <div class="mx-auto mb-12 max-w-2xl text-center" data-reveal>
+        <p class="rubric">A strong foundation</p>
+        <h2 class="mt-4 text-[clamp(1.75rem,3.6vw,2.5rem)]">What children can grow into</h2>
+      </div>
+      <div class="grid gap-px border border-[var(--rule)] bg-[var(--rule)] sm:grid-cols-2 lg:grid-cols-4">
+        {LEARNING.map((item, i) => <article class="bg-vellum-50 p-7" data-reveal style={`--reveal-delay:${i * 70}ms`}><p class="font-display text-[1.12rem] text-madder-900">{item.title}</p><p class="mt-3 text-[.94rem] leading-relaxed text-ink-600">{item.body}</p></article>)}
+      </div>
+    </div>
+  </section>
+  <section class="mx-auto max-w-3xl px-5 py-16 text-center lg:py-20" data-reveal>
+    <p class="rubric">For families</p>
+    <h2 class="mt-3 text-[1.8rem]">Every child is welcome to begin</h2>
+    <p class="mt-4 text-[1rem] leading-relaxed text-ink-600">Talk with a teacher or call the parish office. No prior knowledge of Ge'ez or Amharic is needed to ask about joining.</p>
+    <a href={PARISH.phoneHref} class="mt-7 inline-block font-ui text-[.75rem] tracking-[.13em] text-madder-800 underline underline-offset-4">{PARISH.phone}</a>
+  </section>
+</Base>

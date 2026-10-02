@@ -283,9 +283,9 @@ const latestParishUpdate = parishUpdates[0];
           <p class="rubric">Sunday morning · እሑድ ጠዋት</p>
           <h2 class="mt-4 text-[clamp(1.75rem,3.6vw,2.5rem)]">What happens, in order</h2>
           <p class="mt-6 text-[1.05rem] leading-relaxed text-ink-600">
-            A full Sunday runs four and a half hours and is really five services joined
-            end to end. Knowing the shape of it makes the whole thing far easier to
-            follow—and tells you when to arrive if you cannot manage all of it.
+            A full Sunday moves through six parts, from the night chant to the sermon. Knowing
+            their shape makes the service easier to follow and tells you when to arrive if you
+            cannot manage all of it.
           </p>
           <a href={u('/services')}
              class="group mt-7 inline-flex items-center gap-3 font-ui text-[.74rem] tracking-[.14em] text-madder-800 uppercase">
@@ -374,42 +374,7 @@ const latestParishUpdate = parishUpdates[0];
 
   <Divider class="my-4" />
 
-  <!-- ══════════════════════════ ART ══════════════════════════ -->
-  <section class="mx-auto max-w-[1240px] px-5 py-20 lg:px-8 lg:py-24">
-    <div class="mx-auto mb-14 max-w-2xl text-center" data-reveal>
-      <p class="rubric">Sacred art · ሥዕለ አድኅኖ</p>
-      <h2 class="mt-4 text-[clamp(1.85rem,4vw,2.7rem)]">Painted so that it can be read</h2>
-      <p class="mt-5 text-[1.05rem] leading-relaxed text-ink-600">
-        Ethiopian painters will distort a proportion without hesitation if it makes the
-        meaning clearer. The eyes are large because the saints are watching; the
-        righteous face you and the wicked are shown in profile. Clarity first, and
-        beauty follows from it.
-      </p>
-    </div>
-
-    <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-      {[
-        { src: u('/art/ceiling-angels.jpg'), alt: 'The painted ceiling of winged cherub faces at Debre Berhan Selassie, Gondar', cap: 'A hundred and thirty-five winged faces on one ceiling at Gondar.', cr: 'Rod Waddington · CC BY-SA 2.0' },
-        { src: u('/art/manuscript-18c.jpg'), alt: 'An open Ethiopian codex showing Adam and Eve at the tree, with Ge’ez text', cap: 'The Fall, painted between two blocks of Ge’ez.', cr: 'Public domain' },
-        { src: u('/art/cross-walters.jpg'), alt: 'Ethiopian processional cross', cap: 'A processional cross, pierced and interlaced.', cr: 'Walters Art Museum · Public domain' },
-        { src: u('/art/ura-painting.jpg'), alt: 'Wall painting at Ura Kidane Mehret on Lake Tana', cap: 'Wall painting at Ura Kidane Mehret, Lake Tana.', cr: 'Bernard Gagnon · CC BY-SA 3.0' },
-      ].map((a, i) => (
-        <div data-reveal style={`--reveal-delay:${i * 110}ms`}>
-          <ArchFrame src={a.src} alt={a.alt} ratio="3 / 4" caption={a.cap} credit={a.cr} />
-        </div>
-      ))}
-    </div>
-
-    <div class="mt-14 text-center" data-reveal>
-      <a href={u('/gallery')}
-         class="group inline-flex items-center gap-3 border border-madder-800 px-8 py-3.5 font-ui text-[.8rem] tracking-[.14em] text-madder-800 uppercase transition-colors duration-300 hover:bg-madder-800 hover:text-vellum-50">
-        Enter the gallery
-        <span class="inline-block transition-transform duration-300 group-hover:translate-x-1.5">→</span>
-      </a>
-    </div>
-  </section>
-
-  <!-- ══════════════════════════ INVITATION ══════════════════════════ -->
+<!-- ══════════════════════════ INVITATION ══════════════════════════ -->
   <section class="relative overflow-hidden border-t border-[var(--rule)]">
     <img src={u('/art/bete-giyorgis-sunset.jpg')} alt="" aria-hidden="true"
          class="absolute inset-0 h-full w-full object-cover" loading="lazy" />

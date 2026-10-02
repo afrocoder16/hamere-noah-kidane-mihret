@@ -1,0 +1,46 @@
+---
+import { readdirSync, existsSync } from 'node:fs';
+import Base from '../../layouts/Base.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import { PARISH } from '../../lib/parish';
+import { u } from '../../lib/url';
+
+const documentDir = 'public/documents';
+const documents = existsSync(documentDir)
+  ? readdirSync(documentDir).filter((name) => name.toLowerCase().endsWith('.pdf')).sort((a, b) => a.localeCompare(b))
+  : [];
+const COUNCIL_WORK = [
+  ['Parish administration', 'Help coordinate parish operations, communication, and the practical work that supports worship and community life.'],
+  ['Stewardship & reporting', 'Share clear information about parish priorities and approved reports so members can stay informed.'],
+  ['Building & repair', 'Track maintenance needs, repairs, and improvement projects; communicate priorities and progress to the community.'],
+];
+---
+<Base title="Sebeka Gubae" description="Information, community documents, and building updates from the Sebeka Gubae parish council.">
+  <PageHeader eyebrow="Services · Sebeka Gubae" geez="ሰበካ ጉባኤ" title="A parish that is cared for together" lede="The Sebeka Gubae brings practical stewardship and community information together in service of the Church." image={u('/pics/church-pic4.jpg')} imageAlt="The Hamere Noah Kidane Mihret parish community" />
+
+  <section class="mx-auto grid max-w-[1240px] gap-12 px-5 py-20 lg:grid-cols-[.9fr_1.1fr] lg:px-8 lg:py-28">
+    <div data-reveal>
+      <p class="rubric">About the Sebeka Gubae</p>
+      <h2 class="mt-4 text-[clamp(1.8rem,4vw,2.55rem)]">The parish council</h2>
+      <div class="reading mt-7 text-[1.04rem] leading-[1.8] text-ink-700">
+        <p>Sebeka Gubae (ሰበካ ጉባኤ) is the parish council or assembly that helps attend to the practical and administrative life of an Ethiopian Orthodox Tewahedo parish. Its work supports the clergy and congregation as they care for the church, its resources, and the needs of parishioners.</p>
+        <p>The exact structure and responsibilities follow the parish's approved rules and the direction of its diocese. This page is a place for the community to find notices, reports, and documents shared by the council.</p>
+      </div>
+    </div>
+    <div class="grid gap-px border border-[var(--rule)] bg-[var(--rule)]" data-reveal style="--reveal-delay:100ms">
+      {COUNCIL_WORK.map(([title, body]) => <article class="bg-vellum-50 p-6 sm:p-7"><h3 class="font-display text-[1.12rem] text-madder-900">{title}</h3><p class="mt-2 text-[.95rem] leading-relaxed text-ink-600">{body}</p></article>)}
+    </div>
+  </section>
+
+  <section id="building-repair" class="border-y border-[var(--rule)] bg-vellum-100/70">
+    <div class="mx-auto grid max-w-[1100px] gap-8 px-5 py-16 md:grid-cols-[1fr_auto] md:items-center lg:px-8">
+      <div><p class="rubric">Building & repair · ሕንፃ እና ጥገና</p><h2 class="mt-3 text-[1.8rem]">Caring for the house of prayer</h2><p class="mt-4 max-w-2xl text-[1rem] leading-relaxed text-ink-600">This section is for maintenance notices, repair priorities, project updates, and ways the community can help. The council can add approved project briefs and progress reports to the document library below.</p></div>
+      <a href={PARISH.phoneHref} class="inline-flex justify-center border border-madder-800 px-6 py-3 font-ui text-[.7rem] tracking-[.12em] text-madder-800 uppercase transition hover:bg-madder-800 hover:text-vellum-50">Contact the office</a>
+    </div>
+  </section>
+
+  <section id="documents" class="mx-auto max-w-[1240px] px-5 py-20 lg:px-8 lg:py-24">
+    <header class="mx-auto mb-12 max-w-2xl text-center" data-reveal><p class="rubric">Community documents · ሰነዶች</p><h2 class="mt-4 text-[clamp(1.8rem,4vw,2.5rem)]">Read and download</h2><p class="mt-4 text-[1rem] leading-relaxed text-ink-600">Council notices, approved reports, and building project documents shared for the community.</p></header>
+    {documents.length ? <ul class="mx-auto max-w-3xl border-t border-[var(--rule)]">{documents.map((name) => <li class="flex flex-wrap items-center justify-between gap-4 border-b border-[var(--rule)] py-5"><span class="font-display text-[1rem] text-ink-800">{name.replace(/\.pdf$/i, '').replace(/[-_]/g, ' ')}</span><a href={u(`/documents/${name}`)} download class="border border-madder-800 px-4 py-2 font-ui text-[.64rem] tracking-[.12em] text-madder-800 uppercase transition hover:bg-madder-800 hover:text-vellum-50">Download PDF</a></li>)}</ul> : <div class="mx-auto max-w-3xl border border-dashed border-gold-700/40 bg-vellum-50 px-6 py-12 text-center" data-reveal><p class="font-display text-[1.15rem] text-madder-900">No documents have been posted yet.</p><p class="mx-auto mt-3 max-w-xl text-[.94rem] leading-relaxed text-ink-600">When the council shares approved PDFs, they will appear here for reading and download. To contribute a document or repair update, call the parish office and ask how to submit it for review.</p><a href={PARISH.phoneHref} class="mt-6 inline-block font-ui text-[.7rem] tracking-[.13em] text-madder-800 underline underline-offset-4">{PARISH.phone}</a></div>}
+  </section>
+</Base>

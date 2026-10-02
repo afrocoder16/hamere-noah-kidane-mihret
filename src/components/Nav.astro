@@ -16,16 +16,22 @@ interface NavLink {
   children?: NavLink[];
 }
 
+const FAITH_LINKS: NavLink[] = [
+  { href: '/calendar', en: 'Calendar', geez: 'በዓላት' },
+  { href: '/gallery', en: 'Sacred art', geez: 'ሥዕላት' },
+];
+
 const SERVICE_LINKS: NavLink[] = [
-  { href: '/calendar',  en: 'Calendar',  geez: 'በዓላት' },
-  { href: '/community', en: 'Community', geez: 'ማኅበረሰብ' },
-  { href: '/gallery',   en: 'Gallery',   geez: 'ሥዕላት' },
+  { href: '/services/sebeka-gubae', en: 'Sebeka Gubae', geez: 'ሰበካ ጉባኤ' },
+  { href: '/services/sunday-school', en: 'Sunday School', geez: 'ሰንበት ትምህርት' },
+  { href: '/services/mezemeran', en: 'Mezemeran', geez: 'መዘምራን' },
 ];
 
 const LINKS: NavLink[] = [
   { href: '/about',    en: 'About',     geez: 'ስለ እኛ' },
-  { href: '/faith',    en: 'Our Faith', geez: 'እምነታችን' },
+  { href: '/faith',    en: 'Our Faith', geez: 'እምነታችን', children: FAITH_LINKS },
   { href: '/services', en: 'Services',  geez: 'አገልግሎት', children: SERVICE_LINKS },
+  { href: '/community', en: 'Community', geez: 'ማኅበረሰብ' },
   { href: '/visit',    en: 'Visit',     geez: 'ጎብኙን' },
 ];
 const isActive = (href: string) => path === href || path.startsWith(href + '/');
@@ -126,6 +132,21 @@ const isLinkActive = (link: NavLink) =>
         ))}
       </nav>
 
+      <button
+        type="button"
+        data-language-switch
+        aria-label="Switch website language"
+        aria-pressed="false"
+        class="language-switch nav-link hidden shrink-0 items-center gap-2 rounded-sm border border-gold-600/35 px-3 py-2 font-ui text-[.68rem] transition-colors duration-300 hover:border-gold-500/70 lg:inline-flex"
+      >
+        <svg viewBox="0 0 20 20" class="h-4 w-4 text-gold-600" fill="none" aria-hidden="true">
+          <circle cx="10" cy="10" r="7.2" stroke="currentColor" stroke-width="1.2" />
+          <path d="M2.8 10h14.4M10 2.8c2 2 3 4.4 3 7.2s-1 5.2-3 7.2c-2-2-3-4.4-3-7.2s1-5.2 3-7.2Z" stroke="currentColor" stroke-width="1.1" />
+        </svg>
+        <span class="language-switch-label" data-language-label>አማርኛ</span>
+        <span class="language-switch-track" aria-hidden="true"><span class="language-switch-knob"></span></span>
+      </button>
+
       <a
         href={u('/give')}
         class="nav-cta hidden shrink-0 border border-madder-800 bg-madder-800 px-4 py-2 font-ui text-[.78rem] tracking-[.09em] text-vellum-50 uppercase transition-colors duration-500 hover:bg-madder-900 lg:inline-block"
@@ -144,6 +165,16 @@ const isLinkActive = (link: NavLink) =>
         <svg width="20" height="14" viewBox="0 0 20 14" fill="none" aria-hidden="true">
           <path d="M0 1h20M0 7h20M0 13h20" stroke="currentColor" stroke-width="1.6" />
         </svg>
+      </button>
+      <button
+        type="button"
+        data-language-switch
+        aria-label="Switch website language"
+        aria-pressed="false"
+        class="language-switch nav-link flex shrink-0 items-center gap-2 border border-gold-600/35 px-2.5 py-2 font-ui text-[.68rem] transition-colors duration-300 hover:border-gold-500/70 lg:hidden"
+      >
+        <span class="language-switch-label" data-language-label>አማርኛ</span>
+        <span class="language-switch-track" aria-hidden="true"><span class="language-switch-knob"></span></span>
       </button>
     </div>
   </div>
@@ -190,7 +221,6 @@ const isLinkActive = (link: NavLink) =>
         </div>
       ))}
       <a href={u('/give')} class="mt-4 block bg-madder-800 py-3 text-center font-ui text-sm tracking-[.09em] text-vellum-50 uppercase">Give</a>
-      <a href={u('/membership')} class="mt-2 block border border-[var(--rule)] py-3 text-center font-ui text-sm tracking-[.09em] text-ink-800 uppercase">Become a member</a>
     </nav>
   </div>
 </header>
@@ -206,6 +236,27 @@ const isLinkActive = (link: NavLink) =>
       transform 180ms ease,
       visibility 180ms;
   }
+
+  .language-switch-track {
+    display: inline-flex;
+    width: 2rem;
+    height: 1rem;
+    align-items: center;
+    border: 1px solid color-mix(in oklab, var(--color-gold-600) 62%, transparent);
+    border-radius: 999px;
+    padding: 2px;
+  }
+
+  .language-switch-knob {
+    width: .58rem;
+    height: .58rem;
+    border-radius: 999px;
+    background: var(--color-gold-600);
+    transition: transform 220ms ease;
+  }
+
+  .language-switch[aria-pressed='true'] .language-switch-knob { transform: translateX(.92rem); }
+  .language-switch[aria-pressed='true'] .language-switch-track { background: color-mix(in oklab, var(--color-gold-500) 12%, transparent); }
 
   .nav-dropdown:hover .nav-dropdown-panel,
   .nav-dropdown:focus-within .nav-dropdown-panel {

@@ -99,16 +99,18 @@ export const SERVICES: ServiceEntry[] = [
 /* ── the shape of Sunday morning ───────────────────────────────────── */
 
 export const KIDASE_ORDER = [
-  { geez: 'ውዳሴ ማርያም', tr: 'Wudase Mariam', en: 'Praises of Our Lady',
-    body: 'The night office. Each day of the week has its own portion, and the whole is sung through in a week.' },
   { geez: 'ማኅሌት', tr: 'Mahlet', en: 'The night chant',
-    body: 'The debtera stand through the small hours with prayer-staff, sistrum and drum, in the mode appointed for the day.' },
+    body: 'The night chant, sung by the debtera with prayer-staff, sistrum and drum in the mode appointed for the day.' },
   { geez: 'ሰዓታት', tr: 'Se’atat', en: 'The hours',
-    body: 'The morning office of psalms, read before the sun is properly up.' },
+    body: 'The morning office of psalms and prayers, read before the sun is properly up.' },
   { geez: 'ቅዳሴ', tr: 'Kidase', en: 'The Divine Liturgy',
-    body: 'The Anaphora itself. Fourteen are appointed for use through the year; the one attributed to the Apostles is the most common.' },
+    body: 'The Eucharistic liturgy, celebrated in Ge’ez according to the Church’s received order.' },
   { geez: 'ቁርባን', tr: 'Qurban', en: 'Holy Communion',
-    body: 'Given to those who have fasted and been to confession. Children are always communed.' },
+    body: 'The Body and Blood of Christ, received with preparation according to the guidance of the Church.' },
+  { geez: 'ተአምረ ማርያም', tr: 'Ta’amre Maryam', en: 'Miracles of the Virgin Mary',
+    body: 'A devotional reading from the Ethiopian tradition of the miracles of the Virgin Mary.' },
+  { geez: 'ስብከት', tr: 'Sibket', en: 'Sermon / preaching',
+    body: 'Teaching and exhortation from the Gospel and the life of the Church, offered to the gathered community.' },
 ] as const;
 
 /* ── the seven sacraments ───────────────────────────────────────────── */

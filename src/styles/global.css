@@ -325,3 +325,37 @@
   border-left: 2px solid var(--rule-gold);
   padding-left: 1.35rem;
 }
+
+/* Amharic uses the same left-to-right reading direction, with Ethiopic glyphs. */
+html[lang='am'] body,
+html[lang='am'] .font-display,
+html[lang='am'] .font-ui,
+html[lang='am'] .font-serif {
+  font-family: var(--font-geez);
+  letter-spacing: normal;
+}
+
+.language-switch-track {
+  display: inline-flex;
+  width: 2rem;
+  height: 1rem;
+  align-items: center;
+  border: 1px solid color-mix(in oklab, var(--color-gold-600) 62%, transparent);
+  border-radius: 999px;
+  padding: 2px;
+}
+
+.language-switch-knob {
+  width: .58rem;
+  height: .58rem;
+  border-radius: 999px;
+  background: var(--color-gold-600);
+  transition: transform 220ms ease;
+}
+
+.language-switch[aria-pressed='true'] .language-switch-knob { transform: translateX(.92rem); }
+.language-switch[aria-pressed='true'] .language-switch-track { background: color-mix(in oklab, var(--color-gold-500) 12%, transparent); }
+
+@media (prefers-reduced-motion: reduce) {
+  .language-switch-knob { transition: none; }
+}

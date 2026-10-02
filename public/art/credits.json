@@ -159,5 +159,33 @@
     "license": "Public domain",
     "artist": "Unknown Ethiopian artist",
     "source": "https://commons.wikimedia.org/wiki/File:Yared_sings_before_Meskel.jpg"
+  },
+  {
+    "file": "community/baptism.jpg",
+    "title": "Ethiopian-priests-at-ceremony.jpg",
+    "license": "CC BY-SA 4.0",
+    "artist": "Wesagn",
+    "source": "https://commons.wikimedia.org/wiki/File:Ethiopian-priests-at-ceremony.jpg"
+  },
+  {
+    "file": "community/baptism-family.jpg",
+    "title": "Mother and baby ready.jpg",
+    "license": "CC BY-SA 4.0",
+    "artist": "Chris Cleur",
+    "source": "https://commons.wikimedia.org/wiki/File:Mother_and_baby_ready.jpg"
+  },
+  {
+    "file": "community/matrimony.jpg",
+    "title": "Orthodox wedding.jpg",
+    "license": "CC BY-SA 4.0",
+    "artist": "Mewa12",
+    "source": "https://commons.wikimedia.org/wiki/File:Orthodox_wedding.jpg"
+  },
+  {
+    "file": "community/funeral.jpg",
+    "title": "A priest reads the funeral service during a burial (1954)",
+    "license": "CC BY-SA 4.0",
+    "artist": "Unknown author ? Archivio Storico Touring Club Italiano",
+    "source": "https://commons.wikimedia.org/wiki/File:Photo_A_priest_from_an_Ethiopian_village_reads_the_funeral_service_during_a_burial_1954_-_Touring_Club_Italiano_BAP_1122.jpg"
   }
 ]

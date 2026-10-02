@@ -11,7 +11,7 @@ const COLS = [
       ['/about', 'About us'],
       ['/#name', 'The meaning of our name'],
       ['/faith', 'What we believe'],
-      ['/community', 'Ministries'],
+      ['/community', 'Community'],
     ],
   },
   {
@@ -101,6 +101,7 @@ const year = new Date().getFullYear();
 
       <div class="mt-8 flex flex-col items-center justify-between gap-3 text-center text-[.72rem] text-vellum-200/58 sm:flex-row sm:text-left">
         <p>© {year} {PARISH.nameFull}</p>
+        <p>Crafted by <a href="https://midvora.com" target="_blank" rel="noopener noreferrer" class="text-gold-300 underline decoration-gold-300/35 underline-offset-2 transition-colors hover:text-gold-200">midvora.com</a></p>
         <p>
           <a href={u('/credits')} class="underline decoration-vellum-200/25 underline-offset-2 transition-colors hover:text-gold-300"
             >Image credits &amp; licences</a

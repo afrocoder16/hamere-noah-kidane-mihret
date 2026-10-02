@@ -1,0 +1,1 @@
+Add approved parish council PDFs to this folder. The Sebeka Gubae page lists every `.pdf` file here as a downloadable community document after the next site build. Use clear, descriptive filenames and publish only documents cleared for public sharing. The current admin API does not provide public PDF upload or publishing yet.
